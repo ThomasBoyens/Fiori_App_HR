@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "2.5"
+metadata:
+  name: edu.be.ap.hr.zsd002hr
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: https://r36z.ucc.ovgu.de/
+          client: "201"
+        app:
+          name: ZSD_002_HR
+          description: HR app
+          package: ZSD_002_HR_APP
+          transport: R36K906030

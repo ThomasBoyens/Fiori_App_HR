@@ -1,0 +1,39 @@
+<mvc:View controllerName="edu.be.ap.hr.zsd002hr.controller.Detail"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    xmlns:semantic="sap.f.semantic"
+    xmlns:mvc="sap.ui.core.mvc">
+    <semantic:SemanticPage id="detailPage" busy="{detailView>/busy}" busyIndicatorDelay="{detailView>/delay}">
+        <semantic:titleHeading>
+            <Title text="{FirstName} {LastName}" level="H2" />
+        </semantic:titleHeading>
+        <semantic:headerContent>
+            
+            <layout:HorizontalLayout allowWrapping="true">
+                <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                    <ObjectAttribute title="Department" text="{Department}" />
+                    <ObjectAttribute title="Position" text="{Function}" />
+                </layout:VerticalLayout>
+                <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                    <ObjectAttribute title="ID" text="{PersNr}" />
+                </layout:VerticalLayout>
+            </layout:HorizontalLayout>
+        </semantic:headerContent>
+        <semantic:content />
+        <!--Semantic ShareMenu Buttons-->
+        <semantic:sendEmailAction>
+            <semantic:SendEmailAction id="shareEmail" press=".onSendEmailPress" />
+        </semantic:sendEmailAction>
+
+        <semantic:closeAction>
+            <semantic:CloseAction id="closeColumn" press=".onCloseDetailPress" />
+        </semantic:closeAction>
+
+        <semantic:fullScreenAction>
+            <semantic:FullScreenAction id="enterFullScreen" visible="{= !${device>/system/phone} &amp;&amp; !${appView>/actionButtonsInfo/midColumn/fullScreen}}" press=".toggleFullScreen" />
+        </semantic:fullScreenAction>
+        <semantic:exitFullScreenAction>
+            <semantic:ExitFullScreenAction id="exitFullScreen" visible="{= !${device>/system/phone} &amp;&amp; ${appView>/actionButtonsInfo/midColumn/fullScreen}}" press=".toggleFullScreen" />
+        </semantic:exitFullScreenAction>
+    </semantic:SemanticPage>
+</mvc:View>
