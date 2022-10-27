@@ -2,24 +2,37 @@
     xmlns="sap.m"
     xmlns:layout="sap.ui.layout"
     xmlns:semantic="sap.f.semantic"
+    xmlns:blockcolor="sap.uxap.sample.SharedBlocks"
     xmlns:mvc="sap.ui.core.mvc">
     <semantic:SemanticPage id="detailPage" busy="{detailView>/busy}" busyIndicatorDelay="{detailView>/delay}">
         <semantic:titleHeading>
             <Title text="{FirstName} {LastName}" level="H2" />
         </semantic:titleHeading>
+        <semantic:titleExpandedContent>
+			<Text text="{Function} - {Department}"/>
+		</semantic:titleExpandedContent>
+        <semantic:titleSnappedContent>
+			<Text text="{Function} - {Department}"/>
+		</semantic:titleSnappedContent>
         <semantic:headerContent>
             
             <layout:HorizontalLayout allowWrapping="true">
                 <layout:VerticalLayout class="sapUiMediumMarginEnd">
-                    <ObjectAttribute title="Department" text="{Department}" />
-                    <ObjectAttribute title="Position" text="{Function}" />
+                    <ObjectAttribute title="ID" text="{PersNr}" />
                 </layout:VerticalLayout>
                 <layout:VerticalLayout class="sapUiMediumMarginEnd">
-                    <ObjectAttribute title="ID" text="{PersNr}" />
+                    <ObjectAttribute title="Mail" text="{Mail}" />
+                    <ObjectAttribute title="Phone" text="{PhoneNr}" />
                 </layout:VerticalLayout>
             </layout:HorizontalLayout>
         </semantic:headerContent>
-        <semantic:content />
+
+        <!-- <sections>
+
+			<ObjectPageSection titleUppercase="false" title="Section 1">
+			</ObjectPageSection>
+
+		</sections> -->
         <!--Semantic ShareMenu Buttons-->
         <semantic:sendEmailAction>
             <semantic:SendEmailAction id="shareEmail" press=".onSendEmailPress" />
