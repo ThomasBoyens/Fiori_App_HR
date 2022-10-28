@@ -1,10 +1,4 @@
-<mvc:View
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.uxap"
-    xmlns:layout="sap.ui.layout"
-    xmlns:m="sap.m"
-    controllerName="edu.be.ap.hr.zsd002hr.controller.Detail"
->
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form" xmlns="sap.uxap" xmlns:layout="sap.ui.layout" xmlns:m="sap.m" xmlns:core="sap.ui.core" controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
     <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
@@ -17,7 +11,7 @@
                 <snappedHeading>
                     <m:FlexBox fitContainer="true" alignItems="Center">
                         <m:Avatar src="./test-resources/sap/uxap/images/imageID_275314.png" class="sapUiTinyMarginEnd" />
-                         <m:Title text="{FirstName} {LastName}" wrapping="true" />
+                        <m:Title text="{FirstName} {LastName}" wrapping="true" />
                     </m:FlexBox>
                 </snappedHeading>
 
@@ -48,31 +42,37 @@
                     <m:Label text="{Department}" />
                 </layout:VerticalLayout>
             </m:FlexBox>
+            <m:IconTabHeader mode="inline">
+                <m:items>
+                    <m:IconTabFilter key="Carrier" text="Carrier" />
+                    <m:IconTabFilter key="Compensation" text="Compensation" />
+                    <m:IconTabFilter key="Personnel informtion" text="Personnel information" />
+                </m:items>
+            </m:IconTabHeader>
         </headerContent>
 
         <sections>
-            <ObjectPageSection titleUppercase="false" id="goalsSection" title="2014 Goals Plan">
+            <ObjectPageSection titleUppercase="false" id="goalsSection" title="Carrier">
                 <subSections>
                     <ObjectPageSubSection id="goalsSectionSS1">
-                        <blocks>
-                        </blocks>
+                    
+                     <m:Text text="{Function}" />
+		
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
-
+<!-- 
             <ObjectPageSection titleUppercase="false" id="personalSection" title="Personal" importance="Medium">
                 <subSections>
                     <ObjectPageSubSection id="personalSectionSS1" title="Connect" titleUppercase="false">
                         <blocks>
-                        <m:Text text="test" />
+                            <m:Text text="test" />
                         </blocks>
                     </ObjectPageSubSection>
 
                     <ObjectPageSubSection id="personalSectionSS2" title="Payment information" titleUppercase="false">
-                        <blocks>
-                        </blocks>
-                        <moreBlocks>
-                        </moreBlocks>
+                        <blocks />
+                        <moreBlocks />
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
@@ -80,23 +80,19 @@
             <ObjectPageSection titleUppercase="false" id="employmentSection" title="Employment">
                 <subSections>
                     <ObjectPageSubSection id="employmentSectionSS1" title="Job information" titleUppercase="false">
-                        <blocks>
-                        </blocks>
+                        <blocks />
                     </ObjectPageSubSection>
 
                     <ObjectPageSubSection id="employmentSectionSS2" title="Employee Details" importance="Medium" titleUppercase="false">
-                        <blocks>
-                        </blocks>
-                        <moreBlocks>
-                        </moreBlocks>
+                        <blocks />
+                        <moreBlocks />
                     </ObjectPageSubSection>
 
                     <ObjectPageSubSection id="employmentSectionSS3" title="Job Relationship" importance="Low" titleUppercase="false">
-                        <blocks>
-                        </blocks>
+                        <blocks />
                     </ObjectPageSubSection>
                 </subSections>
-            </ObjectPageSection>
+            </ObjectPageSection> -->
         </sections>
         <footer>
             <m:OverflowToolbar>
