@@ -31,7 +31,9 @@ sap.ui.define([
 
             this.setModel(oViewModel, "detailView");
 
-            this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
+            // this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
+
+            
         },
 
         /* =========================================================== */
@@ -133,7 +135,7 @@ sap.ui.define([
                 this.getRouter().getTargets().display("detailObjectNotFound");
                 // if object could not be found, the selection in the list
                 // does not make sense anymore.
-                this.getOwnerComponent().oListSelector.clearListListSelection();
+                // this.getOwnerComponent().oListSelector.clearListListSelection();
                 return;
             }
 
