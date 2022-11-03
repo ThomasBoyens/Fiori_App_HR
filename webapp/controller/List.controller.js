@@ -245,6 +245,22 @@ sap.ui.define([
         _onMasterMatched:  function() {
             //Set the layout property of the FCL control to 'OneColumn'
             this.getModel("appView").setProperty("/layout", "OneColumn");
+            this._initData();
+        },
+
+        _initData() {
+            this.getModel().read('/PersonnelSet',
+            {
+                urlParameters: '$expand=toPersonnelInfo',
+                success: function(oData) {
+                    const oModel = new sap.ui.model.json.JSONModel();
+                    oModel.setProperty('/personnel', oData.results)
+                    this.getView().setModel(oModel, 'json');
+                }.bind(this),
+                error: function(oError) {
+                    console.error(oError);
+                }
+            });
         },
 
         /**
@@ -257,8 +273,11 @@ sap.ui.define([
             var bReplace = !Device.system.phone;
             // set the layout property of FCL control to show two columns
             this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
+            console.log(oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`));
+            this.getOwnerComponent()._personnel = oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`);
+
             this.getRouter().navTo("object", {
-                objectId : oItem.getBindingContext().getProperty("PersNr")
+                objectId : oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}/PersNr`)
             }, bReplace);
         },
 

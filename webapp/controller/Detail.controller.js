@@ -32,7 +32,8 @@ sap.ui.define([
             this.setModel(oViewModel, "detailView");
 
             // this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
-
+            const oModel = new sap.ui.model.json.JSONModel();
+            this.getView().setModel(oModel, 'json');
             
         },
 
@@ -77,6 +78,16 @@ sap.ui.define([
             }
         },
 
+        /**
+         * Event handler for navigating back.
+         * We navigate back in the browser history
+         * @public
+         */
+         onNavBack: function() {
+            // eslint-disable-next-line sap-no-history-manipulation
+            history.go(-1);
+        },
+
         /* =========================================================== */
         /* begin: internal methods                                     */
         /* =========================================================== */
@@ -90,12 +101,13 @@ sap.ui.define([
         _onObjectMatched: function (oEvent) {
             var sObjectId =  oEvent.getParameter("arguments").objectId;
             this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
-            this.getModel().metadataLoaded().then( function() {
-                var sObjectPath = this.getModel().createKey("PersonnelSet", {
-                    PersNr:  sObjectId
-                });
-                this._bindView("/" + sObjectPath);
-            }.bind(this));
+            this.personnelId = sObjectId;
+
+             this.getModel('json').setData(this.getOwnerComponent()._personnelinfo);
+
+            if (!this.getOwnerComponent()._personnel || !this.getOwnerComponent()._personnel.PersNr || sObjectId !== this.getOwnerComponent()._personnel.PersNr) {
+                this.getRouter().navTo('list', {}, true);
+            }
         },
 
         /**
@@ -105,77 +117,77 @@ sap.ui.define([
          * @param {string} sObjectPath path to the object to be bound to the view.
          * @private
          */
-        _bindView: function (sObjectPath) {
-            // Set busy indicator during view binding
-            var oViewModel = this.getModel("detailView");
+        // _bindView: function (sObjectPath) {
+        //     // Set busy indicator during view binding
+        //     var oViewModel = this.getModel("detailView");
 
-            // If the view was not bound yet its not busy, only if the binding requests data it is set to busy again
-            oViewModel.setProperty("/busy", false);
+        //     // If the view was not bound yet its not busy, only if the binding requests data it is set to busy again
+        //     oViewModel.setProperty("/busy", false);
 
-            this.getView().bindElement({
-                path : sObjectPath,
-                events: {
-                    change : this._onBindingChange.bind(this),
-                    dataRequested : function () {
-                        oViewModel.setProperty("/busy", true);
-                    },
-                    dataReceived: function () {
-                        oViewModel.setProperty("/busy", false);
-                    }
-                }
-            });
-        },
+        //     this.getView().bindElement({
+        //         path : sObjectPath,
+        //         events: {
+        //             change : this._onBindingChange.bind(this),
+        //             dataRequested : function () {
+        //                 oViewModel.setProperty("/busy", true);
+        //             },
+        //             dataReceived: function () {
+        //                 oViewModel.setProperty("/busy", false);
+        //             }
+        //         }
+        //     });
+        // },
 
-        _onBindingChange: function () {
-            var oView = this.getView(),
-                oElementBinding = oView.getElementBinding();
+        // _onBindingChange: function () {
+        //     var oView = this.getView(),
+        //         oElementBinding = oView.getElementBinding();
 
-            // No data for the binding
-            if (!oElementBinding.getBoundContext()) {
-                this.getRouter().getTargets().display("detailObjectNotFound");
-                // if object could not be found, the selection in the list
-                // does not make sense anymore.
-                // this.getOwnerComponent().oListSelector.clearListListSelection();
-                return;
-            }
+        //     // No data for the binding
+        //     if (!oElementBinding.getBoundContext()) {
+        //         this.getRouter().getTargets().display("detailObjectNotFound");
+        //         // if object could not be found, the selection in the list
+        //         // does not make sense anymore.
+        //         // this.getOwnerComponent().oListSelector.clearListListSelection();
+        //         return;
+        //     }
 
-            var sPath = oElementBinding.getPath(),
-                oResourceBundle = this.getResourceBundle(),
-                oObject = oView.getModel().getObject(sPath),
-                sObjectId = oObject.PersNr,
-                sObjectName = oObject.LastName,
-                oViewModel = this.getModel("detailView");
+        //     var sPath = oElementBinding.getPath(),
+        //         oResourceBundle = this.getResourceBundle(),
+        //         oObject = oView.getModel().getObject(sPath),
+        //         sObjectId = oObject.PersNr,
+        //         sObjectName = oObject.LastName,
+        //         oViewModel = this.getModel("detailView");
 
-            this.getOwnerComponent().oListSelector.selectAListItem(sPath);
+        //     this.getOwnerComponent().oListSelector.selectAListItem(sPath);
 
-            oViewModel.setProperty("/shareSendEmailSubject",
-                oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
-            oViewModel.setProperty("/shareSendEmailMessage",
-                oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
-        },
+        //     oViewModel.setProperty("/shareSendEmailSubject",
+        //         oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
+        //     oViewModel.setProperty("/shareSendEmailMessage",
+        //         oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
+        // },
 
-        _onMetadataLoaded: function () {
-            // Store original busy indicator delay for the detail view
-            var iOriginalViewBusyDelay = this.getView().getBusyIndicatorDelay(),
-                oViewModel = this.getModel("detailView"),
-                oLineItemTable = this.byId("lineItemsList"),
-                iOriginalLineItemTableBusyDelay = oLineItemTable.getBusyIndicatorDelay();
+        // _onMetadataLoaded: function () {
+        //     // Store original busy indicator delay for the detail view
+        //     var iOriginalViewBusyDelay = this.getView().getBusyIndicatorDelay(),
+        //         oViewModel = this.getModel("detailView"),
+        //         oLineItemTable = this.byId("lineItemsList"),
+        //         iOriginalLineItemTableBusyDelay = oLineItemTable.getBusyIndicatorDelay();
 
-            // Make sure busy indicator is displayed immediately when
-            // detail view is displayed for the first time
-            oViewModel.setProperty("/delay", 0);
-            oViewModel.setProperty("/lineItemTableDelay", 0);
+        //     // Make sure busy indicator is displayed immediately when
+        //     // detail view is displayed for the first time
+        //     oViewModel.setProperty("/delay", 0);
+        //     oViewModel.setProperty("/lineItemTableDelay", 0);
 
-            oLineItemTable.attachEventOnce("updateFinished", function() {
-                // Restore original busy indicator delay for line item table
-                oViewModel.setProperty("/lineItemTableDelay", iOriginalLineItemTableBusyDelay);
-            });
+        //     oLineItemTable.attachEventOnce("updateFinished", function() {
+        //         // Restore original busy indicator delay for line item table
+        //         oViewModel.setProperty("/lineItemTableDelay", iOriginalLineItemTableBusyDelay);
+        //     });
 
-            // Binding the view will set it to not busy - so the view is always busy if it is not bound
-            oViewModel.setProperty("/busy", true);
-            // Restore original busy indicator delay for the detail view
-            oViewModel.setProperty("/delay", iOriginalViewBusyDelay);
-        },
+        //     // Binding the view will set it to not busy - so the view is always busy if it is not bound
+        //     oViewModel.setProperty("/busy", true);
+        //     // Restore original busy indicator delay for the detail view
+        //     oViewModel.setProperty("/delay", iOriginalViewBusyDelay);
+        // },
 
         /**
          * Set the full screen mode to false and navigate to list page
