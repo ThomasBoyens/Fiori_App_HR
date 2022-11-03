@@ -251,9 +251,10 @@ sap.ui.define([
         _initData() {
             this.getModel().read('/PersonnelSet',
             {
-                urlParameters: '$expand=toPersonnelInfo',
+                urlParameters: '$expand=ToPersonnelInfo',
                 success: function(oData) {
                     const oModel = new sap.ui.model.json.JSONModel();
+                    console.log(oData);
                     oModel.setProperty('/personnel', oData.results)
                     this.getView().setModel(oModel, 'json');
                 }.bind(this),
