@@ -183,7 +183,7 @@ sap.ui.define([
         onCloseDetailPress: function () {
             this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
             // No item should be selected on list after detail page is closed
-            this.getOwnerComponent().oListSelector.clearListListSelection();
+            //this.getOwnerComponent().oListSelector.clearListListSelection();
             this.getRouter().navTo("list");
         },
 
@@ -202,6 +202,9 @@ sap.ui.define([
                 this.getModel("appView").setProperty("/layout",  this.getModel("appView").getProperty("/previousLayout"));
             }
         }
+
+        
+
     });
 
 });

@@ -1,7 +1,26 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form" xmlns="sap.uxap" xmlns:layout="sap.ui.layout" xmlns:m="sap.m" xmlns:core="sap.ui.core" controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
+<mvc:View 
+        xmlns:mvc="sap.ui.core.mvc" 
+        xmlns:f="sap.ui.layout.form" 
+        xmlns="sap.uxap" 
+        xmlns:layout="sap.ui.layout" 
+        xmlns:m="sap.m" 
+        xmlns:core="sap.ui.core"
+        controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
+
     <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
+                <actions>
+					<m:ToggleButton
+                        press=".toggleFullScreen"
+						icon="sap-icon://expand"
+                        type="Transparent"/>
+					<m:Button
+                        press=".onCloseDetailPress"
+						icon="sap-icon://decline"
+						type="Transparent"/>
+				</actions>
+
                 <expandedHeading>
                     <m:HBox>
                         <m:Title text="{FirstName} {LastName}" wrapping="true" />
@@ -49,6 +68,7 @@
                     <m:IconTabFilter key="Personnel informtion" text="Personnel information" />
                 </m:items>
             </m:IconTabHeader>
+            
         </headerContent>
 
         <sections>
@@ -94,6 +114,7 @@
                 </subSections>
             </ObjectPageSection> -->
         </sections>
+
         <footer>
             <m:OverflowToolbar>
                 <m:ToolbarSpacer />
@@ -102,4 +123,5 @@
             </m:OverflowToolbar>
         </footer>
     </ObjectPageLayout>
+
 </mvc:View>
