@@ -25,8 +25,7 @@
                     sorter: {
                         path: 'LastName',
                         descending: false
-                    },
-                    groupHeaderFactory: '.createGroupHeader'
+                    }
                 }"
                 busyIndicatorDelay="{listView>/delay}"
                 noDataText="{listView>/noDataText}"

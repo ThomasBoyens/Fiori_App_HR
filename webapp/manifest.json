@@ -114,7 +114,7 @@
                     "target": "list"
                 },
                 {
-                    "pattern": "PersonnelSet/{objectId}",
+                    "pattern": "PersonnelSet/{persNr}",
                     "name": "object",
                     "target": [
                         "list",

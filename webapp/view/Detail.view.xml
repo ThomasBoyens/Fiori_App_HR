@@ -6,12 +6,12 @@
     xmlns:m="sap.m" 
     xmlns:core="sap.ui.core" 
     controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
-    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
+    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" sections="{json>/Personnel}" upperCaseAnchorBar="false" >
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
                 <expandedHeading>
                     <m:HBox>
-                        <m:Title text="{FirstName} {LastName}" wrapping="true" />
+                        <m:Title text="{json>FirstName} {json>LastName}" wrapping="true" />
                     </m:HBox>
                 </expandedHeading>
 
@@ -103,5 +103,5 @@
                 <m:Button type="Reject" text="Reject" />
             </m:OverflowToolbar>
         </footer>
-    </ObjectPageLayout>
+    </ObjectPageLayout> 
 </mvc:View>

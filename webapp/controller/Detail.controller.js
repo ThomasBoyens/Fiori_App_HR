@@ -99,15 +99,30 @@ sap.ui.define([
          * @private
          */
         _onObjectMatched: function (oEvent) {
-            var sObjectId =  oEvent.getParameter("arguments").objectId;
+            const sPersNr =  oEvent.getParameter("arguments").persNr;
             this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
-            this.personnelId = sObjectId;
 
-             this.getModel('json').setData(this.getOwnerComponent()._personnelinfo);
-
-            if (!this.getOwnerComponent()._personnel || !this.getOwnerComponent()._personnel.PersNr || sObjectId !== this.getOwnerComponent()._personnel.PersNr) {
+            if (typeof sPersNr === 'string' && sPersNr.length > 0) {
+                this._initData(sPersNr)
+            } else {
                 this.getRouter().navTo('list', {}, true);
             }
+        },
+
+        _initData(persNr) {
+            this.getModel().read(`/PersonnelSet('${persNr}')`,
+            {
+                urlParameters: '$expand=ToPersonnelInfo',
+                success: function(oData) {
+                    const oModel = new sap.ui.model.json.JSONModel();
+                    oModel.setProperty('/Personnel', oData)
+                    console.log(oData)
+                    this.getView().setModel(oModel, 'json');
+                }.bind(this),
+                error: function(oError) {
+                    console.error(oError);
+                }
+            });
         },
 
         /**

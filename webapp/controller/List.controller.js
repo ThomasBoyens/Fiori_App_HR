@@ -245,24 +245,24 @@ sap.ui.define([
         _onMasterMatched:  function() {
             //Set the layout property of the FCL control to 'OneColumn'
             this.getModel("appView").setProperty("/layout", "OneColumn");
-            this._initData();
+            // this._initData();
         },
 
-        _initData() {
-            this.getModel().read('/PersonnelSet',
-            {
-                urlParameters: '$expand=ToPersonnelInfo',
-                success: function(oData) {
-                    const oModel = new sap.ui.model.json.JSONModel();
-                    console.log(oData);
-                    oModel.setProperty('/personnel', oData.results)
-                    this.getView().setModel(oModel, 'json');
-                }.bind(this),
-                error: function(oError) {
-                    console.error(oError);
-                }
-            });
-        },
+        // _initData() {
+        //     this.getModel().read('/PersonnelSet',
+        //     {
+        //         // urlParameters: '$expand=ToPersonnelInfo',
+        //         success: function(oData) {
+        //             const oModel = new sap.ui.model.json.JSONModel();
+        //             console.log(oData);
+        //             oModel.setProperty('/personnel', oData.results)
+        //             this.getView().setModel(oModel, 'json');
+        //         }.bind(this),
+        //         error: function(oError) {
+        //             console.error(oError);
+        //         }
+        //     });
+        // },
 
         /**
          * Shows the selected item on the detail page
@@ -274,11 +274,11 @@ sap.ui.define([
             var bReplace = !Device.system.phone;
             // set the layout property of FCL control to show two columns
             this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
-            console.log(oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`));
-            this.getOwnerComponent()._personnel = oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`);
+            //console.log(oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`));
+            //this.getOwnerComponent()._personnel = oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`);
 
             this.getRouter().navTo("object", {
-                objectId : oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}/PersNr`)
+                persNr : oItem.getBindingContext().getProperty("PersNr")
             }, bReplace);
         },
 
