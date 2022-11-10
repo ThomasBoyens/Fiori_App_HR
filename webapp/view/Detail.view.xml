@@ -10,6 +10,17 @@
     <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false" >
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
+                <actions>
+					<m:ToggleButton
+                        press=".toggleFullScreen"
+						icon="sap-icon://expand"
+                        type="Transparent"/>
+					<m:Button
+                        press=".onCloseDetailPress"
+						icon="sap-icon://decline"
+						type="Transparent"/>
+				</actions>
+
                 <expandedHeading>
                     <m:HBox>
                         <m:Title text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" wrapping="true" />
@@ -59,7 +70,6 @@
                     <m:IconTabFilter key="Compensation" text="Compensation" />
                     <m:IconTabFilter key="Personnel information" text="Personnel information" />
                 </m:items>
-            </m:IconTabHeader> -->
         </headerContent>
 
         <sections>
@@ -106,6 +116,7 @@
                 </subSections>
             </ObjectPageSection> -->
         </sections>
+
         <footer>
             <m:OverflowToolbar>
                 <m:ToolbarSpacer />
