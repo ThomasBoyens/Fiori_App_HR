@@ -29,7 +29,8 @@
 
                 <snappedHeading>
                     <m:FlexBox fitContainer="true" alignItems="Center">
-                        <m:Avatar src="./test-resources/sap/uxap/images/imageID_275314.png" class="sapUiTinyMarginEnd" />
+                        <m:Avatar initials="{json>/Personnel/ToPersonnelInfo/Initials}"
+							displaySize="S" class="sapUiTinyMarginEnd" />
                         <m:Title text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" wrapping="true" />
                     </m:FlexBox>
                 </snappedHeading>
@@ -52,8 +53,7 @@
             <m:FlexBox wrap="Wrap">
                 <m:Avatar
 							initials="{json>/Personnel/ToPersonnelInfo/Initials}"
-							displaySize="L"
-							press="onPress"/>
+							displaySize="L"/>
 
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
                     <m:Text text="{json>/Personnel/PhoneNr}" />
