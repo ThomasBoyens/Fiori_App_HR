@@ -79,14 +79,19 @@
 
             <ObjectPageSection titleUppercase="false" id="persInfoSection" title="Personal information">
                 <subSections>
-                    <ObjectPageSubSection id="persInfoSectionSS1">
-                        <m:Bar>
-                            <m:contentRight>
-                                <m:Button id="edit" text="Edit" press="handleEditPress" />
-                                <m:Button id="save" text="Save" type="Emphasized" visible="false" press="handleSavePress" />
-                                <m:Button id="cancel" text="Cancel" visible="false" press="handleCancelPress" />
-                            </m:contentRight>
-                        </m:Bar>
+                    <ObjectPageSubSection id="perInfoSectionSubSect">
+                        <m:Page
+		                    id="detail">
+                            <m:customHeader>
+                                <m:Bar>
+                                    <m:contentRight>
+                                        <m:Button id="edit" text="Edit" press="handleEditPress" />
+                                        <m:Button id="save" text="Save" type="Emphasized" visible="false" press="handleSavePress" />
+                                        <m:Button id="cancel" text="Cancel" visible="false" press="handleCancelPress" />
+                                    </m:contentRight>
+                                </m:Bar>
+                            </m:customHeader>
+                        </m:Page>
                      <m:Text text="{json>/Personnel/ToPersonnelInfo/Country}" />
 		
                     </ObjectPageSubSection>
