@@ -112,37 +112,37 @@ sap.ui.define([
             this._oList.getBinding("items").refresh();
         },
 
-        /**
-         * Event handler for the filter, sort and group buttons to open the ViewSettingsDialog.
-         * @param {sap.ui.base.Event} oEvent the button press event
-         * @public
-         */
-        onOpenViewSettings: function (oEvent) {
-            var sDialogTab = "filter";
-            if (oEvent.getSource() instanceof sap.m.Button) {
-                var sButtonId = oEvent.getSource().getId();
-                if (sButtonId.match("sort")) {
-                    sDialogTab = "sort";
-                } else if (sButtonId.match("group")) {
-                    sDialogTab = "group";
-                }
-            }
-            // load asynchronous XML fragment
-            if (!this.byId("viewSettingsDialog")) {
-                Fragment.load({
-                    id: this.getView().getId(),
-                    name: "edu.be.ap.hr.zsd002hr.view.ViewSettingsDialog",
-                    controller: this
-                }).then(function(oDialog){
-                    // connect dialog to the root view of this component (models, lifecycle)
-                    this.getView().addDependent(oDialog);
-                    oDialog.addStyleClass(this.getOwnerComponent().getContentDensityClass());
-                    oDialog.open(sDialogTab);
-                }.bind(this));
-            } else {
-                this.byId("viewSettingsDialog").open(sDialogTab);
-            }
-        },
+        // /**
+        //  * Event handler for the filter, sort and group buttons to open the ViewSettingsDialog.
+        //  * @param {sap.ui.base.Event} oEvent the button press event
+        //  * @public
+        //  */
+        // onOpenViewSettings: function (oEvent) {
+        //     var sDialogTab = "filter";
+        //     if (oEvent.getSource() instanceof sap.m.Button) {
+        //         var sButtonId = oEvent.getSource().getId();
+        //         if (sButtonId.match("sort")) {
+        //             sDialogTab = "sort";
+        //         } else if (sButtonId.match("group")) {
+        //             sDialogTab = "group";
+        //         }
+        //     }
+        //     // load asynchronous XML fragment
+        //     if (!this.byId("viewSettingsDialog")) {
+        //         Fragment.load({
+        //             id: this.getView().getId(),
+        //             name: "edu.be.ap.hr.zsd002hr.view.ViewSettingsDialog",
+        //             controller: this
+        //         }).then(function(oDialog){
+        //             // connect dialog to the root view of this component (models, lifecycle)
+        //             this.getView().addDependent(oDialog);
+        //             oDialog.addStyleClass(this.getOwnerComponent().getContentDensityClass());
+        //             oDialog.open(sDialogTab);
+        //         }.bind(this));
+        //     } else {
+        //         this.byId("viewSettingsDialog").open(sDialogTab);
+        //     }
+        // },
 
         /**
          * Event handler called when ViewSettingsDialog has been confirmed, i.e.
@@ -158,22 +158,22 @@ sap.ui.define([
             this._applySortGroup(oEvent);
         },
 
-        /**
-         * Apply the chosen sorter and grouper to the list
-         * @param {sap.ui.base.Event} oEvent the confirm event
-         * @private
-         */
-        _applySortGroup: function (oEvent) {
-            var mParams = oEvent.getParameters(),
-                sPath,
-                bDescending,
-                aSorters = [];
+        // /**
+        //  * Apply the chosen sorter and grouper to the list
+        //  * @param {sap.ui.base.Event} oEvent the confirm event
+        //  * @private
+        //  */
+        // _applySortGroup: function (oEvent) {
+        //     var mParams = oEvent.getParameters(),
+        //         sPath,
+        //         bDescending,
+        //         aSorters = [];
             
-            sPath = mParams.sortItem.getKey();
-            bDescending = mParams.sortDescending;
-            aSorters.push(new Sorter(sPath, bDescending));
-            this._oList.getBinding("items").sort(aSorters);
-        },
+        //     sPath = mParams.sortItem.getKey();
+        //     bDescending = mParams.sortDescending;
+        //     aSorters.push(new Sorter(sPath, bDescending));
+        //     this._oList.getBinding("items").sort(aSorters);
+        // },
 
         /**
          * Event handler for the list selection event
@@ -189,6 +189,23 @@ sap.ui.define([
                 // get the list item, either from the listItem parameter or from the event's source itself (will depend on the device-dependent mode).
                 this._showDetail(oEvent.getParameter("listItem") || oEvent.getSource());
             }
+        },
+
+        onSelectionFilter: function (oEvent) {
+
+            // add filter for search
+            var aFilters = [];
+            var sQuery = this.getView().byId("department").getSelectedKey();
+            
+            if (sQuery && sQuery.length > 0) {
+                var departmentFilter = new Filter("Department", sap.ui.model.FilterOperator.Contains, sQuery);
+                aFilters.push(departmentFilter);
+            }
+
+            // update list binding
+            var list = this.getView().byId("lineItemsList");
+            var binding = list.getBinding("items");
+            binding.filter(aFilters, "Application");
         },
 
         /**

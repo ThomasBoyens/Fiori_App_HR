@@ -2,7 +2,8 @@
     controllerName="edu.be.ap.hr.zsd002hr.controller.List"
     xmlns="sap.m"
     xmlns:semantic="sap.f.semantic"
-    xmlns:mvc="sap.ui.core.mvc">
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core">
 
     <semantic:SemanticPage
         id="listPage"
@@ -38,26 +39,17 @@
 
                 <headerToolbar>
                     <OverflowToolbar>
-                        <SearchField
-                            id="searchField"
-                            showRefreshButton="true"
-                            tooltip="{i18n>listSearchTooltip}"
-                            search=".onSearch"
-                            width="auto">
-                            <layoutData>
-                                <OverflowToolbarLayoutData
-                                    minWidth="150px"
-                                    maxWidth="240px"
-                                    shrinkable="true"
-                                    priority="NeverOverflow"/>
-                            </layoutData>
-                        </SearchField>
+                        <ComboBox id="department" change=".onSelectionFilter">
+                            <core:ListItem key="" text="All departments" />
+                            <core:ListItem key="Information Tec" text="Information Tec" />
+                            <core:ListItem key="HR" text="HR" />
+                        </ComboBox>
                         <ToolbarSpacer/>
-                        <Button
+                        <!-- <Button
                             id="sortButton"
                             press=".onOpenViewSettings"
                             icon="sap-icon://sort"
-                            type="Transparent"/>
+                            type="Transparent"/> -->
 
                     </OverflowToolbar>
                 </headerToolbar>
