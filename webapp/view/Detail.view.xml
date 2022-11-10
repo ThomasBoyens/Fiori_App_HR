@@ -64,12 +64,6 @@
                     <m:Label text="{json>/Personnel/Department}" />
                 </layout:VerticalLayout>
             </m:FlexBox>
-            <!-- <m:IconTabHeader mode="inline">
-                <m:items>
-                    <m:IconTabFilter key="Career" text="Career" />
-                    <m:IconTabFilter key="Compensation" text="Compensation" />
-                    <m:IconTabFilter key="Personnel information" text="Personnel information" />
-                </m:items>
         </headerContent>
 
         <sections>
@@ -99,7 +93,7 @@
                 </subSections>
             </ObjectPageSection>
 
-            <!-- <ObjectPageSection titleUppercase="false" id="employmentSection" title="Employment">
+            <ObjectPageSection titleUppercase="false" id="employmentSection" title="Employment">
                 <subSections>
                     <ObjectPageSubSection id="employmentSectionSS1" title="Job information" titleUppercase="false">
                         <blocks />
@@ -114,7 +108,7 @@
                         <blocks />
                     </ObjectPageSubSection>
                 </subSections>
-            </ObjectPageSection> -->
+            </ObjectPageSection>
         </sections>
 
         <footer>
