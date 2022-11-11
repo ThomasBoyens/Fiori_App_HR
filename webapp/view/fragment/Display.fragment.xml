@@ -6,9 +6,6 @@
 	<VBox class="sapUiSmallMargin">
 		<f:Form id="FormDisplayHr_App"
 			editable="false">
-			<f:title>
-				<core:Title text="Personal info" />
-			</f:title>
 			<f:layout>
 				<f:ResponsiveGridLayout
 					labelSpanXL="4"
@@ -28,42 +25,47 @@
 			<f:formContainers>
 				<f:FormContainer title="Address">
 					<f:formElements>
-						<f:FormElement label="Name">
-							<f:fields>
-								<Text text="{json>/Personnel/FirstName}" id="nameText"  />
-							</f:fields>
-						</f:FormElement>
 						<f:FormElement label="Street">
 							<f:fields>
-								<Text text="{Street} {HouseNumber}" />
+								<Text text="{json>/Personnel/ToPersonnelInfo/Street}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="ZIP Code/City">
+							<f:fields>
+								<Text text="{json>/Personnel/ToPersonnelInfo/PostalCode} {json>/Personnel/ToPersonnelInfo/City}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Country">
+							<f:fields>
+								<Text text="{json>/Personnel/ToPersonnelInfo/Country}" />
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>
 				</f:FormContainer>
-				<f:FormContainer title="Online">
+				<f:FormContainer title="Personal">
 					<f:formElements>
-						<f:FormElement label="Web">
+						<f:FormElement label="Name">
 							<f:fields>
-								<Link text="Url" href="{Url}" />
+								<Text text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" />
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="Twitter">
+						<f:FormElement label="Email">
 							<f:fields>
-								<Text text="{Twitter}" />
+								<Text text="{json>/Personnel/Mail}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Tel.">
+							<f:fields>
+								<Text text="{json>/Personnel/PhoneNr}" />
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>
 				</f:FormContainer>
 				<f:FormContainer title="Other">
 					<f:formElements>
-						<f:FormElement label="Rating">
+						<f:FormElement label="Name">
 							<f:fields>
-								<RatingIndicator value="{Rating}" displayOnly="true" />
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="Disposable">
-							<f:fields>
-								<ProgressIndicator percentValue="{Disposable}" displayOnly="true" />
+								<Text text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" />
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>

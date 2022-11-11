@@ -35,12 +35,6 @@ sap.ui.define([
             // this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
             const oModel = new sap.ui.model.json.JSONModel();
             this.getView().setModel(oModel, 'json');
-
-            this._formFragments = {};
-
-            // Set the initial form to be the display one
-			this._showFormFragment("Display");
-
             
         },
 
@@ -111,6 +105,11 @@ sap.ui.define([
 
             if (typeof sPersNr === 'string' && sPersNr.length > 0) {
                 this._initData(sPersNr)
+
+                // this._formFragments = {};
+                // // Set the initial form to be the display one
+                // this._showFormFragment("Display");
+                
             } else {
                 this.getRouter().navTo('list', {}, true);
             }
@@ -159,74 +158,75 @@ sap.ui.define([
             }
         },
 
+        onEditToggleButtonPress: function() {
+			const oObjectPage = this.getView().byId("ObjectPageLayout"),
+				bCurrentShowFooterState = oObjectPage.getShowFooter();
+			oObjectPage.setShowFooter(!bCurrentShowFooterState);
+		}
+
         /* =========================================================== */
         /* begin: fragment methods                                     */
         /* =========================================================== */
 
         // handleEditPress : function () {
 
-		// 	//Clone the data
-		// 	this._oSupplier = Object.assign({}, this.getView().getModel().getData().SupplierCollection[0]);
-		// 	this._toggleButtonsAndView(true);
+    //     //Clone the data
+    //     this._oSupplier = Object.assign({}, this.getView().getModel().getData().SupplierCollection[0]);
+    //     this._toggleButtonsAndView(true);
 
-		// },
+    // },
 
-		// handleCancelPress : function () {
+    // handleCancelPress : function () {
 
-		// 	//Restore the data
-		// 	var oModel = this.getView().getModel();
-		// 	var oData = oModel.getData();
+    //     //Restore the data
+    //     var oModel = this.getView().getModel();
+    //     var oData = oModel.getData();
 
-		// 	oData.SupplierCollection[0] = this._oSupplier;
+    //     oData.SupplierCollection[0] = this._oSupplier;
 
-		// 	oModel.setData(oData);
-		// 	this._toggleButtonsAndView(false);
+    //     oModel.setData(oData);
+    //     this._toggleButtonsAndView(false);
 
-		// },
+    // },
 
-		// handleSavePress : function () {
+    // handleSavePress : function () {
 
-		// 	this._toggleButtonsAndView(false);
+    //     this._toggleButtonsAndView(false);
 
-		// },
+    // },
 
-        _toggleButtonsAndView : function (bEdit) {
-			var oView = this.getView();
+    // _toggleButtonsAndView : function (bEdit) {
+    //     var oView = this.getView();
 
-			// Show the appropriate action buttons
-			oView.byId("edit").setVisible(!bEdit);
-			oView.byId("save").setVisible(bEdit);
-			oView.byId("cancel").setVisible(bEdit);
+    //     // Show the appropriate action buttons
+    //     oView.byId("edit").setVisible(!bEdit);
+    //     oView.byId("save").setVisible(bEdit);
+    //     oView.byId("cancel").setVisible(bEdit);
 
-			// Set the right form type
-			this._showFormFragment(bEdit ? "Change" : "Display");
-		},
+    //     // Set the right form type
+    //     this._showFormFragment(bEdit ? "Change" : "Display");
+    // },
 
-        _getFormFragment: function (sFragmentName) {
-			var pFormFragment = this._formFragments[sFragmentName],
-				oView = this.getView();
+    // _getFormFragment: function (fragmentName) {
+    //     var pFormFragment = this._formFragments[fragmentName],
+    //         oView = this.getView();
+    //         console.log(oView)
+    //     if (!pFormFragment) {
+    //         pFormFragment = Fragment.load({
+    //             id: oView.getId(),
+    //             name: "edu.be.ap.hr.zsd002hr.view.fragment." + fragmentName
+    //         });
+    //         this._formFragments[fragmentName] = pFormFragment;
+    //     }
 
-			if (!pFormFragment) {
-				pFormFragment = Fragment.load({
-					id: oView.getId(),
-					name: "edu.be.ap.hr.zsd002hr.view.fragment." + sFragmentName
-				});
-				this._formFragments[sFragmentName] = pFormFragment;
-			}
+    //     return pFormFragment;
+    // },
 
-			return pFormFragment;
-		},
-
-		_showFormFragment : function (sFragmentName) {
-			var oPage = this.byId("detail");
-
-			oPage.removeAllContent();
-			this._getFormFragment(sFragmentName).then(function(oVBox){
-				oPage.insertContent(oVBox);
-			});
-		}
-        
-
+    // _showFormFragment : function (fragmentName) {
+    //     this._getFormFragment(fragmentName).then(function(oVBox){
+    //         oPage.insertContent(oVBox);
+    //     });
+    // }
     });
 
 });

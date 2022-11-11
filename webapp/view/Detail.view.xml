@@ -19,6 +19,10 @@
                         press=".onCloseDetailPress"
 						icon="sap-icon://decline"
 						type="Transparent"/>
+                    <m:ToggleButton
+                        text="Edit"
+                        type="Emphasized"
+                        press=".onEditToggleButtonPress"/>
 				</actions>
 
                 <expandedHeading>
@@ -80,19 +84,12 @@
             <ObjectPageSection titleUppercase="false" id="persInfoSection" title="Personal information">
                 <subSections>
                     <ObjectPageSubSection id="perInfoSectionSubSect">
-                        <m:Page
-		                    id="detail">
-                            <m:customHeader>
-                                <m:Bar>
-                                    <m:contentRight>
-                                        <m:Button id="edit" text="Edit" press="handleEditPress" />
-                                        <m:Button id="save" text="Save" type="Emphasized" visible="false" press="handleSavePress" />
-                                        <m:Button id="cancel" text="Cancel" visible="false" press="handleCancelPress" />
-                                    </m:contentRight>
-                                </m:Bar>
-                            </m:customHeader>
-                        </m:Page>
-                     <m:Text text="{json>/Personnel/ToPersonnelInfo/Country}" />
+                        <layout:HorizontalLayout>
+						<layout:content id="detailFragment">
+							<core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Display" type="XML" id="display"/>
+							<!--By using id you can add a fragment multiple times as it is used as a prefix in elements id-->
+						</layout:content>
+					</layout:HorizontalLayout>
 		
                     </ObjectPageSubSection>
                 </subSections>
@@ -117,11 +114,15 @@
         </sections>
 
         <footer>
-            <m:OverflowToolbar>
-                <m:ToolbarSpacer />
-                <m:Button type="Accept" text="Accept" />
-                <m:Button type="Reject" text="Reject" />
-            </m:OverflowToolbar>
+            <m:Bar>
+				<m:contentRight>
+					<m:OverflowToolbar>
+				        <m:ToolbarSpacer/>
+				            <m:Button type="Accept" text="Save"/>
+				            <m:Button type="Reject" text="Cancel"/>
+			        </m:OverflowToolbar>
+				</m:contentRight>
+			</m:Bar>
         </footer>
     </ObjectPageLayout> 
 </mvc:View>
