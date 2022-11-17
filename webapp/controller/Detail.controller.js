@@ -167,66 +167,6 @@ sap.ui.define([
         /* =========================================================== */
         /* begin: fragment methods                                     */
         /* =========================================================== */
-
-        // handleEditPress : function () {
-
-    //     //Clone the data
-    //     this._oSupplier = Object.assign({}, this.getView().getModel().getData().SupplierCollection[0]);
-    //     this._toggleButtonsAndView(true);
-
-    // },
-
-    // handleCancelPress : function () {
-
-    //     //Restore the data
-    //     var oModel = this.getView().getModel();
-    //     var oData = oModel.getData();
-
-    //     oData.SupplierCollection[0] = this._oSupplier;
-
-    //     oModel.setData(oData);
-    //     this._toggleButtonsAndView(false);
-
-    // },
-
-    // handleSavePress : function () {
-
-    //     this._toggleButtonsAndView(false);
-
-    // },
-
-    // _toggleButtonsAndView : function (bEdit) {
-    //     var oView = this.getView();
-
-    //     // Show the appropriate action buttons
-    //     oView.byId("edit").setVisible(!bEdit);
-    //     oView.byId("save").setVisible(bEdit);
-    //     oView.byId("cancel").setVisible(bEdit);
-
-    //     // Set the right form type
-    //     this._showFormFragment(bEdit ? "Change" : "Display");
-    // },
-
-    // _getFormFragment: function (fragmentName) {
-    //     var pFormFragment = this._formFragments[fragmentName],
-    //         oView = this.getView();
-    //         console.log(oView)
-    //     if (!pFormFragment) {
-    //         pFormFragment = Fragment.load({
-    //             id: oView.getId(),
-    //             name: "edu.be.ap.hr.zsd002hr.view.fragment." + fragmentName
-    //         });
-    //         this._formFragments[fragmentName] = pFormFragment;
-    //     }
-
-    //     return pFormFragment;
-    // },
-
-    // _showFormFragment : function (fragmentName) {
-    //     this._getFormFragment(fragmentName).then(function(oVBox){
-    //         oPage.insertContent(oVBox);
-    //     });
-    // }
     });
 
 });
