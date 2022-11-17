@@ -39,15 +39,17 @@
 
                 <headerToolbar>
                     <OverflowToolbar>
-                        <ComboBox id="department" change=".onSelectionFilter">
-                            <core:ListItem key="" text="All departments" />
-                            <core:ListItem key="EX" text="Executives" />
-                            <core:ListItem key="FI" text="Finance" />
-                            <core:ListItem key="HR" text="Human Resources" />
-                            <core:ListItem key="IT" text="Information Tech" />
-                            <core:ListItem key="MM" text="Materials Management" />
-                            <core:ListItem key="PP" text="Production" />
-                            <core:ListItem key="PU" text="Purchasing" />
+                        <ComboBox id="department" selectedKey="all" change=".onFilter">
+                        <items>
+                            <core:Item key="all" text="All departments" />
+                            <core:Item key="EX00" text="Executives" />
+                            <core:Item key="FI00" text="Finance" />
+                            <core:Item key="HR00" text="Human Resources" />
+                            <core:Item key="IT00" text="Information Tech" />
+                            <core:Item key="MM00" text="Materials Management" />
+                            <core:Item key="PP00" text="Production" />
+                            <core:Item key="PU00" text="Purchasing" />
+                        </items>
                         </ComboBox>
                         <ToolbarSpacer/>
                         <!-- <Button

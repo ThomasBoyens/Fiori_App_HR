@@ -319,7 +319,31 @@ sap.ui.define([
             var oViewModel = this.getModel("listView");
             oViewModel.setProperty("/isFilterBarVisible", (this._oListFilterState.aFilter.length > 0));
             oViewModel.setProperty("/filterBarLabel", this.getResourceBundle().getText("listFilterBarText", [sFilterBarText]));
-        }
+        },
+
+        // onFilter : function (oEvent) {
+
+        //     const filters = [];
+         
+        //     let selected = this.getView().byId("department").getSelectedKey();
+        //     if(selected === "all"){
+        //         selected = "";
+        //     }
+ 
+        //     if (selected) {
+        //         var subareaFilter = new sap.ui.model.Filter("Subarea", sap.ui.model.FilterOperator.Contains, selected);
+        //         filters.push(subareaFilter);
+        //     }
+        //     for (let i = 0; i < filters.length; i++) {
+        //         const element = filters[i];
+        //         console.log(element);  
+        //     }
+
+        //     const list = this.getView().byId("list");
+        //     const binding = list.getBinding("items");
+        //     binding.filter(filters);
+                     
+        // },
 
     });
 
