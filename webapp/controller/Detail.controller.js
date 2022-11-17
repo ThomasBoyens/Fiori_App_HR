@@ -35,6 +35,10 @@ sap.ui.define([
             // this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
             const oModel = new sap.ui.model.json.JSONModel();
             this.getView().setModel(oModel, 'json');
+
+            this._formFragments = {};
+
+            this._showFormFragment("Display");
             
         },
 
@@ -122,7 +126,6 @@ sap.ui.define([
                 success: function(oData) {
                     const oModel = new sap.ui.model.json.JSONModel();
                     oModel.setProperty('/Personnel', oData)
-                    console.log(oData)
                     this.getView().setModel(oModel, 'json');
                     this.getView().bindElement("/Personnel");
                 }.bind(this),
@@ -130,6 +133,7 @@ sap.ui.define([
                     console.error(oError);
                 }
             });
+            
         },
 
         /**
@@ -158,15 +162,73 @@ sap.ui.define([
             }
         },
 
-        onEditToggleButtonPress: function() {
-			const oObjectPage = this.getView().byId("ObjectPageLayout"),
-				bCurrentShowFooterState = oObjectPage.getShowFooter();
-			oObjectPage.setShowFooter(!bCurrentShowFooterState);
-		}
-
         /* =========================================================== */
         /* begin: fragment methods                                     */
         /* =========================================================== */
+
+        handleEditPress : function (PersNr) {
+
+			//Clone the data
+			this._oPersonnel = Object.assign({}, this.getView().getModel().getData().Personnel[PersNr]);
+			this._toggleButtonsAndView(true);
+            console.log(this._oPersonnel)
+
+		},
+
+		// handleCancelPress : function () {
+
+		// 	//Restore the data
+		// 	var oModel = this.getView().getModel();
+		// 	var oData = oModel.getData();
+
+		// 	oData.SupplierCollection[0] = this._oSupplier;
+
+		// 	oModel.setData(oData);
+		// 	this._toggleButtonsAndView(false);
+
+		// },
+
+		// handleSavePress : function () {
+
+		// 	this._toggleButtonsAndView(false);
+
+		// },
+
+		_toggleButtonsAndView : function (bEdit) {
+			var oView = this.getView();
+
+			// Show the appropriate action buttons
+			oView.byId("edit").setVisible(!bEdit);
+			oView.byId("save").setVisible(bEdit);
+			oView.byId("cancel").setVisible(bEdit);
+
+			// Set the right form type
+			this._showFormFragment(bEdit ? "Change" : "Display");
+		},
+
+        _getFormFragment: function (sFragmentName) {
+			var pFormFragment = this._formFragments[sFragmentName],
+				oView = this.getView();
+
+			if (!pFormFragment) {
+				pFormFragment = Fragment.load({
+					id: oView.getId(),
+					name: "edu.be.ap.hr.zsd002hr.view.fragment." + sFragmentName
+				});
+				this._formFragments[sFragmentName] = pFormFragment;
+			}
+
+			return pFormFragment;
+		},
+
+        _showFormFragment : function (sFragmentName) {
+			var detailFrag = this.getView().byId("perInfoSectionSubSect"); // dit geeft undefined
+
+			detailFrag.destroyBlocks();
+			this._getFormFragment(sFragmentName).then(function(oVBox){
+				detailFrag.addBlock(oVBox);
+			});
+		}
     });
 
 });
