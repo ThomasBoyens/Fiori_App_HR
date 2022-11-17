@@ -13,7 +13,7 @@
             <Title
                 id="listPageTitle"
                 text="{listView>/title}"
-                level="H2"/>
+                level="H2" />
         </semantic:titleHeading>
         <semantic:content>
             <!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" -->
@@ -22,12 +22,7 @@
                 width="auto"
                 class="sapFDynamicPageAlignContent"
                 items="{
-                    path: '/PersonnelSet',
-                    sorter: {
-                        path: 'LastName',
-                        descending: false
-                    },
-                    groupHeaderFactory: '.createGroupHeader'
+                    path: '/PersonnelSet'
                 }"
                 busyIndicatorDelay="{listView>/delay}"
                 noDataText="{listView>/noDataText}"
@@ -38,20 +33,20 @@
                 selectionChange=".onSelectionChange">
 
                 <headerToolbar>
-                    <OverflowToolbar>
-                        <ComboBox id="department" selectedKey="all" change=".onFilter">
-                        <items>
-                            <core:Item key="all" text="All departments" />
-                            <core:Item key="EX00" text="Executives" />
-                            <core:Item key="FI00" text="Finance" />
-                            <core:Item key="HR00" text="Human Resources" />
-                            <core:Item key="IT00" text="Information Tech" />
-                            <core:Item key="MM00" text="Materials Management" />
-                            <core:Item key="PP00" text="Production" />
-                            <core:Item key="PU00" text="Purchasing" />
-                        </items>
+                    <OverflowToolbar id="idInfoToolbar">
+                        <ComboBox id="ComboBox" selectedKey="all" change=".onFilter">
+                            <items>
+                                <core:Item key="all"  text="All departments" />
+                                <core:Item key="EX00" text="Executives" />
+                                <core:Item key="FI00" text="Finance" />
+                                <core:Item key="HR00" text="Human Resources" />
+                                <core:Item key="IT00" text="Information Tech" />
+                                <core:Item key="MM00" text="Materials Management" />
+                                <core:Item key="PP00" text="Production" />
+                                <core:Item key="PU00" text="Purchasing" />
+                            </items>
                         </ComboBox>
-                        <ToolbarSpacer/>
+                        <ToolbarSpacer />
                         <!-- <Button
                             id="sortButton"
                             press=".onOpenViewSettings"
@@ -64,8 +59,8 @@
                     <ObjectListItem
                         type="Navigation"
                         press=".onSelectionChange"
-                        title="{FirstName} {LastName}"
-                         />
+                        title="{FirstName} {Subarea}"
+                    />
                 </items>
             </List>
         </semantic:content>

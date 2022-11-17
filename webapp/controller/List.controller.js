@@ -191,22 +191,6 @@ sap.ui.define([
             }
         },
 
-        onSelectionFilter: function (oEvent) {
-
-            // add filter for search
-            var aFilters = [];
-            var sQuery = this.getView().byId("department").getSelectedKey();
-            
-            if (sQuery && sQuery.length > 0) {
-                var departmentFilter = new Filter("Department", sap.ui.model.FilterOperator.Contains, sQuery);
-                aFilters.push(departmentFilter);
-            }
-
-            // update list binding
-            var list = this.getView().byId("lineItemsList");
-            var binding = list.getBinding("items");
-            binding.filter(aFilters, "Application");
-        },
 
         /**
          * Event handler for the bypassed event, which is fired when no routing pattern matched.
@@ -321,30 +305,45 @@ sap.ui.define([
             oViewModel.setProperty("/filterBarLabel", this.getResourceBundle().getText("listFilterBarText", [sFilterBarText]));
         },
 
-        // onFilter : function (oEvent) {
+        onFilter : function (oEvent) {
 
-        //     const filters = [];
-         
-        //     let selected = this.getView().byId("department").getSelectedKey();
-        //     if(selected === "all"){
-        //         selected = "";
-        //     }
- 
-        //     if (selected) {
-        //         var subareaFilter = new sap.ui.model.Filter("Subarea", sap.ui.model.FilterOperator.Contains, selected);
-        //         filters.push(subareaFilter);
-        //     }
-        //     for (let i = 0; i < filters.length; i++) {
-        //         const element = filters[i];
-        //         console.log(element);  
+            let filterList = [];
+            let selected = this.getView().byId("ComboBox").getSelectedKey();
+            console.log(selected);
+
+            if(selected === "all"){
+                selected = "";
+            }
+    
+            if (selected != "") {
+                var oFilterSubarea = new sap.ui.model.Filter("Subarea", sap.ui.model.FilterOperator.Contains, selected);
+                filterList.push(oFilterSubarea);
+            }
+
+            const list = this.getView().byId("list");
+            const oBinding = list.getBinding("items");
+            oBinding.filter(filterList);   
+        },
+
+        // onSelectionFilter: function (oEvent) {
+
+        //     // add filter for search
+        //     var aFilters = [];
+        //     var sKey = this.getView().byId("ComboBox").getSelectedKey();
+        //     console.log(sKey);
+        //     if (sKey) {
+        //         var departmentFilter = new Filter("LastName", sap.ui.model.FilterOperator.Contains, sKey);
+        //         aFilters.push(departmentFilter);
         //     }
 
-        //     const list = this.getView().byId("list");
-        //     const binding = list.getBinding("items");
-        //     binding.filter(filters);
-                     
+        //     // update list binding
+        //     var list = this.getView().byId("list");
+        //     var binding = list.getBinding("items");
+        //     binding.filter(aFilters, "Application");
+                
         // },
+    
 
     });
 
-});
+})
