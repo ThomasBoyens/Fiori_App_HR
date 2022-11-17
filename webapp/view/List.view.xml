@@ -41,8 +41,13 @@
                     <OverflowToolbar>
                         <ComboBox id="department" change=".onSelectionFilter">
                             <core:ListItem key="" text="All departments" />
-                            <core:ListItem key="Information Tec" text="Information Tec" />
-                            <core:ListItem key="HR" text="HR" />
+                            <core:ListItem key="EX" text="Executives" />
+                            <core:ListItem key="FI" text="Finance" />
+                            <core:ListItem key="HR" text="Human Resources" />
+                            <core:ListItem key="IT" text="Information Tech" />
+                            <core:ListItem key="MM" text="Materials Management" />
+                            <core:ListItem key="PP" text="Production" />
+                            <core:ListItem key="PU" text="Purchasing" />
                         </ComboBox>
                         <ToolbarSpacer/>
                         <!-- <Button
