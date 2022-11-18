@@ -3,10 +3,79 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
-	<VBox class="sapUiSmallMargin">
-		<f:Form id="FormChangeHr_App"
-			editable="true">
-			
-		</f:Form>
-	</VBox>
+	<f:Form
+		editable="true" visible="{detailView>/edit}">
+		<f:layout>
+			<f:ResponsiveGridLayout
+				labelSpanXL="4"
+				labelSpanL="4"
+				labelSpanM="4"
+				labelSpanS="12"
+				adjustLabelSpan="false"
+				emptySpanXL="0"
+				emptySpanL="0"
+				emptySpanM="0"
+				emptySpanS="0"
+				columnsXL="3"
+				columnsL="2"
+				columnsM="2"
+				singleContainerFullSize="false" />
+		</f:layout>
+		<f:formContainers>
+			<f:FormContainer title="Address">
+				<f:formElements>
+					<f:FormElement label="Street">
+						<f:fields>
+							<Input value="{json>/Personnel/ToPersonnelInfo/Street}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="ZIP Code/City">
+						<f:fields>
+							<Text text="{json>/Personnel/ToPersonnelInfo/PostalCode} {json>/Personnel/ToPersonnelInfo/City}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Country">
+						<f:fields>
+							<Text text="{json>/Personnel/ToPersonnelInfo/Country}" />
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Personal">
+				<f:formElements>
+					<f:FormElement label="FirstName">
+						<f:fields>
+							<Input value="{json>/Personnel/FirstName}" />
+						</f:fields>
+					</f:FormElement>
+
+					<f:FormElement label="LastName">
+						<f:fields>
+							<Input value="{json>/Personnel/LastName}" />
+						</f:fields>
+					</f:FormElement>
+
+					<f:FormElement label="Email">
+						<f:fields>
+							<Text text="{json>/Personnel/Mail}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Tel.">
+						<f:fields>
+							<Text text="{json>/Personnel/PhoneNr}" />
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Other">
+				<f:formElements>
+					<f:FormElement label="Name">
+						<f:fields>
+							<Text text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" />
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+		</f:formContainers>
+	</f:Form>
 </core:FragmentDefinition>

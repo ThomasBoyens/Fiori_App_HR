@@ -25,7 +25,8 @@ sap.ui.define([
             var oViewModel = new JSONModel({
                 busy : false,
                 delay : 0,
-                lineItemListTitle : this.getResourceBundle().getText("detailLineItemTableHeading")
+                lineItemListTitle : this.getResourceBundle().getText("detailLineItemTableHeading"),
+                edit: false
             });
 
             this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
@@ -38,7 +39,7 @@ sap.ui.define([
 
             this._formFragments = {};
 
-            this._showFormFragment("Display");
+            //this._showFormFragment("Display");
             
         },
 
@@ -104,6 +105,8 @@ sap.ui.define([
          * @private
          */
         _onObjectMatched: function (oEvent) {
+            
+            this.getModel("detailView").setProperty("/edit", false);
             const sPersNr =  oEvent.getParameter("arguments").persNr;
             this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
 
@@ -167,6 +170,7 @@ sap.ui.define([
         /* =========================================================== */
 
         handleEditPress : function (PersNr) {
+            this.getModel("detailView").setProperty("/edit", true);
 
 			//Clone the data
 			this._oPersonnel = Object.assign({}, this.getView().getModel().getData().Personnel[PersNr]);
@@ -175,24 +179,26 @@ sap.ui.define([
 
 		},
 
-		// handleCancelPress : function () {
+		handleCancelPress : function () {
 
-		// 	//Restore the data
-		// 	var oModel = this.getView().getModel();
-		// 	var oData = oModel.getData();
+            this.getModel("detailView").setProperty("/edit", false);
+			// //Restore the data
+			// var oModel = this.getView().getModel();
+			// var oData = oModel.getData();
 
-		// 	oData.SupplierCollection[0] = this._oSupplier;
+			// oData.SupplierCollection[0] = this._oSupplier;
 
-		// 	oModel.setData(oData);
-		// 	this._toggleButtonsAndView(false);
+			// oModel.setData(oData);
+			// this._toggleButtonsAndView(false);
 
-		// },
+		},
 
-		// handleSavePress : function () {
+		handleSavePress : function () {
 
-		// 	this._toggleButtonsAndView(false);
+            this.getModel("detailView").setProperty("/edit", false);
+			// this._toggleButtonsAndView(false);
 
-		// },
+		},
 
 		_toggleButtonsAndView : function (bEdit) {
 			var oView = this.getView();
@@ -222,9 +228,9 @@ sap.ui.define([
 		},
 
         _showFormFragment : function (sFragmentName) {
-			var detailFrag = this.getView().byId("perInfoSectionSubSect"); // dit geeft undefined
+			var detailFrag = this.getView().byId("perInfoSectionSubSect"); 
 
-			detailFrag.destroyBlocks();
+			//detailFrag.destroyBlocks();
 			this._getFormFragment(sFragmentName).then(function(oVBox){
 				detailFrag.addBlock(oVBox);
 			});

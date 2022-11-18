@@ -1,25 +1,25 @@
-<mvc:View 
-    xmlns:mvc="sap.ui.core.mvc" 
-    xmlns:f="sap.ui.layout.form" 
-    xmlns="sap.uxap" 
-    xmlns:layout="sap.ui.layout" 
-    xmlns:m="sap.m" 
-    xmlns:core="sap.ui.core" 
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns="sap.uxap"
+    xmlns:layout="sap.ui.layout"
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core"
     xmlns:sample="sap.uxap.sample.ObjectPageSubSectionSized.controller.blocks"
     controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
-    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false" >
+    <ObjectPageLayout id="ObjectPageLayout" showFooter="true" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
                 <actions>
-					<m:ToggleButton
+                    <m:ToggleButton
                         press=".toggleFullScreen"
-						icon="sap-icon://expand"
-                        type="Transparent"/>
-					<m:Button
+                        icon="sap-icon://expand"
+                        type="Transparent" />
+                    <m:Button
                         press=".onCloseDetailPress"
-						icon="sap-icon://decline"
-						type="Transparent"/>
-				</actions>
+                        icon="sap-icon://decline"
+                        type="Transparent" />
+                </actions>
 
                 <expandedHeading>
                     <m:HBox>
@@ -30,7 +30,7 @@
                 <snappedHeading>
                     <m:FlexBox fitContainer="true" alignItems="Center">
                         <m:Avatar initials="{json>/Personnel/ToPersonnelInfo/Initials}"
-							displaySize="S" class="sapUiTinyMarginEnd" />
+                            displaySize="S" class="sapUiTinyMarginEnd" />
                         <m:Title text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" wrapping="true" />
                     </m:FlexBox>
                 </snappedHeading>
@@ -52,8 +52,8 @@
         <headerContent>
             <m:FlexBox wrap="Wrap">
                 <m:Avatar
-							initials="{json>/Personnel/ToPersonnelInfo/Initials}"
-							displaySize="L"/>
+                    initials="{json>/Personnel/ToPersonnelInfo/Initials}"
+                    displaySize="L" />
 
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
                     <m:Text text="{json>/Personnel/PhoneNr}" />
@@ -71,9 +71,9 @@
             <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
                 <subSections>
                     <ObjectPageSubSection id="careerSectionSS1">
-                    
-                     <m:Text text="{json>/Personnel/Function}" />
-		
+
+                        <m:Text text="{json>/Personnel/Function}" />
+
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
@@ -81,13 +81,8 @@
             <ObjectPageSection titleUppercase="false" id="persInfoSection" title="Personal information">
                 <subSections>
                     <ObjectPageSubSection id="perInfoSectionSubSect">
-                                <m:Bar>
-                                    <m:contentRight>
-                                        <m:Button id="edit" text="Edit" press="handleEditPress({json>/Personnel/PersNr})" />
-                                        <m:Button id="save" text="Save" type="Emphasized" visible="false" press="handleSavePress" />
-                                        <m:Button id="cancel" text="Cancel" visible="false" press="handleCancelPress" />
-                                    </m:contentRight>
-                                </m:Bar>
+                        <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Display" type="XML" />
+                        <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Change" type="XML" />
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
@@ -110,16 +105,15 @@
             </ObjectPageSection> -->
         </sections>
 
-        <!-- <footer>
+        <footer>
             <m:Bar>
-				<m:contentRight>
-					<m:OverflowToolbar>
-				        <m:ToolbarSpacer/>
-				            <m:Button type="Accept" text="Save"/>
-				            <m:Button type="Reject" text="Cancel"/>
-			        </m:OverflowToolbar>
-				</m:contentRight>
-			</m:Bar>
-        </footer> -->
-    </ObjectPageLayout> 
+                <m:contentRight>
+                    <m:Button id="edit" text="Edit" press="handleEditPress" visible="{= !${detailView>/edit} }" />
+                    <!-- <m:Button id="edit" text="Edit" press="handleEditPress({json>/Personnel/PersNr})" visible="{= !${detailView>/edit} }"/> -->
+                    <m:Button id="save" text="Save" type="Emphasized" press="handleSavePress" visible="{detailView>/edit}" />
+                    <m:Button id="cancel" text="Cancel" press="handleCancelPress" visible="{detailView>/edit}" />
+                </m:contentRight>
+            </m:Bar>
+        </footer>
+    </ObjectPageLayout>
 </mvc:View>
