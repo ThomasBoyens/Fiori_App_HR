@@ -308,42 +308,23 @@ sap.ui.define([
         onFilter : function (oEvent) {
 
             let filterList = [];
-            let selected = this.getView().byId("ComboBox").getSelectedKey();
+            const selected = this.getView().byId("ComboBox").getSelectedKey();
             console.log(selected);
 
-            if(selected === "all"){
-                selected = "";
-            }
+            // if(selected === "all"){
+            //     selected = "";
+            // }
     
-            if (selected != "") {
-                var oFilterSubarea = new sap.ui.model.Filter("Subarea", sap.ui.model.FilterOperator.Contains, selected);
+            if (selected && selected !== "all") {
+                var oFilterSubarea = new Filter("Subarea", sap.ui.model.FilterOperator.EQ, selected);
                 filterList.push(oFilterSubarea);
+                console.log(filterList.length);
             }
 
-            const list = this.getView().byId("list");
-            const oBinding = list.getBinding("items");
-            oBinding.filter(filterList);   
+            var list = this.getView().byId("list");
+            var oBinding = list.getBinding("items");
+            oBinding.filter(filterList, "Application");   
         },
-
-        // onSelectionFilter: function (oEvent) {
-
-        //     // add filter for search
-        //     var aFilters = [];
-        //     var sKey = this.getView().byId("ComboBox").getSelectedKey();
-        //     console.log(sKey);
-        //     if (sKey) {
-        //         var departmentFilter = new Filter("LastName", sap.ui.model.FilterOperator.Contains, sKey);
-        //         aFilters.push(departmentFilter);
-        //     }
-
-        //     // update list binding
-        //     var list = this.getView().byId("list");
-        //     var binding = list.getBinding("items");
-        //     binding.filter(aFilters, "Application");
-                
-        // },
-    
-
     });
 
 })

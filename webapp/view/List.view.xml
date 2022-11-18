@@ -1,19 +1,7 @@
-<mvc:View
-    controllerName="edu.be.ap.hr.zsd002hr.controller.List"
-    xmlns="sap.m"
-    xmlns:semantic="sap.f.semantic"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:core="sap.ui.core">
-
-    <semantic:SemanticPage
-        id="listPage"
-        preserveHeaderStateOnScroll="true"
-        toggleHeaderOnTitleClick="false">
+<mvc:View controllerName="edu.be.ap.hr.zsd002hr.controller.List" xmlns="sap.m" xmlns:semantic="sap.f.semantic" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core">
+    <semantic:SemanticPage id="listPage" preserveHeaderStateOnScroll="true" toggleHeaderOnTitleClick="false">
         <semantic:titleHeading>
-            <Title
-                id="listPageTitle"
-                text="{listView>/title}"
-                level="H2" />
+            <Title id="listPageTitle" text="{listView>/title}" level="H2" />
         </semantic:titleHeading>
         <semantic:content>
             <!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" -->
@@ -22,7 +10,8 @@
                 width="auto"
                 class="sapFDynamicPageAlignContent"
                 items="{
-                    path: '/PersonnelSet'
+                    path: '/ZSD_002_C_PERSONNEL',
+                    sorter: { path: 'Last_name' }
                 }"
                 busyIndicatorDelay="{listView>/delay}"
                 noDataText="{listView>/noDataText}"
@@ -30,20 +19,13 @@
                 growing="true"
                 growingScrollToLoad="true"
                 updateFinished=".onUpdateFinished"
-                selectionChange=".onSelectionChange">
-
+                selectionChange=".onSelectionChange"
+            >
                 <headerToolbar>
                     <OverflowToolbar id="idInfoToolbar">
-                        <ComboBox id="ComboBox" selectedKey="all" change=".onFilter">
+                        <ComboBox id="ComboBox" selectedKey="all" change=".onFilter" items="{/DepartmentSet}">
                             <items>
-                                <core:Item key="all"  text="All departments" />
-                                <core:Item key="EX00" text="Executives" />
-                                <core:Item key="FI00" text="Finance" />
-                                <core:Item key="HR00" text="Human Resources" />
-                                <core:Item key="IT00" text="Information Tech" />
-                                <core:Item key="MM00" text="Materials Management" />
-                                <core:Item key="PP00" text="Production" />
-                                <core:Item key="PU00" text="Purchasing" />
+                                <core:Item key="{Code}" text="{Description}" />
                             </items>
                         </ComboBox>
                         <ToolbarSpacer />
@@ -52,15 +34,10 @@
                             press=".onOpenViewSettings"
                             icon="sap-icon://sort"
                             type="Transparent"/> -->
-
                     </OverflowToolbar>
                 </headerToolbar>
                 <items>
-                    <ObjectListItem
-                        type="Navigation"
-                        press=".onSelectionChange"
-                        title="{FirstName} {Subarea}"
-                    />
+                    <ObjectListItem type="Navigation" press=".onSelectionChange" title="{Last_name} {First_name}" intro="{Department}" />
                 </items>
             </List>
         </semantic:content>
