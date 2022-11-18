@@ -248,22 +248,6 @@ sap.ui.define([
             // this._initData();
         },
 
-        // _initData() {
-        //     this.getModel().read('/PersonnelSet',
-        //     {
-        //         // urlParameters: '$expand=ToPersonnelInfo',
-        //         success: function(oData) {
-        //             const oModel = new sap.ui.model.json.JSONModel();
-        //             console.log(oData);
-        //             oModel.setProperty('/personnel', oData.results)
-        //             this.getView().setModel(oModel, 'json');
-        //         }.bind(this),
-        //         error: function(oError) {
-        //             console.error(oError);
-        //         }
-        //     });
-        // },
-
         /**
          * Shows the selected item on the detail page
          * On phones a additional history entry is created
