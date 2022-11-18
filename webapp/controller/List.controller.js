@@ -246,6 +246,7 @@ sap.ui.define([
         _onMasterMatched:  function() {
             //Set the layout property of the FCL control to 'OneColumn'
             this.getModel("appView").setProperty("/layout", "OneColumn");
+            // this._initData();
         },
 
         /**
@@ -258,8 +259,11 @@ sap.ui.define([
             var bReplace = !Device.system.phone;
             // set the layout property of FCL control to show two columns
             this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
+            //console.log(oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`));
+            //this.getOwnerComponent()._personnel = oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`);
+
             this.getRouter().navTo("object", {
-                objectId : oItem.getBindingContext().getProperty("PersNr")
+                persNr : oItem.getBindingContext().getProperty("PersNr")
             }, bReplace);
         },
 

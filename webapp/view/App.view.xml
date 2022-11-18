@@ -12,6 +12,7 @@
         <f:FlexibleColumnLayout
             id="layout"
             layout="{appView>/layout}"
+            stateChange="onStateChanged"
             backgroundDesign="Translucent">
         </f:FlexibleColumnLayout>
     </App>

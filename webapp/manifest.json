@@ -43,6 +43,7 @@
         }
     },
     "sap.ui": {
+        "fullWidth": true,
         "technology": "UI5",
         "icons": {
             "icon": "",
@@ -114,7 +115,7 @@
                     "target": "list"
                 },
                 {
-                    "pattern": "PersonnelSet/{objectId}",
+                    "pattern": "PersonnelSet/{persNr}",
                     "name": "object",
                     "target": [
                         "list",

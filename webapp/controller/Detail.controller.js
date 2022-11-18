@@ -1,9 +1,10 @@
 sap.ui.define([
     "./BaseController",
+    'sap/ui/core/Fragment',
     "sap/ui/model/json/JSONModel",
     "../model/formatter",
     "sap/m/library"
-], function (BaseController, JSONModel, formatter, mobileLibrary) {
+], function (BaseController, Fragment, JSONModel, formatter, mobileLibrary) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -24,7 +25,8 @@ sap.ui.define([
             var oViewModel = new JSONModel({
                 busy : false,
                 delay : 0,
-                lineItemListTitle : this.getResourceBundle().getText("detailLineItemTableHeading")
+                lineItemListTitle : this.getResourceBundle().getText("detailLineItemTableHeading"),
+                edit: false
             });
 
             this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
@@ -32,7 +34,12 @@ sap.ui.define([
             this.setModel(oViewModel, "detailView");
 
             // this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
+            const oModel = new sap.ui.model.json.JSONModel();
+            this.getView().setModel(oModel, 'json');
 
+            this._formFragments = {};
+
+            //this._showFormFragment("Display");
             
         },
 
@@ -77,6 +84,16 @@ sap.ui.define([
             }
         },
 
+        /**
+         * Event handler for navigating back.
+         * We navigate back in the browser history
+         * @public
+         */
+         onNavBack: function() {
+            // eslint-disable-next-line sap-no-history-manipulation
+            history.go(-1);
+        },
+
         /* =========================================================== */
         /* begin: internal methods                                     */
         /* =========================================================== */
@@ -88,93 +105,38 @@ sap.ui.define([
          * @private
          */
         _onObjectMatched: function (oEvent) {
-            var sObjectId =  oEvent.getParameter("arguments").objectId;
+            
+            this.getModel("detailView").setProperty("/edit", false);
+            const sPersNr =  oEvent.getParameter("arguments").persNr;
             this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
-            this.getModel().metadataLoaded().then( function() {
-                var sObjectPath = this.getModel().createKey("PersonnelSet", {
-                    PersNr:  sObjectId
-                });
-                this._bindView("/" + sObjectPath);
-            }.bind(this));
+
+            if (typeof sPersNr === 'string' && sPersNr.length > 0) {
+                this._initData(sPersNr)
+
+                // this._formFragments = {};
+                // // Set the initial form to be the display one
+                // this._showFormFragment("Display");
+                
+            } else {
+                this.getRouter().navTo('list', {}, true);
+            }
         },
 
-        /**
-         * Binds the view to the object path. Makes sure that detail view displays
-         * a busy indicator while data for the corresponding element binding is loaded.
-         * @function
-         * @param {string} sObjectPath path to the object to be bound to the view.
-         * @private
-         */
-        _bindView: function (sObjectPath) {
-            // Set busy indicator during view binding
-            var oViewModel = this.getModel("detailView");
-
-            // If the view was not bound yet its not busy, only if the binding requests data it is set to busy again
-            oViewModel.setProperty("/busy", false);
-
-            this.getView().bindElement({
-                path : sObjectPath,
-                events: {
-                    change : this._onBindingChange.bind(this),
-                    dataRequested : function () {
-                        oViewModel.setProperty("/busy", true);
-                    },
-                    dataReceived: function () {
-                        oViewModel.setProperty("/busy", false);
-                    }
+        _initData(persNr) {
+            this.getModel().read(`/PersonnelSet('${persNr}')`,
+            {
+                urlParameters: '$expand=ToPersonnelInfo',
+                success: function(oData) {
+                    const oModel = new sap.ui.model.json.JSONModel();
+                    oModel.setProperty('/Personnel', oData)
+                    this.getView().setModel(oModel, 'json');
+                    this.getView().bindElement("/Personnel");
+                }.bind(this),
+                error: function(oError) {
+                    console.error(oError);
                 }
             });
-        },
-
-        _onBindingChange: function () {
-            var oView = this.getView(),
-                oElementBinding = oView.getElementBinding();
-
-            // No data for the binding
-            if (!oElementBinding.getBoundContext()) {
-                this.getRouter().getTargets().display("detailObjectNotFound");
-                // if object could not be found, the selection in the list
-                // does not make sense anymore.
-                // this.getOwnerComponent().oListSelector.clearListListSelection();
-                return;
-            }
-
-            var sPath = oElementBinding.getPath(),
-                oResourceBundle = this.getResourceBundle(),
-                oObject = oView.getModel().getObject(sPath),
-                sObjectId = oObject.PersNr,
-                sObjectName = oObject.LastName,
-                oViewModel = this.getModel("detailView");
-
-            this.getOwnerComponent().oListSelector.selectAListItem(sPath);
-
-            oViewModel.setProperty("/shareSendEmailSubject",
-                oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
-            oViewModel.setProperty("/shareSendEmailMessage",
-                oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
-        },
-
-        _onMetadataLoaded: function () {
-            // Store original busy indicator delay for the detail view
-            var iOriginalViewBusyDelay = this.getView().getBusyIndicatorDelay(),
-                oViewModel = this.getModel("detailView"),
-                oLineItemTable = this.byId("lineItemsList"),
-                iOriginalLineItemTableBusyDelay = oLineItemTable.getBusyIndicatorDelay();
-
-            // Make sure busy indicator is displayed immediately when
-            // detail view is displayed for the first time
-            oViewModel.setProperty("/delay", 0);
-            oViewModel.setProperty("/lineItemTableDelay", 0);
-
-            oLineItemTable.attachEventOnce("updateFinished", function() {
-                // Restore original busy indicator delay for line item table
-                oViewModel.setProperty("/lineItemTableDelay", iOriginalLineItemTableBusyDelay);
-            });
-
-            // Binding the view will set it to not busy - so the view is always busy if it is not bound
-            oViewModel.setProperty("/busy", true);
-            // Restore original busy indicator delay for the detail view
-            oViewModel.setProperty("/delay", iOriginalViewBusyDelay);
+            
         },
 
         /**
@@ -201,10 +163,78 @@ sap.ui.define([
                 // reset to previous layout
                 this.getModel("appView").setProperty("/layout",  this.getModel("appView").getProperty("/previousLayout"));
             }
-        }
+        },
 
-        
+        /* =========================================================== */
+        /* begin: fragment methods                                     */
+        /* =========================================================== */
 
+        handleEditPress : function (PersNr) {
+            this.getModel("detailView").setProperty("/edit", true);
+
+			//Clone the data
+			// this._oPersonnel = Object.assign({}, this.getView().getModel().getData().Personnel[PersNr]);
+			// this._toggleButtonsAndView(true);
+            // console.log(this._oPersonnel)
+
+		},
+
+		handleCancelPress : function () {
+
+            this.getModel("detailView").setProperty("/edit", false);
+			// //Restore the data
+			// var oModel = this.getView().getModel();
+			// var oData = oModel.getData();
+
+			// oData.SupplierCollection[0] = this._oSupplier;
+
+			// oModel.setData(oData);
+			// this._toggleButtonsAndView(false);
+
+		},
+
+		handleSavePress : function () {
+
+            this.getModel("detailView").setProperty("/edit", false);
+			// this._toggleButtonsAndView(false);
+
+		},
+
+		// _toggleButtonsAndView : function (bEdit) {
+		// 	var oView = this.getView();
+
+		// 	// Show the appropriate action buttons
+		// 	oView.byId("edit").setVisible(!bEdit);
+		// 	oView.byId("save").setVisible(bEdit);
+		// 	oView.byId("cancel").setVisible(bEdit);
+
+		// 	// Set the right form type
+		// 	this._showFormFragment(bEdit ? "Change" : "Display");
+		// },
+
+        _getFormFragment: function (sFragmentName) {
+			var pFormFragment = this._formFragments[sFragmentName],
+				oView = this.getView();
+
+			if (!pFormFragment) {
+				pFormFragment = Fragment.load({
+					id: oView.getId(),
+					name: "edu.be.ap.hr.zsd002hr.view.fragment." + sFragmentName
+				});
+				this._formFragments[sFragmentName] = pFormFragment;
+			}
+
+			return pFormFragment;
+		},
+
+        _showFormFragment : function (sFragmentName) {
+			var detailFrag = this.getView().byId("perInfoSectionSubSect"); 
+
+			//detailFrag.destroyBlocks();
+			this._getFormFragment(sFragmentName).then(function(oVBox){
+				detailFrag.addBlock(oVBox);
+			});
+		}
     });
 
 });

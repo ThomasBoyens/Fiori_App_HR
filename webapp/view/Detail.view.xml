@@ -1,103 +1,93 @@
-<mvc:View 
-        xmlns:mvc="sap.ui.core.mvc" 
-        xmlns:f="sap.ui.layout.form" 
-        xmlns="sap.uxap" 
-        xmlns:layout="sap.ui.layout" 
-        xmlns:m="sap.m" 
-        xmlns:core="sap.ui.core"
-        controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
-
-    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns="sap.uxap"
+    xmlns:layout="sap.ui.layout"
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:sample="sap.uxap.sample.ObjectPageSubSectionSized.controller.blocks"
+    controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
+    <ObjectPageLayout id="ObjectPageLayout" showFooter="true" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
                 <actions>
-					<m:ToggleButton
+                    <m:ToggleButton
                         press=".toggleFullScreen"
-						icon="sap-icon://expand"
-                        type="Transparent"/>
-					<m:Button
+                        icon="sap-icon://expand"
+                        type="Transparent" />
+                    <m:Button
                         press=".onCloseDetailPress"
-						icon="sap-icon://decline"
-						type="Transparent"/>
-				</actions>
+                        icon="sap-icon://decline"
+                        type="Transparent" />
+                </actions>
 
                 <expandedHeading>
                     <m:HBox>
-                        <m:Title text="{FirstName} {LastName}" wrapping="true" />
+                        <m:Title text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" wrapping="true" />
                     </m:HBox>
                 </expandedHeading>
 
                 <snappedHeading>
                     <m:FlexBox fitContainer="true" alignItems="Center">
-                        <m:Avatar src="./test-resources/sap/uxap/images/imageID_275314.png" class="sapUiTinyMarginEnd" />
-                        <m:Title text="{FirstName} {LastName}" wrapping="true" />
+                        <m:Avatar initials="{json>/Personnel/ToPersonnelInfo/Initials}"
+                            displaySize="S" class="sapUiTinyMarginEnd" />
+                        <m:Title text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" wrapping="true" />
                     </m:FlexBox>
                 </snappedHeading>
 
                 <expandedContent>
-                    <m:Title text="{Function}" />
+                    <m:Title text="{json>/Personnel/Function}" />
                 </expandedContent>
 
                 <snappedContent>
-                    <m:Title text="{Function}" />
+                    <m:Title text="{json>/Personnel/Function}" />
                 </snappedContent>
 
                 <snappedTitleOnMobile>
-                    <m:Title text="{Function}" />
+                    <m:Title text="{json>/Personnel/Function}" />
                 </snappedTitleOnMobile>
             </ObjectPageDynamicHeaderTitle>
         </headerTitle>
 
         <headerContent>
             <m:FlexBox wrap="Wrap">
-                <m:Avatar class="sapUiSmallMarginEnd" src="./test-resources/sap/uxap/images/imageID_275314.png" displaySize="L" />
+                <m:Avatar
+                    initials="{json>/Personnel/ToPersonnelInfo/Initials}"
+                    displaySize="L" />
 
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
-                    <m:Text text="{PhoneNr}" />
-                    <m:Text text="{Mail}" />
+                    <m:Text text="{json>/Personnel/PhoneNr}" />
+                    <m:Text text="{json>/Personnel/Mail}" />
                 </layout:VerticalLayout>
 
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
-                    <m:Label text="{Department}" />
+                    <m:Label text="{json>/Personnel/Department}" />
+                    <m:Label text="ID: {json>/Personnel/PersNr}" />
                 </layout:VerticalLayout>
             </m:FlexBox>
-            <m:IconTabHeader mode="inline">
-                <m:items>
-                    <m:IconTabFilter key="Carrier" text="Carrier" />
-                    <m:IconTabFilter key="Compensation" text="Compensation" />
-                    <m:IconTabFilter key="Personnel informtion" text="Personnel information" />
-                </m:items>
-            </m:IconTabHeader>
-            
         </headerContent>
 
         <sections>
-            <ObjectPageSection titleUppercase="false" id="goalsSection" title="Carrier">
+            <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
                 <subSections>
-                    <ObjectPageSubSection id="goalsSectionSS1">
-                    
-                     <m:Text text="{Function}" />
-		
-                    </ObjectPageSubSection>
-                </subSections>
-            </ObjectPageSection>
-<!-- 
-            <ObjectPageSection titleUppercase="false" id="personalSection" title="Personal" importance="Medium">
-                <subSections>
-                    <ObjectPageSubSection id="personalSectionSS1" title="Connect" titleUppercase="false">
-                        <blocks>
-                            <m:Text text="test" />
-                        </blocks>
-                    </ObjectPageSubSection>
+                    <ObjectPageSubSection id="careerSectionSS1">
 
-                    <ObjectPageSubSection id="personalSectionSS2" title="Payment information" titleUppercase="false">
-                        <blocks />
-                        <moreBlocks />
+                        <m:Text text="{json>/Personnel/Function}" />
+
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
 
-            <ObjectPageSection titleUppercase="false" id="employmentSection" title="Employment">
+            <ObjectPageSection titleUppercase="false" id="persInfoSection" title="Personal information">
+                <subSections>
+                    <ObjectPageSubSection id="perInfoSectionSubSect">
+                        <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Display" type="XML" />
+                        <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Change" type="XML" />
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+
+            <!-- <ObjectPageSection titleUppercase="false" id="employmentSection" title="Employment">
                 <subSections>
                     <ObjectPageSubSection id="employmentSectionSS1" title="Job information" titleUppercase="false">
                         <blocks />
@@ -116,12 +106,14 @@
         </sections>
 
         <footer>
-            <m:OverflowToolbar>
-                <m:ToolbarSpacer />
-                <m:Button type="Accept" text="Accept" />
-                <m:Button type="Reject" text="Reject" />
-            </m:OverflowToolbar>
+            <m:Bar>
+                <m:contentRight>
+                    <m:Button id="edit" text="Edit" press="handleEditPress" visible="{= !${detailView>/edit} }" />
+                    <!-- <m:Button id="edit" text="Edit" press="handleEditPress({json>/Personnel/PersNr})" visible="{= !${detailView>/edit} }"/> -->
+                    <m:Button id="save" text="Save" type="Emphasized" press="handleSavePress" visible="{detailView>/edit}" />
+                    <m:Button id="cancel" text="Cancel" press="handleCancelPress" visible="{detailView>/edit}" />
+                </m:contentRight>
+            </m:Bar>
         </footer>
     </ObjectPageLayout>
-
 </mvc:View>

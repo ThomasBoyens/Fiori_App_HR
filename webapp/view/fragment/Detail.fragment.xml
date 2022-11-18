@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+    xmlns="sap.uxap"
+    xmlns:m="sap.m" 
+    xmlns:core="sap.ui.core">
+    <ObjectPageSection titleUppercase="false" id="containerFrag" title="Personal information">
+    <subSections>
+        <ObjectPageSubSection>
+            <core:Fragment
+                fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Display"
+                type="XML"
+                id="fragDisplayId"/>
+            <core:Fragment
+                fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Change"
+                type="XML"
+                id="fragChangeId"/>
+        </ObjectPageSubSection>
+    </subSections>
+</ObjectPageSection>
+</core:FragmentDefinition>
