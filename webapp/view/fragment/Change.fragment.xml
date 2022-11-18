@@ -31,47 +31,77 @@
 					</f:FormElement>
 					<f:FormElement label="ZIP Code/City">
 						<f:fields>
-							<Text text="{json>/Personnel/ToPersonnelInfo/PostalCode} {json>/Personnel/ToPersonnelInfo/City}" />
+							<Input value="{json>/Personnel/ToPersonnelInfo/PostalCode}" />
+						</f:fields>
+						<f:fields>
+							<Input value="{json>/Personnel/ToPersonnelInfo/City}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Country">
 						<f:fields>
-							<Text text="{json>/Personnel/ToPersonnelInfo/Country}" />
+							<Input value="{json>/Personnel/ToPersonnelInfo/Country}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="State/Province">
+						<f:fields>
+							<Input value="{json>/Personnel/ToPersonnelInfo/Region}" />
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
 			<f:FormContainer title="Personal">
 				<f:formElements>
-					<f:FormElement label="FirstName">
+					<f:FormElement label="First name">
 						<f:fields>
 							<Input value="{json>/Personnel/FirstName}" />
 						</f:fields>
 					</f:FormElement>
-
-					<f:FormElement label="LastName">
+						<f:FormElement label="Second name">
+						<f:fields>
+							<Input value="{json>/Personnel/ToPersonnelInfo/SecondName}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Last name">
 						<f:fields>
 							<Input value="{json>/Personnel/LastName}" />
 						</f:fields>
 					</f:FormElement>
-
-					<f:FormElement label="Email">
+					<f:FormElement label="Date of birth">
 						<f:fields>
-							<Text text="{json>/Personnel/Mail}" />
+							<Text text="{json>/Personnel/ToPersonnelInfo/Birthday}" />
 						</f:fields>
 					</f:FormElement>
-					<f:FormElement label="Tel.">
+					<f:FormElement label="Gender">
 						<f:fields>
-							<Text text="{json>/Personnel/PhoneNr}" />
+							<Input value="{json>/Personnel/ToPersonnelInfo/Gender}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Social security nr.">
+						<f:fields>
+							<Text text="{json>/Personnel/ToPersonnelInfo/SocialSecNr}" />
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
-			<f:FormContainer title="Other">
+			<f:FormContainer title="Online">
 				<f:formElements>
-					<f:FormElement label="Name">
+					<f:FormElement label="Email">
 						<f:fields>
-							<Text text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" />
+							<Input value="{json>/Personnel/Mail}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Tel.">
+						<f:fields>
+							<MaskInput mask="9999999999" placeholderSymbol="_" value="{json>/Personnel/PhoneNr}" showClearIcon="true" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Bank nr.">
+						<f:fields>
+							<MaskInput mask="BECC-CCCC-CCCC-CCCC" value="{json>/Personnel/ToPersonnelInfo/Iban}">
+								<rules>
+									<MaskInputRule maskFormatSymbol="C" regex="[A-Z0-9]"/>
+								</rules>
+							</MaskInput>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>

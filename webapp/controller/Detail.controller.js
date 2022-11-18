@@ -173,9 +173,9 @@ sap.ui.define([
             this.getModel("detailView").setProperty("/edit", true);
 
 			//Clone the data
-			this._oPersonnel = Object.assign({}, this.getView().getModel().getData().Personnel[PersNr]);
-			this._toggleButtonsAndView(true);
-            console.log(this._oPersonnel)
+			// this._oPersonnel = Object.assign({}, this.getView().getModel().getData().Personnel[PersNr]);
+			// this._toggleButtonsAndView(true);
+            // console.log(this._oPersonnel)
 
 		},
 
@@ -200,17 +200,17 @@ sap.ui.define([
 
 		},
 
-		_toggleButtonsAndView : function (bEdit) {
-			var oView = this.getView();
+		// _toggleButtonsAndView : function (bEdit) {
+		// 	var oView = this.getView();
 
-			// Show the appropriate action buttons
-			oView.byId("edit").setVisible(!bEdit);
-			oView.byId("save").setVisible(bEdit);
-			oView.byId("cancel").setVisible(bEdit);
+		// 	// Show the appropriate action buttons
+		// 	oView.byId("edit").setVisible(!bEdit);
+		// 	oView.byId("save").setVisible(bEdit);
+		// 	oView.byId("cancel").setVisible(bEdit);
 
-			// Set the right form type
-			this._showFormFragment(bEdit ? "Change" : "Display");
-		},
+		// 	// Set the right form type
+		// 	this._showFormFragment(bEdit ? "Change" : "Display");
+		// },
 
         _getFormFragment: function (sFragmentName) {
 			var pFormFragment = this._formFragments[sFragmentName],

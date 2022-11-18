@@ -39,15 +39,39 @@
 							<Text text="{json>/Personnel/ToPersonnelInfo/Country}" />
 						</f:fields>
 					</f:FormElement>
+					<f:FormElement label="State/Province">
+						<f:fields>
+							<Text text="{json>/Personnel/ToPersonnelInfo/Region}" />
+						</f:fields>
+					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
 			<f:FormContainer title="Personal">
 				<f:formElements>
-					<f:FormElement label="Name">
+					<f:FormElement label="Full name">
 						<f:fields>
-							<Text text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" />
+							<Text text="{json>/Personnel/FirstName} {json>/Personnel/ToPersonnelInfo/SecondName} {json>/Personnel/LastName}" />
 						</f:fields>
 					</f:FormElement>
+					<f:FormElement label="Date of birth">
+						<f:fields>
+							<Text text="{json>/Personnel/ToPersonnelInfo/Birthday}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Gender">
+						<f:fields>
+							<Text text="{json>/Personnel/ToPersonnelInfo/Gender}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Social security nr.">
+						<f:fields>
+							<Text text="{json>/Personnel/ToPersonnelInfo/SocialSecNr}" />
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Online">
+				<f:formElements>
 					<f:FormElement label="Email">
 						<f:fields>
 							<Text text="{json>/Personnel/Mail}" />
@@ -58,13 +82,9 @@
 							<Text text="{json>/Personnel/PhoneNr}" />
 						</f:fields>
 					</f:FormElement>
-				</f:formElements>
-			</f:FormContainer>
-			<f:FormContainer title="Other">
-				<f:formElements>
-					<f:FormElement label="Name">
+					<f:FormElement label="Bank nr.">
 						<f:fields>
-							<Text text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" />
+							<Text text="{json>/Personnel/ToPersonnelInfo/Iban}" />
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
