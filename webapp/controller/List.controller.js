@@ -263,7 +263,7 @@ sap.ui.define([
             //this.getOwnerComponent()._personnel = oItem.getBindingContext("json").getModel().getProperty(`${oItem.getBindingContextPath()}`);
 
             this.getRouter().navTo("object", {
-                persNr : oItem.getBindingContext().getProperty("PersNr")
+                persNr : oItem.getBindingContext().getProperty("Pers_nr")
             }, bReplace);
         },
 
