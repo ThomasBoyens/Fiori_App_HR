@@ -1,14 +1,14 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" 
-xmlns:f="sap.ui.layout.form" 
-xmlns:sf="sap.f"
-xmlns:card="sap.f.cards"
-xmlns="sap.uxap" 
-xmlns:layout="sap.ui.layout" 
-xmlns:m="sap.m" 
-xmlns:mc="sap.suite.ui.microchart" 
-xmlns:core="sap.ui.core" 
-xmlns:l="sap.ui.layout" 
-controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:sf="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns="sap.uxap"
+    xmlns:layout="sap.ui.layout"
+    xmlns:m="sap.m"
+    xmlns:mc="sap.suite.ui.microchart"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
     <ObjectPageLayout id="ObjectPageLayout" showFooter="true" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
@@ -56,7 +56,7 @@ controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
                     <m:Label text="{json>/Personnel/Department}" />
                     <m:Label text="ID: {json>/Personnel/Pers_nr}" />
-                        
+
                 </layout:VerticalLayout>
             </m:FlexBox>
         </headerContent>
@@ -73,17 +73,18 @@ controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
             <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
                 <subSections>
                     <ObjectPageSubSection id="careerSectionSS1">
-                        
-                            <m:List items="{path: 'func>/Functions/'}" >
+
+                        <m:List items="{path: 'func>/Functions/'}">
                             <m:CustomListItem>
                                 <m:HBox>
+                                    <!-- lijn -->
                                     <core:Icon size="2rem" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
-                                    <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" >
-                                        <m:Text text="{func>Plstx}"/>
+                                    <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                        <m:Text text="{func>Plstx}" />
                                     </m:VBox>
                                 </m:HBox>
                             </m:CustomListItem>
-                        </m:List>   
+                        </m:List>
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
@@ -91,30 +92,30 @@ controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
                 <subSections>
                     <ObjectPageSubSection id="paySectionSS1" title="payments">
                         <l:HorizontalLayout class="sapUiContentPadding">
-                            <sf:Card class="sapUiMediumMargin" width="175px">
-                                <sf:header>
-                                    <card:Header
-                                        title="Loon datum"
-                                        subtitle="1200 USD"
-                                        iconSrc="sap-icon://payment-approval" />
-                                </sf:header>  
-                            </sf:Card>
-                            <sf:Card class="sapUiMediumMargin" width="175px">
-                                <sf:header>
-                                    <card:Header
-                                        title="Loon datum"
-                                        subtitle="1200 USD"
-                                        iconSrc="sap-icon://payment-approval" />
-                                </sf:header>  
-                            </sf:Card>
-                            <sf:Card class="sapUiMediumMargin" width="175px">
-                                <sf:header>
-                                    <card:Header
-                                        title="Loon datum"
-                                        subtitle="1200 USD"
-                                        iconSrc="sap-icon://payment-approval" />
-                                </sf:header>  
-                            </sf:Card>
+                            <m:List items="{path: 'pay>/Payslip/'}">
+                                <m:CustomListItem>
+                                    <m:HBox>
+                                        <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                            <sf:Card class="sapUiMediumMargin" width="175px">
+                                                <sf:header>
+                                                    <card:Header
+                                                        title="Date:  { 
+
+                                                            path: 'pay>/Payslip/0/SlipDate',
+                                                            type: 'sap.ui.model.type.DateTime',
+                                                            formatOptions: { style: 'Short',
+                                                              pattern: 'yy/MM/dd' 
+                                                            }  
+                                                          
+                                                          }"
+                                                        subtitle="{pay>PerformanceAmount} {pay>Currency}"
+                                                        iconSrc="sap-icon://payment-approval" />
+                                                </sf:header>
+                                            </sf:Card>
+                                        </m:VBox>
+                                    </m:HBox>
+                                </m:CustomListItem>
+                            </m:List>
                         </l:HorizontalLayout>
                     </ObjectPageSubSection>
                     <ObjectPageSubSection id="paySectionSS2" title="salary &amp; bonus">
