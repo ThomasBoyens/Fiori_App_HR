@@ -122,22 +122,33 @@ sap.ui.define([
             }
         },
 
+        _CreateFunctionModel(functionList) {
+            const oModel = new sap.ui.model.json.JSONModel();
+            oModel.setProperty('/Functions', functionList.reverse())
+            this.getView().setModel(oModel, 'func');
+            this.getView().bindElement("/Functions");
+        },
+
         _initData(persNr) {
-            this.getModel().read(`/PersonnelSet('${persNr}')`,
+            this.getModel().read(`/ZSD_002_C_PERSONNEL('${persNr}')`,
             {
-                urlParameters: '$expand=ToPersonnelInfo',
+                urlParameters: '$expand=to_info/to_functions',
                 success: function(oData) {
                     const oModel = new sap.ui.model.json.JSONModel();
+                    this._CreateFunctionModel(oData.to_info.to_functions.results)
                     oModel.setProperty('/Personnel', oData)
+                    console.log(odata);
                     this.getView().setModel(oModel, 'json');
                     this.getView().bindElement("/Personnel");
                 }.bind(this),
                 error: function(oError) {
                     console.error(oError);
                 }
-            });
-            
+            });   
         },
+
+      
+
 
         /**
          * Set the full screen mode to false and navigate to list page
