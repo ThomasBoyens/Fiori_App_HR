@@ -122,21 +122,108 @@ sap.ui.define([
             }
         },
 
+        /* =========================================================== */
+        /* begin: Get Data                                             */
+        /* =========================================================== */
+
+
         _initData(persNr) {
-            this.getModel().read(`/PersonnelSet('${persNr}')`,
+            this.getModel().read(`/ZSD_002_C_PERSONNEL('${persNr}')`,
             {
-                urlParameters: '$expand=ToPersonnelInfo',
+                urlParameters: '$expand=to_info/to_functions',
                 success: function(oData) {
-                    const oModel = new sap.ui.model.json.JSONModel();
-                    oModel.setProperty('/Personnel', oData)
-                    this.getView().setModel(oModel, 'json');
-                    this.getView().bindElement("/Personnel");
+                    // create model for the personnel
+                    this._CreatePersonellModel(oData)
+
+                    // create model for the function
+                     this._CreateFunctionModel(oData.to_info.to_functions.results)
+
+                    // get data + create model for the payslips
+                    this._CreatePayslipModel(persNr)
+
                 }.bind(this),
                 error: function(oError) {
                     console.error(oError);
                 }
-            });
-            
+            });   
+        },
+
+
+
+          /* =========================================================== */
+         /* begin: Creating Models                                      */
+        /* =========================================================== */
+  
+        _CreatePersonellModel(oData) {
+
+            //change gender before creating
+            this._setGender(oData);
+         
+            //create model for the personnel
+            const oModel = new sap.ui.model.json.JSONModel();
+            oModel.setProperty('/Personnel', oData)
+            this.getView().setModel(oModel, 'json');
+            this.getView().bindElement("/Personnel");
+
+        },
+
+        _CreateFunctionModel(functionList) {
+
+            // set model for all the functions of person
+            const oModel = new sap.ui.model.json.JSONModel();
+            oModel.setProperty('/Functions', functionList.reverse());
+            this.getView().setModel(oModel, 'func');
+            this.getView().bindElement("/Functions");
+        },
+
+        _CreatePayslipModel(persNr){
+
+            this.getModel().read(`/ZSD_002_C_PERSONNEL_INFO('${persNr}')`,
+            {
+                urlParameters: '$expand=to_pay',
+                success: function(oData) {
+                    const payslipList = oData.to_pay.results
+
+                    const oModel = new sap.ui.model.json.JSONModel();
+                    // get last 3
+                    oModel.setProperty('/Payslip', payslipList.slice(-3));
+                    console.log(oData.to_pay.results);
+                    this.getView().setModel(oModel, 'pay');
+                    this.getView().bindElement("/Payslip");
+                }.bind(this),
+                error: function(oError) {
+                    console.error(oError);
+                }
+            });   
+        },
+
+        _CreateYearlyPayModel(){
+            //TODO: chart yearly pay
+        },
+
+          /* =========================================================== */
+         /* begin: Manipulation Odata                                   */
+        /* =========================================================== */
+        
+        _AlterPayslip(){
+            //TODO: calculate salary from pay slip data
+        },
+
+
+        _setGender(oData){
+
+            // gender is a number 1= male and 2= female
+            switch(oData.to_info.Gender) {
+                case "1":
+                  // set gender to male
+                  oData.to_info.Gender = "male";
+                  break;
+                case "2":
+                  // set gender to female
+                  oData.to_info.Gender = "female";
+                  break;
+              }
+            return oData;
         },
 
         /**

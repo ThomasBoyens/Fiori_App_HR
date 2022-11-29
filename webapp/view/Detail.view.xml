@@ -1,37 +1,32 @@
-<mvc:View
-    xmlns:mvc="sap.ui.core.mvc"
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.ui.layout.form"
+    xmlns:sf="sap.f"
+    xmlns:card="sap.f.cards"
     xmlns="sap.uxap"
     xmlns:layout="sap.ui.layout"
     xmlns:m="sap.m"
+    xmlns:mc="sap.suite.ui.microchart"
     xmlns:core="sap.ui.core"
-    xmlns:sample="sap.uxap.sample.ObjectPageSubSectionSized.controller.blocks"
+    xmlns:l="sap.ui.layout"
     controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
     <ObjectPageLayout id="ObjectPageLayout" showFooter="true" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
                 <actions>
-                    <m:ToggleButton
-                        press=".toggleFullScreen"
-                        icon="sap-icon://expand"
-                        type="Transparent" />
-                    <m:Button
-                        press=".onCloseDetailPress"
-                        icon="sap-icon://decline"
-                        type="Transparent" />
+                    <m:ToggleButton press=".toggleFullScreen" icon="sap-icon://expand" type="Transparent" />
+                    <m:Button press=".onCloseDetailPress" icon="sap-icon://decline" type="Transparent" />
                 </actions>
 
                 <expandedHeading>
                     <m:HBox>
-                        <m:Title text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" wrapping="true" />
+                        <m:Title text="{json>/Personnel/First_name} {json>/Personnel/Last_name}" wrapping="true" />
                     </m:HBox>
                 </expandedHeading>
 
                 <snappedHeading>
                     <m:FlexBox fitContainer="true" alignItems="Center">
-                        <m:Avatar initials="{json>/Personnel/ToPersonnelInfo/Initials}"
-                            displaySize="S" class="sapUiTinyMarginEnd" />
-                        <m:Title text="{json>/Personnel/FirstName} {json>/Personnel/LastName}" wrapping="true" />
+                        <m:Avatar initials="{json>/Personnel/to_info/Initials}" displaySize="S" class="sapUiTinyMarginEnd" />
+                        <m:Title text="{json>/Personnel/First_name} {json>/Personnel/Last_name}" wrapping="true" />
                     </m:FlexBox>
                 </snappedHeading>
 
@@ -51,38 +46,90 @@
 
         <headerContent>
             <m:FlexBox wrap="Wrap">
-                <m:Avatar
-                    initials="{json>/Personnel/ToPersonnelInfo/Initials}"
-                    displaySize="L" />
+                <m:Avatar initials="{json>/Personnel/to_info/Initials}" displaySize="L" />
 
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
-                    <m:Text text="{json>/Personnel/PhoneNr}" />
+                    <m:Text text="{json>/Personnel/Phone_nr}" />
                     <m:Text text="{json>/Personnel/Mail}" />
                 </layout:VerticalLayout>
 
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
                     <m:Label text="{json>/Personnel/Department}" />
-                    <m:Label text="ID: {json>/Personnel/PersNr}" />
+                    <m:Label text="ID: {json>/Personnel/Pers_nr}" />
+
                 </layout:VerticalLayout>
             </m:FlexBox>
         </headerContent>
 
         <sections>
-            <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
-                <subSections>
-                    <ObjectPageSubSection id="careerSectionSS1">
-
-                        <m:Text text="{json>/Personnel/Function}" />
-
-                    </ObjectPageSubSection>
-                </subSections>
-            </ObjectPageSection>
-
             <ObjectPageSection titleUppercase="false" id="persInfoSection" title="Personal information">
                 <subSections>
                     <ObjectPageSubSection id="perInfoSectionSubSect">
                         <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Display" type="XML" />
                         <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Change" type="XML" />
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+            <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
+                <subSections>
+                    <ObjectPageSubSection id="careerSectionSS1">
+
+                        <m:List items="{path: 'func>/Functions/'}">
+                            <m:CustomListItem>
+                                <m:HBox>
+                                    <!-- lijn -->
+                                    <core:Icon size="2rem" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
+                                    <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                        <m:Text text="{func>Plstx}" />
+                                    </m:VBox>
+                                </m:HBox>
+                            </m:CustomListItem>
+                        </m:List>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+            <ObjectPageSection titleUppercase="false" id="paySection" title="Compensation">
+                <subSections>
+                    <ObjectPageSubSection id="paySectionSS1" title="payments">
+                        <l:HorizontalLayout class="sapUiContentPadding">
+                            <m:List items="{path: 'pay>/Payslip/'}">
+                                <m:CustomListItem>
+                                    <m:HBox>
+                                        <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                            <sf:Card class="sapUiMediumMargin" width="175px">
+                                                <sf:header>
+                                                    <card:Header
+                                                        title="Date:  { 
+
+                                                            path: 'pay>/Payslip/0/SlipDate',
+                                                            type: 'sap.ui.model.type.DateTime',
+                                                            formatOptions: { style: 'Short',
+                                                              pattern: 'yy/MM/dd' 
+                                                            }  
+                                                          
+                                                          }"
+                                                        subtitle="{pay>PerformanceAmount} {pay>Currency}"
+                                                        iconSrc="sap-icon://payment-approval" />
+                                                </sf:header>
+                                            </sf:Card>
+                                        </m:VBox>
+                                    </m:HBox>
+                                </m:CustomListItem>
+                            </m:List>
+                        </l:HorizontalLayout>
+                    </ObjectPageSubSection>
+                    <ObjectPageSubSection id="paySectionSS2" title="salary &amp; bonus">
+                        <mc:BulletMicroChart size="L" scale="M" targetValue="100" forecastValue="110" class="sapUiSmallMargin" press="press">
+                            <mc:actual>
+                                <mc:BulletMicroChartData value="120" color="Good" />
+                            </mc:actual>
+                            <mc:thresholds>
+                                <mc:BulletMicroChartData value="0" color="Error" />
+                                <mc:BulletMicroChartData value="50" color="Critical" />
+                                <mc:BulletMicroChartData value="150" color="Critical" />
+                                <mc:BulletMicroChartData value="200" color="Error" />
+                            </mc:thresholds>
+                        </mc:BulletMicroChart>
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>

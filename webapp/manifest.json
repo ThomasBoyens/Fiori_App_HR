@@ -17,7 +17,7 @@
         },
         "dataSources": {
             "mainService": {
-                "uri": "/sap/opu/odata/sap/ZSD_002_PERSONNEL_SRV/",
+                "uri": "/sap/opu/odata/sap/ZSD_002_HR_PERSONNEL_SRV/",
                 "type": "OData",
                 "settings": {
                     "annotations": [],
@@ -115,7 +115,7 @@
                     "target": "list"
                 },
                 {
-                    "pattern": "PersonnelSet/{persNr}",
+                    "pattern": "ZSD_002_C_PERSONNEL/{persNr}",
                     "name": "object",
                     "target": [
                         "list",
