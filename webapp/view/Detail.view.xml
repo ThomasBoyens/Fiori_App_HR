@@ -8,6 +8,7 @@
     xmlns:mc="sap.suite.ui.microchart"
     xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout"
+    xmlns:grid="sap.ui.layout.cssgrid"
     controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
     <ObjectPageLayout id="ObjectPageLayout" showFooter="true" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
         <headerTitle>
@@ -73,21 +74,51 @@
             <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
                 <subSections>
                     <ObjectPageSubSection id="careerSectionSS1">
-                     
-                        <m:List items="{path: 'func>/Functions/'}">
-                            <m:CustomListItem>
-                                <l:HorizontalLayout class="sapUiContentPadding" >
-                                <m:HBox>
-                                    <!-- lijn -->
-                                    <core:Icon size="2rem" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
-                                    <m:HBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-                                        <m:Text text="{func>Plstx}" />
-                                    </m:HBox>
-                                </m:HBox>
-                            </l:HorizontalLayout>
-                            </m:CustomListItem>
-                        </m:List>
-                   
+                        <l:HorizontalLayout class="sapUiContentPadding">
+                            <sf:Card class="sapUiMediumMargin" width="175px">
+                                <sf:header>
+                                    <card:Header
+                                    title="Date:  { 
+                                        path: 'pay>/Payslip/0/SlipDate',
+                                        type: 'sap.ui.model.type.DateTime',
+                                        formatOptions: { style: 'Short',
+                                          pattern: 'dd/MM/yy' 
+                                        }  
+                                      }"
+                                       
+                                        subtitle="{pay>/Payslip/0/PerformanceAmount} {pay>/Payslip/0/Currency}"
+                                        iconSrc="sap-icon://payment-approval" />
+                                </sf:header>  
+                            </sf:Card>
+                            <sf:Card class="sapUiMediumMargin" width="175px">
+                                <sf:header>
+                                    <card:Header
+                                    title="Date:  { 
+                                        path: 'pay>/Payslip/1/SlipDate',
+                                        type: 'sap.ui.model.type.DateTime',
+                                        formatOptions: { style: 'Short',
+                                          pattern: 'dd/MM/yy' 
+                                        }  
+                                      }"
+                                        subtitle="{pay>/Payslip/1/PerformanceAmount} {pay>/Payslip/1/Currency}"
+                                        iconSrc="sap-icon://payment-approval" />
+                                </sf:header>  
+                            </sf:Card>
+                            <sf:Card class="sapUiMediumMargin" width="175px" visible="{= ${pay>/Payslip/2/SlipDate} == null  ? true : false }">
+                                <sf:header>
+                                    <card:Header
+                                    title="Date:  { 
+                                        path: 'pay>/Payslip/2/SlipDate',
+                                        type: 'sap.ui.model.type.DateTime',
+                                        formatOptions: { style: 'Short',
+                                          pattern: 'dd/MM/yy' 
+                                        }  
+                                      }"
+                                        subtitle="{pay>/Payslip/2/PerformanceAmount} {pay>/Payslip/2/Currency}"
+                                        iconSrc="sap-icon://payment-approval" />
+                                </sf:header>  
+                            </sf:Card>
+                        </l:HorizontalLayout>
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
@@ -107,7 +138,7 @@
                                                             path: 'pay>SlipDate',
                                                             type: 'sap.ui.model.type.DateTime',
                                                             formatOptions: { style: 'Short',
-                                                              pattern: 'yy/MM/dd' 
+                                                              pattern: 'dd//' 
                                                             }  
                                                           
                                                           }"
