@@ -23,9 +23,9 @@ sap.ui.define([
             // detail page is busy indication immediately so there is no break in
             // between the busy indication for loading the view's meta data
             var oViewModel = new JSONModel({
-                busy : false,
-                delay : 0,
-                lineItemListTitle : this.getResourceBundle().getText("detailLineItemTableHeading"),
+                busy: false,
+                delay: 0,
+                lineItemListTitle: this.getResourceBundle().getText("detailLineItemTableHeading"),
                 edit: false
             });
 
@@ -40,7 +40,7 @@ sap.ui.define([
             this._formFragments = {};
 
             //this._showFormFragment("Display");
-            
+
         },
 
         /* =========================================================== */
@@ -61,7 +61,7 @@ sap.ui.define([
             );
         },
 
-        
+
         /**
          * Updates the item count within the line item table's header
          * @param {object} oEvent an event containing the total number of items in the list
@@ -89,7 +89,7 @@ sap.ui.define([
          * We navigate back in the browser history
          * @public
          */
-         onNavBack: function() {
+        onNavBack: function () {
             // eslint-disable-next-line sap-no-history-manipulation
             history.go(-1);
         },
@@ -105,9 +105,9 @@ sap.ui.define([
          * @private
          */
         _onObjectMatched: function (oEvent) {
-            
+
             this.getModel("detailView").setProperty("/edit", false);
-            const sPersNr =  oEvent.getParameter("arguments").persNr;
+            const sPersNr = oEvent.getParameter("arguments").persNr;
             this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
 
             if (typeof sPersNr === 'string' && sPersNr.length > 0) {
@@ -116,7 +116,7 @@ sap.ui.define([
                 // this._formFragments = {};
                 // // Set the initial form to be the display one
                 // this._showFormFragment("Display");
-                
+
             } else {
                 this.getRouter().navTo('list', {}, true);
             }
@@ -128,37 +128,36 @@ sap.ui.define([
 
 
         _initData(persNr) {
-            this.getModel().read(`/ZSD_002_C_PERSONNEL('${persNr}')`,
-            {
-                urlParameters: '$expand=to_info/to_functions',
-                success: function(oData) {
+            this.getModel().read(`/ZSD_002_C_PERSONNEL('${persNr}')`, {
+                urlParameters: '$expand=to_info/to_functions,to_info/to_pay',
+                success: function (oData) {
                     // create model for the personnel
                     this._CreatePersonellModel(oData)
 
                     // create model for the function
-                     this._CreateFunctionModel(oData.to_info.to_functions.results)
+                    this._CreateFunctionModel(oData.to_info.to_functions.results)
 
                     // get data + create model for the payslips
-                    this._CreatePayslipModel(persNr)
+                    this._CreatePayslipModel(oData.to_info.to_pay.results)
 
                 }.bind(this),
-                error: function(oError) {
+                error: function (oError) {
                     console.error(oError);
                 }
-            });   
+            });
         },
 
 
 
-          /* =========================================================== */
-         /* begin: Creating Models                                      */
         /* =========================================================== */
-  
+        /* begin: Creating Models                                      */
+        /* =========================================================== */
+
         _CreatePersonellModel(oData) {
 
             //change gender before creating
             this._setGender(oData);
-         
+
             //create model for the personnel
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/Personnel', oData)
@@ -176,53 +175,40 @@ sap.ui.define([
             this.getView().bindElement("/Functions");
         },
 
-        _CreatePayslipModel(persNr){
-
-            this.getModel().read(`/ZSD_002_C_PERSONNEL_INFO('${persNr}')`,
-            {
-                urlParameters: '$expand=to_pay',
-                success: function(oData) {
-                    const payslipList = oData.to_pay.results
-
-                    const oModel = new sap.ui.model.json.JSONModel();
-                    // get last 3
-                    oModel.setProperty('/Payslip', payslipList.slice(-3));
-                    console.log(oData.to_pay.results);
-                    this.getView().setModel(oModel, 'pay');
-                    this.getView().bindElement("/Payslip");
-                }.bind(this),
-                error: function(oError) {
-                    console.error(oError);
-                }
-            });   
+        _CreatePayslipModel(payslipList) {
+            const oModel = new sap.ui.model.json.JSONModel();
+            oModel.setProperty('/Payslip', payslipList.slice(-3));
+            console.log(payslipList);
+            this.getView().setModel(oModel, 'pay');
+            this.getView().bindElement("/Payslip");
         },
 
-        _CreateYearlyPayModel(){
+        _CreateYearlyPayModel() {
             //TODO: chart yearly pay
         },
 
-          /* =========================================================== */
-         /* begin: Manipulation Odata                                   */
         /* =========================================================== */
-        
-        _AlterPayslip(){
+        /* begin: Manipulation Odata                                   */
+        /* =========================================================== */
+
+        _AlterPayslip() {
             //TODO: calculate salary from pay slip data
         },
 
 
-        _setGender(oData){
+        _setGender(oData) {
 
             // gender is a number 1= male and 2= female
-            switch(oData.to_info.Gender) {
+            switch (oData.to_info.Gender) {
                 case "1":
-                  // set gender to male
-                  oData.to_info.Gender = "male";
-                  break;
+                    // set gender to male
+                    oData.to_info.Gender = "male";
+                    break;
                 case "2":
-                  // set gender to female
-                  oData.to_info.Gender = "female";
-                  break;
-              }
+                    // set gender to female
+                    oData.to_info.Gender = "female";
+                    break;
+            }
             return oData;
         },
 
@@ -248,7 +234,7 @@ sap.ui.define([
                 this.getModel("appView").setProperty("/layout", "MidColumnFullScreen");
             } else {
                 // reset to previous layout
-                this.getModel("appView").setProperty("/layout",  this.getModel("appView").getProperty("/previousLayout"));
+                this.getModel("appView").setProperty("/layout", this.getModel("appView").getProperty("/previousLayout"));
             }
         },
 
@@ -256,72 +242,72 @@ sap.ui.define([
         /* begin: fragment methods                                     */
         /* =========================================================== */
 
-        handleEditPress : function (PersNr) {
+        handleEditPress: function (PersNr) {
             this.getModel("detailView").setProperty("/edit", true);
 
-			//Clone the data
-			// this._oPersonnel = Object.assign({}, this.getView().getModel().getData().Personnel[PersNr]);
-			// this._toggleButtonsAndView(true);
+            //Clone the data
+            // this._oPersonnel = Object.assign({}, this.getView().getModel().getData().Personnel[PersNr]);
+            // this._toggleButtonsAndView(true);
             // console.log(this._oPersonnel)
 
-		},
+        },
 
-		handleCancelPress : function () {
-
-            this.getModel("detailView").setProperty("/edit", false);
-			// //Restore the data
-			// var oModel = this.getView().getModel();
-			// var oData = oModel.getData();
-
-			// oData.SupplierCollection[0] = this._oSupplier;
-
-			// oModel.setData(oData);
-			// this._toggleButtonsAndView(false);
-
-		},
-
-		handleSavePress : function () {
+        handleCancelPress: function () {
 
             this.getModel("detailView").setProperty("/edit", false);
-			// this._toggleButtonsAndView(false);
+            // //Restore the data
+            // var oModel = this.getView().getModel();
+            // var oData = oModel.getData();
 
-		},
+            // oData.SupplierCollection[0] = this._oSupplier;
 
-		// _toggleButtonsAndView : function (bEdit) {
-		// 	var oView = this.getView();
+            // oModel.setData(oData);
+            // this._toggleButtonsAndView(false);
 
-		// 	// Show the appropriate action buttons
-		// 	oView.byId("edit").setVisible(!bEdit);
-		// 	oView.byId("save").setVisible(bEdit);
-		// 	oView.byId("cancel").setVisible(bEdit);
+        },
 
-		// 	// Set the right form type
-		// 	this._showFormFragment(bEdit ? "Change" : "Display");
-		// },
+        handleSavePress: function () {
+
+            this.getModel("detailView").setProperty("/edit", false);
+            // this._toggleButtonsAndView(false);
+
+        },
+
+        // _toggleButtonsAndView : function (bEdit) {
+        // 	var oView = this.getView();
+
+        // 	// Show the appropriate action buttons
+        // 	oView.byId("edit").setVisible(!bEdit);
+        // 	oView.byId("save").setVisible(bEdit);
+        // 	oView.byId("cancel").setVisible(bEdit);
+
+        // 	// Set the right form type
+        // 	this._showFormFragment(bEdit ? "Change" : "Display");
+        // },
 
         _getFormFragment: function (sFragmentName) {
-			var pFormFragment = this._formFragments[sFragmentName],
-				oView = this.getView();
+            var pFormFragment = this._formFragments[sFragmentName],
+                oView = this.getView();
 
-			if (!pFormFragment) {
-				pFormFragment = Fragment.load({
-					id: oView.getId(),
-					name: "edu.be.ap.hr.zsd002hr.view.fragment." + sFragmentName
-				});
-				this._formFragments[sFragmentName] = pFormFragment;
-			}
+            if (!pFormFragment) {
+                pFormFragment = Fragment.load({
+                    id: oView.getId(),
+                    name: "edu.be.ap.hr.zsd002hr.view.fragment." + sFragmentName
+                });
+                this._formFragments[sFragmentName] = pFormFragment;
+            }
 
-			return pFormFragment;
-		},
+            return pFormFragment;
+        },
 
-        _showFormFragment : function (sFragmentName) {
-			var detailFrag = this.getView().byId("perInfoSectionSubSect"); 
+        _showFormFragment: function (sFragmentName) {
+            var detailFrag = this.getView().byId("perInfoSectionSubSect");
 
-			//detailFrag.destroyBlocks();
-			this._getFormFragment(sFragmentName).then(function(oVBox){
-				detailFrag.addBlock(oVBox);
-			});
-		}
+            //detailFrag.destroyBlocks();
+            this._getFormFragment(sFragmentName).then(function (oVBox) {
+                detailFrag.addBlock(oVBox);
+            });
+        }
     });
 
 });

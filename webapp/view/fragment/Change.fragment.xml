@@ -68,7 +68,13 @@
 					</f:FormElement>
 					<f:FormElement label="Date of birth">
 						<f:fields>
-							<Text text="{json>/Personnel/to_info/Birthday}" />
+							<Text text="{ 
+								path: 'json>/Personnel/to_info/Birthday',
+								type: 'sap.ui.model.type.DateTime',
+								formatOptions: { style: 'Short',
+								  			pattern: 'dd/MM/yyyy' 
+								}  
+							  }"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Gender">
@@ -87,12 +93,12 @@
 				<f:formElements>
 					<f:FormElement label="Email">
 						<f:fields>
-							<Input value="{json>/Personnel/Mail}" />
+							<Input value="{json>/Personnel/to_info/Mail}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Tel.">
 						<f:fields>
-							<MaskInput mask="9999999999" placeholderSymbol="_" value="{json>/Personnel/Phone_nr}" showClearIcon="true" />
+							<MaskInput mask="9999999999" placeholderSymbol="_" value="{json>/Personnel/to_info/Phone_nr}" showClearIcon="true" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Bank nr.">
