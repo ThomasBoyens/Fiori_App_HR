@@ -258,46 +258,19 @@ sap.ui.define([
 
         handleEditPress : function (PersNr) {
             this.getModel("detailView").setProperty("/edit", true);
-
-			//Clone the data
-			// this._oPersonnel = Object.assign({}, this.getView().getModel().getData().Personnel[PersNr]);
-			// this._toggleButtonsAndView(true);
-            // console.log(this._oPersonnel)
-
 		},
 
 		handleCancelPress : function () {
-
             this.getModel("detailView").setProperty("/edit", false);
-			// //Restore the data
-			// var oModel = this.getView().getModel();
-			// var oData = oModel.getData();
-
-			// oData.SupplierCollection[0] = this._oSupplier;
-
-			// oModel.setData(oData);
-			// this._toggleButtonsAndView(false);
-
 		},
 
 		handleSavePress : function () {
+            const oEmployee = {
+                
+            }
 
             this.getModel("detailView").setProperty("/edit", false);
-			// this._toggleButtonsAndView(false);
-
 		},
-
-		// _toggleButtonsAndView : function (bEdit) {
-		// 	var oView = this.getView();
-
-		// 	// Show the appropriate action buttons
-		// 	oView.byId("edit").setVisible(!bEdit);
-		// 	oView.byId("save").setVisible(bEdit);
-		// 	oView.byId("cancel").setVisible(bEdit);
-
-		// 	// Set the right form type
-		// 	this._showFormFragment(bEdit ? "Change" : "Display");
-		// },
 
         _getFormFragment: function (sFragmentName) {
 			var pFormFragment = this._formFragments[sFragmentName],
