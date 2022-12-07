@@ -56,11 +56,6 @@
 							<Input id="firstname" value="{json>/Personnel/First_name}" />
 						</f:fields>
 					</f:FormElement>
-						<f:FormElement label="Second name">
-						<f:fields>
-							<Input id="secondname" value="{json>/Personnel/to_info/Second_Name}" />
-						</f:fields>
-					</f:FormElement>
 					<f:FormElement label="Last name">
 						<f:fields>
 							<Input id="lastname" value="{json>/Personnel/Last_name}" />
@@ -79,12 +74,12 @@
 					</f:FormElement>
 					<f:FormElement label="Gender">
 						<f:fields>
-							<Input value="{json>/Personnel/ToPersonnelInfo/Gender}" />
+							<Input id="gender" value="{json>/Personnel/to_info/Gender}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Social security nr.">
 						<f:fields>
-							<Text text="{json>/Personnel/ToPersonnelInfo/Social_sec_nr}" />
+							<Text text="{json>/Personnel/to_info/Social_sec_nr}" />
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
@@ -93,17 +88,17 @@
 				<f:formElements>
 					<f:FormElement label="Email">
 						<f:fields>
-							<Input value="{json>/Personnel/to_info/Mail}" />
+							<Input id="mail" value="{json>/Personnel/to_info/Mail}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Tel.">
 						<f:fields>
-							<MaskInput mask="9999999999" placeholderSymbol="_" value="{json>/Personnel/to_info/Phone_nr}" showClearIcon="true" />
+							<MaskInput id="phone" mask="9999999999" placeholderSymbol="_" value="{json>/Personnel/to_info/Phone_nr}" showClearIcon="true" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Bank nr.">
 						<f:fields>
-							<MaskInput mask="BECC-CCCC-CCCC-CCCC" value="{json>/Personnel/to_info/Iban}">
+							<MaskInput id="iban" mask="BECC-CCCC-CCCC-CCCC" value="{json>/Personnel/to_info/Iban}">
 								<rules>
 									<MaskInputRule maskFormatSymbol="C" regex="[A-Z0-9]"/>
 								</rules>

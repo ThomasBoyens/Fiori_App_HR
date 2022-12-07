@@ -88,7 +88,9 @@
             "": {
                 "dataSource": "mainService",
                 "preload": true,
-                "settings": {}
+                "settings": {
+                    "defaultUpdateMethod": "PUT"
+                }
             }
         },
         "resources": {

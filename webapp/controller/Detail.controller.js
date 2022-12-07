@@ -242,8 +242,10 @@ sap.ui.define([
         /* begin: fragment methods                                     */
         /* =========================================================== */
 
-        handleEditPress: function (PersNr) {
+        handleEditPress: function () {
+            const persNr = '00001257';
             this.getModel("detailView").setProperty("/edit", true);
+            console.log(this.getModel('json').getProperty('/Personnel')) // hoe pers_nr krijgen?
 		},
 
 		handleCancelPress : function () {
@@ -251,9 +253,39 @@ sap.ui.define([
 		},
 
 		handleSavePress : function () {
-            const oEmployee = {
-                
+            const persNr = '00001257';
+            var gender = new String;
+            switch (this.getView().byId("gender").getValue()) {
+                case "male":
+                    // set gender to 1
+                    gender = "1";
+                    break;
+                case "female":
+                    // set gender to 2
+                    gender = "2";
+                    break;
             }
+
+            const oEmployee = {
+                Street : this.getView().byId("street").getValue(),
+                City : this.getView().byId("city").getValue(),
+                PostalCode : this.getView().byId("postal").getValue(),
+                CountryCode : "BE",
+                Country : this.getView().byId("country").getValue(),
+                Region : this.getView().byId("region").getValue(),
+                Iban : this.getView().byId("iban").getValue(),
+                LastName : this.getView().byId("lastname").getValue(),
+                FirstName : this.getView().byId("firstname").getValue(),
+                Gender : gender,
+                Mail : this.getView().byId("mail").getValue(),
+                PhoneNr : this.getView().byId("phone").getValue(),
+            }
+
+            this.getModel().update("/PersonnelInfoSet('" + persNr + "')", oEmployee, // kan dit ni me ${}??
+            {
+                succes: function (oFeedback) { console.log(oFeedback);},
+                error: function (oError) { console.error(oError);}
+            });
 
             this.getModel("detailView").setProperty("/edit", false);
 		},
