@@ -8,6 +8,7 @@
     xmlns:mc="sap.suite.ui.microchart"
     xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout"
+    xmlns:grid="sap.ui.layout.cssgrid"
     controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
     <ObjectPageLayout id="ObjectPageLayout" showFooter="true" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
         <headerTitle>
@@ -49,8 +50,8 @@
                 <m:Avatar initials="{json>/Personnel/to_info/Initials}" displaySize="L" />
 
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
-                    <m:Text text="{json>/Personnel/Phone_nr}" />
-                    <m:Text text="{json>/Personnel/Mail}" />
+                    <m:Text text="{json>/Personnel/to_info/Phone_nr}" />
+                    <m:Text text="{json>/Personnel/to_info/Mail}" />
                 </layout:VerticalLayout>
 
                 <layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
@@ -73,7 +74,6 @@
             <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
                 <subSections>
                     <ObjectPageSubSection id="careerSectionSS1">
-
                         <m:List items="{path: 'func>/Functions/'}">
                             <m:CustomListItem>
                                 <m:HBox>
@@ -92,30 +92,49 @@
                 <subSections>
                     <ObjectPageSubSection id="paySectionSS1" title="payments">
                         <l:HorizontalLayout class="sapUiContentPadding">
-                            <m:List items="{path: 'pay>/Payslip/'}">
-                                <m:CustomListItem>
-                                    <m:HBox>
-                                        <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-                                            <sf:Card class="sapUiMediumMargin" width="175px">
-                                                <sf:header>
-                                                    <card:Header
-                                                        title="Date:  { 
-
-                                                            path: 'pay>/Payslip/0/SlipDate',
-                                                            type: 'sap.ui.model.type.DateTime',
-                                                            formatOptions: { style: 'Short',
-                                                              pattern: 'yy/MM/dd' 
-                                                            }  
-                                                          
-                                                          }"
-                                                        subtitle="{pay>PerformanceAmount} {pay>Currency}"
-                                                        iconSrc="sap-icon://payment-approval" />
-                                                </sf:header>
-                                            </sf:Card>
-                                        </m:VBox>
-                                    </m:HBox>
-                                </m:CustomListItem>
-                            </m:List>
+                            <sf:Card class="sapUiMediumMargin" width="175px">
+                                <sf:header>
+                                    <card:Header
+                                        title="Date:  { 
+                                        path: 'pay>/Payslip/0/SlipDate',
+                                        type: 'sap.ui.model.type.DateTime',
+                                        formatOptions: { style: 'Short',
+                                          pattern: 'dd/MM/yy' 
+                                        }  
+                                      }"
+                                        subtitle="{pay>/Payslip/0/PerformanceAmount} {pay>/Payslip/0/Currency}"
+                                        iconSrc="sap-icon://payment-approval" />
+                                </sf:header>
+                            </sf:Card>
+                            <sf:Card class="sapUiMediumMargin" width="175px">
+                                <sf:header>
+                                    <card:Header
+                                        title="Date:  { 
+                                        path: 'pay>/Payslip/1/SlipDate',
+                                        type: 'sap.ui.model.type.DateTime',
+                                        formatOptions: { style: 'Short',
+                                          pattern: 'dd/MM/yy' 
+                                        }  
+                                      }"
+                                        subtitle="{pay>/Payslip/1/PerformanceAmount} {pay>/Payslip/1/Currency}"
+                                        iconSrc="sap-icon://payment-approval" />
+                                </sf:header>
+                            </sf:Card>
+                            <!-- visible="{= ${pay>/Payslip/2/SlipDate} == null  ? true : false }" -->
+                            <sf:Card class="sapUiMediumMargin" width="175px">
+                                <sf:header>
+                                    <card:Header
+                                        title="Date:  { 
+                                        path: 'pay>/Payslip/1/SlipDate',
+                                        type: 'sap.ui.model.type.DateTime',
+                                        formatOptions: { style: 'Short',
+                                          pattern: 'dd/MM/yy' 
+                                        }  
+                                      }"
+                                        subtitle="{pay>/Payslip/1/PerformanceAmount} {pay>/Payslip/1/Currency}"
+                                        iconSrc="sap-icon://payment-approval" />
+                                </sf:header>
+                            </sf:Card>
                         </l:HorizontalLayout>
                     </ObjectPageSubSection>
                     <ObjectPageSubSection id="paySectionSS2" title="salary &amp; bonus">
