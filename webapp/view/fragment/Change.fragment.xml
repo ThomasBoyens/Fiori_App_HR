@@ -26,25 +26,25 @@
 				<f:formElements>
 					<f:FormElement label="Street">
 						<f:fields>
-							<Input value="{json>/Personnel/to_info/Street}" />
+							<Input id="street" value="{json>/Personnel/to_info/Street}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="ZIP Code/City">
 						<f:fields>
-							<Input value="{json>/Personnel/to_info/Postal_code}" />
+							<Input id="postal" value="{json>/Personnel/to_info/Postal_code}" />
 						</f:fields>
 						<f:fields>
-							<Input value="{json>/Personnel/to_info/City}" />
+							<Input id="city" value="{json>/Personnel/to_info/City}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Country">
 						<f:fields>
-							<Input value="{json>/Personnel/to_info/Country}" />
+							<Input id="country" value="{json>/Personnel/to_info/Country}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="State/Province">
 						<f:fields>
-							<Input value="{json>/Personnel/to_info/Region}" />
+							<Input id="region" value="{json>/Personnel/to_info/Region}" />
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
@@ -53,17 +53,17 @@
 				<f:formElements>
 					<f:FormElement label="First name">
 						<f:fields>
-							<Input value="{json>/Personnel/First_name}" />
+							<Input id="firstname" value="{json>/Personnel/First_name}" />
 						</f:fields>
 					</f:FormElement>
 						<f:FormElement label="Second name">
 						<f:fields>
-							<Input value="{json>/Personnel/to_info/Second_Name}" />
+							<Input id="secondname" value="{json>/Personnel/to_info/Second_Name}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Last name">
 						<f:fields>
-							<Input value="{json>/Personnel/Last_name}" />
+							<Input id="lastname" value="{json>/Personnel/Last_name}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Date of birth">
