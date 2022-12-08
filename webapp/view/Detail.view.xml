@@ -120,8 +120,7 @@
                                         iconSrc="sap-icon://payment-approval" />
                                 </sf:header>
                             </sf:Card>
-                            <!-- visible="{= ${pay>/Payslip/2/SlipDate} == null  ? true : false }" -->
-                            <sf:Card class="sapUiMediumMargin" width="200px" visible="{= ${pay>/Payslip/2/} !== undefined}">
+                            <sf:Card class="sapUiMediumMargin" width="200px" visible="{= ${pay>/Payslip//} !== undefined}">
                                 <sf:header>
                                     <card:Header
                                         title="Date:  { 
