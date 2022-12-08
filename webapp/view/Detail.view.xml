@@ -92,7 +92,7 @@
                 <subSections>
                     <ObjectPageSubSection id="paySectionSS1" title="payments">
                         <l:HorizontalLayout class="sapUiContentPadding">
-                            <sf:Card class="sapUiMediumMargin" width="175px">
+                            <sf:Card class="sapUiMediumMargin" width="200px" visible="{= ${pay>/Payslip/0/Currency} !== undefined}">
                                 <sf:header>
                                     <card:Header
                                         title="Date:  { 
@@ -106,7 +106,7 @@
                                         iconSrc="sap-icon://payment-approval" />
                                 </sf:header>
                             </sf:Card>
-                            <sf:Card class="sapUiMediumMargin" width="175px">
+                            <sf:Card class="sapUiMediumMargin" width="200px" visible="{= ${pay>/Payslip/1/} !== undefined}">
                                 <sf:header>
                                     <card:Header
                                         title="Date:  { 
@@ -121,17 +121,17 @@
                                 </sf:header>
                             </sf:Card>
                             <!-- visible="{= ${pay>/Payslip/2/SlipDate} == null  ? true : false }" -->
-                            <sf:Card class="sapUiMediumMargin" width="175px">
+                            <sf:Card class="sapUiMediumMargin" width="200px" visible="{= ${pay>/Payslip/2/} !== undefined}">
                                 <sf:header>
                                     <card:Header
                                         title="Date:  { 
-                                        path: 'pay>/Payslip/1/SlipDate',
+                                        path: 'pay>/Payslip/2/SlipDate',
                                         type: 'sap.ui.model.type.DateTime',
                                         formatOptions: { style: 'Short',
                                           pattern: 'dd/MM/yy' 
                                         }  
                                       }"
-                                        subtitle="{pay>/Payslip/1/PerformanceAmount} {pay>/Payslip/1/Currency}"
+                                        subtitle="{pay>/Payslip/2/PerformanceAmount} {pay>/Payslip/2/Currency}"
                                         iconSrc="sap-icon://payment-approval" />
                                 </sf:header>
                             </sf:Card>
