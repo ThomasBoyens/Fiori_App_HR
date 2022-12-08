@@ -184,7 +184,11 @@ sap.ui.define([
         },
 
         _CreateYearlyPayModel() {
-            //TODO: chart yearly pay
+            // const oModel = new sap.ui.model.json.JSONModel();
+            // oModel.setProperty('/Payslip', payslipList);
+            // console.log(payslipList);
+            // this.getView().setModel(oModel, 'yearPay');
+            // this.getView().bindElement("/Payslip");
         },
 
         /* =========================================================== */
