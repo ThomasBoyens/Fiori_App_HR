@@ -89,6 +89,7 @@
                 "dataSource": "mainService",
                 "preload": true,
                 "settings": {
+                    "defaultBindingMode": "TwoWay",
                     "defaultUpdateMethod": "PUT"
                 }
             }

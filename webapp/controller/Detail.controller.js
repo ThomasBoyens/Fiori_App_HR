@@ -244,7 +244,7 @@ sap.ui.define([
 
         handleEditPress: function () {
             this.getModel("detailView").setProperty("/edit", true);
-            console.log(this.getModel('json').getProperty('/Personnel')) // hoe pers_nr krijgen van oData of model??
+            console.log(this.getModel('json').getProperty('/Personnel'));
 		},
 
 		handleCancelPress : function () {
@@ -252,20 +252,10 @@ sap.ui.define([
 		},
 
 		handleSavePress : function () {
-            const persNr = "00001257"; // tijdelijke hardcode
-            var gender = new String;
-            switch (this.getView().byId("gender").getValue()) {
-                case "male":
-                    // set gender to 1
-                    gender = "1";
-                    break;
-                case "female":
-                    // set gender to 2
-                    gender = "2";
-                    break;
-            }
+            const persNr  = this.getModel('json').getProperty('/Personnel').Pers_nr;
 
             const oEmployee = {
+                PersNr : persNr,
                 Street : this.getView().byId("street").getValue(),
                 City : this.getView().byId("city").getValue(),
                 PostalCode : this.getView().byId("postal").getValue(),
@@ -275,12 +265,12 @@ sap.ui.define([
                 Iban : this.getView().byId("iban").getValue(),
                 LastName : this.getView().byId("lastname").getValue(),
                 FirstName : this.getView().byId("firstname").getValue(),
-                Gender : gender,
+                Gender : this.getModel('json').getProperty('/Personnel').Gender,
                 Mail : this.getView().byId("mail").getValue(),
                 PhoneNr : this.getView().byId("phone").getValue(),
             }
 
-            this.getModel().update(`/PersonnelInfoSet(' ${persNr}')`, oEmployee,
+            this.getModel().update(`/PersonnelInfoSet('${persNr}')`, oEmployee,
             {
                 succes: function (oFeedback) { console.log(oFeedback);},
                 error: function (oError) { console.error(oError);}
