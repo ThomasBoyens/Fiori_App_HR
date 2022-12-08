@@ -243,9 +243,8 @@ sap.ui.define([
         /* =========================================================== */
 
         handleEditPress: function () {
-            const persNr = '00001257';
             this.getModel("detailView").setProperty("/edit", true);
-            console.log(this.getModel('json').getProperty('/Personnel')) // hoe pers_nr krijgen?
+            console.log(this.getModel('json').getProperty('/Personnel')) // hoe pers_nr krijgen van oData of model??
 		},
 
 		handleCancelPress : function () {
@@ -253,7 +252,7 @@ sap.ui.define([
 		},
 
 		handleSavePress : function () {
-            const persNr = '00001257';
+            const persNr = "00001257"; // tijdelijke hardcode
             var gender = new String;
             switch (this.getView().byId("gender").getValue()) {
                 case "male":
@@ -281,7 +280,7 @@ sap.ui.define([
                 PhoneNr : this.getView().byId("phone").getValue(),
             }
 
-            this.getModel().update("/PersonnelInfoSet('" + persNr + "')", oEmployee, // kan dit ni me ${}??
+            this.getModel().update(`/PersonnelInfoSet(' ${persNr}')`, oEmployee,
             {
                 succes: function (oFeedback) { console.log(oFeedback);},
                 error: function (oError) { console.error(oError);}
