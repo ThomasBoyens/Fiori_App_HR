@@ -38,9 +38,11 @@
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Country">
-						<f:fields>
-							<Input id="country" value="{json>/Personnel/to_info/Country}" />
-						</f:fields>
+						<ComboBox id="ComboBox" selectedKey="{json>/Personnel/to_info/Country}" items="{/CountrySet}">
+                            <items>
+                                <core:Item key="{CountryCode}" text="{Description}" />
+                            </items>
+                        </ComboBox>
 					</f:FormElement>
 					<f:FormElement label="State/Province">
 						<f:fields>
@@ -74,7 +76,7 @@
 					</f:FormElement>
 					<f:FormElement label="Gender">
 						<f:fields>
-							<Input id="gender" value="{json>/Personnel/to_info/Gender}" />
+							<Text text="{json>/Personnel/to_info/Gender}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Social security nr.">

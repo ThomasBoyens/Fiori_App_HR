@@ -31,7 +31,7 @@
 					</f:FormElement>
 					<f:FormElement label="ZIP Code/City">
 						<f:fields>
-							<Text text="{json>/Personnel/to_info/Posta_code} {json>/Personnel/to_info/City}" />
+							<Text text="{json>/Personnel/to_info/Postal_code} {json>/Personnel/to_info/City}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Country">

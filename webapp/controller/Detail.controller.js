@@ -253,6 +253,20 @@ sap.ui.define([
 
 		handleSavePress : function () {
             const persNr  = this.getModel('json').getProperty('/Personnel').Pers_nr;
+            // var sGender = this.getView().byId("GenderComboBox").getSelectedKey();
+            // var modGender = "";
+            
+
+            // switch (sGender) {
+            //     case "male":
+            //         // set gender to 1
+            //         modGender = "1";
+            //         break;
+            //     case "female":
+            //         // set gender to 2
+            //         modGender = "2";
+            //         break;
+            // }
 
             const oEmployee = {
                 PersNr : persNr,
@@ -260,13 +274,12 @@ sap.ui.define([
                 City : this.getView().byId("city").getValue(),
                 PostalCode : this.getView().byId("postal").getValue(),
                 CountryCode : "BE",
-                Country : this.getView().byId("country").getValue(),
-                Region : this.getView().byId("region").getValue(),
-                Iban : this.getView().byId("iban").getValue(),
+                //Region : this.getView().byId("region").getValue(),
+                //Iban : this.getView().byId("iban").getValue(),
                 LastName : this.getView().byId("lastname").getValue(),
                 FirstName : this.getView().byId("firstname").getValue(),
-                Gender : this.getModel('json').getProperty('/Personnel').Gender,
-                Mail : this.getView().byId("mail").getValue(),
+                //Gender : this.getModel('json').getProperty('/Personnel').Gender,
+                //Mail : this.getView().byId("mail").getValue(),
                 PhoneNr : this.getView().byId("phone").getValue(),
             }
 
