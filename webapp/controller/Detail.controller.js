@@ -39,8 +39,6 @@ sap.ui.define([
 
             this._formFragments = {};
 
-            //this._showFormFragment("Display");
-
         },
 
         /* =========================================================== */
@@ -112,11 +110,6 @@ sap.ui.define([
 
             if (typeof sPersNr === 'string' && sPersNr.length > 0) {
                 this._initData(sPersNr)
-
-                // this._formFragments = {};
-                // // Set the initial form to be the display one
-                // this._showFormFragment("Display");
-
             } else {
                 this.getRouter().navTo('list', {}, true);
             }
@@ -244,7 +237,6 @@ sap.ui.define([
 
         handleEditPress: function () {
             this.getModel("detailView").setProperty("/edit", true);
-            console.log(this.getModel('json').getProperty('/Personnel'));
 		},
 
 		handleCancelPress : function () {
@@ -279,7 +271,7 @@ sap.ui.define([
                 LastName : this.getView().byId("lastname").getValue(),
                 FirstName : this.getView().byId("firstname").getValue(),
                 //Gender : this.getModel('json').getProperty('/Personnel').Gender,
-                //Mail : this.getView().byId("mail").getValue(),
+                Mail : this.getView().byId("mail").getValue(),
                 PhoneNr : this.getView().byId("phone").getValue(),
             }
 

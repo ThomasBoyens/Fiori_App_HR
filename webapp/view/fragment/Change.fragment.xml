@@ -95,7 +95,7 @@
 					</f:FormElement>
 					<f:FormElement label="Tel.">
 						<f:fields>
-							<MaskInput id="phone" mask="9999999999" placeholderSymbol="_" value="{json>/Personnel/to_info/Phone_nr}" showClearIcon="true" />
+							<MaskInput id="phone" mask="99999999999" placeholderSymbol="_" value="{json>/Personnel/to_info/Phone_nr}" showClearIcon="true" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Bank nr.">
