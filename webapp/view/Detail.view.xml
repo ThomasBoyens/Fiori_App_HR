@@ -143,7 +143,7 @@
                         <layout:FixFlex id='chartFixFlex' minFlexSize="250">
                             <layout:flexContent>
                                 <viz:Popover id="idPopOver"></viz:Popover>
-                                <viz:VizFrame id="idVizFrame"  height='100%' width="100%" vizType='stacked_bar' 
+                                <viz:VizFrame id="idVizFrame"  height='100%' width="75%" vizType='stacked_bar' 
                                 vizProperties='{
                                     "title": {
                                         "text" : "salary &amp; bonus", 
@@ -158,32 +158,26 @@
                                     "plotArea": {
                                         "colorPalette": ["#C70039","#FFC300"],
                                       "dataPointSize": {
-                                        "max": 10,
-                                        "min": 100
+                                        "max": 50,
+                                        "min": 50
                                       }
                                     }
                                   }'>
                                 <viz:dataset>
-                                    <viz.data:FlattenedDataset data="{pay>/Payslip/}">
+                                    <viz.data:FlattenedDataset data="{yrPay>/yearPay/loan/}">
                                         <viz.data:dimensions>
-                                            <viz.data:DimensionDefinition name="SlipDate"
-                                            value="{ 
-                                                path: 'pay>/Payslip/0/SlipDate',
-                                                type: 'sap.ui.model.type.DateTime',
-                                                formatOptions: { style: 'Short',
-                                                  pattern: 'yyyy' 
-                                                }  
-                                              }" />
+                                            <viz.data:DimensionDefinition name="Year"
+                                            value="{Year}" />
                                         </viz.data:dimensions>
                                         <viz.data:measures>
-                                            <viz.data:MeasureDefinition name="PerformanceAmount" value="{pay>/Payslip/0/PerformanceAmount}" />
-                                            <viz.data:MeasureDefinition name="NetFeeAmount" value="{pay>/Payslip/0/NetFeeAmount}" />
+                                            <viz.data:MeasureDefinition name="Salary" value="{Salary}" />
+                                            <viz.data:MeasureDefinition name="Bonus" value="{Bonus}" />
                                         </viz.data:measures>
                                     </viz.data:FlattenedDataset>
                                 </viz:dataset>
                                 <viz:feeds>
-                                    <viz.feeds:FeedItem type="Measure" uid="valueAxis" values="NetFeeAmount,PerformanceAmount" />
-                                    <viz.feeds:FeedItem type="Dimension" uid="categoryAxis" values="SlipDate" />
+                                    <viz.feeds:FeedItem type="Measure" uid="valueAxis" values="Bonus,Salary" />
+                                    <viz.feeds:FeedItem type="Dimension" uid="categoryAxis" values="Year" />
                                 </viz:feeds>
                             </viz:VizFrame>
 

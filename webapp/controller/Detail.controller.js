@@ -131,6 +131,7 @@ sap.ui.define([
             this.getModel().read(`/ZSD_002_C_PERSONNEL('${persNr}')`, {
                 urlParameters: '$expand=to_info/to_functions,to_info/to_pay',
                 success: function (oData) {
+
                     // create model for the personnel
                     this._CreatePersonellModel(oData)
 
@@ -139,6 +140,8 @@ sap.ui.define([
 
                     // get data + create model for the payslips
                     this._CreatePayslipModel(oData.to_info.to_pay.results)
+
+                    this._CreateYearlyPayModel();
 
                 }.bind(this),
                 error: function (oError) {
@@ -184,11 +187,30 @@ sap.ui.define([
         },
 
         _CreateYearlyPayModel() {
-            // const oModel = new sap.ui.model.json.JSONModel();
-            // oModel.setProperty('/Payslip', payslipList);
-            // console.log(payslipList);
-            // this.getView().setModel(oModel, 'yearPay');
-            // this.getView().bindElement("/Payslip");
+           // get array of years create yearPay for each year and add to array
+           // add a object to year pay .loan
+            // yearPay.loan.push({ "Year": "2022", "Salary" : 100000 ,"Bonus" : 23000 }) 
+
+            let yearPay = {
+                "loan": 
+                [
+                    { "Year": "2022", "Salary" : 100000 ,"Bonus" : 23000  }, 
+                    { "Year": "2021", "Salary" : 80000, "Bonus" : 20000   }, 
+                    { "Year": "2020", "Salary" : 60000, "Bonus" : 15000   }, 
+                    { "Year": "2019", "Salary" : 50000, "Bonus" : 10000   },    
+                ]
+            }
+            
+
+            const oModel = new sap.ui.model.json.JSONModel();
+            oModel.setProperty('/yearPay', yearPay);
+            console.log(yearPay);
+            this.getView().setModel(oModel, 'yrPay');
+            this.getView().bindElement("/yearPay");
+
+            // var oVizFrame = this.getView().byId("idVizFrame");
+            // oVizFrame.setModel(yearPay);
+
         },
 
         /* =========================================================== */
