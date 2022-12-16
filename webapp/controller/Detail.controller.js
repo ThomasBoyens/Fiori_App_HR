@@ -141,7 +141,7 @@ sap.ui.define([
                     // get data + create model for the payslips
                     this._CreatePayslipModel(oData.to_info.to_pay.results)
 
-                    this._CreateYearlyPayModel();
+                    this._CreateYearlyPayModel(oData.to_info.to_pay.results);
 
                 }.bind(this),
                 error: function (oError) {
@@ -179,28 +179,33 @@ sap.ui.define([
         },
 
         _CreatePayslipModel(payslipList) {
+
+            payslipList = this._AlterPayslip(payslipList)
+            payslipList = this._paySorted(payslipList)
             const oModel = new sap.ui.model.json.JSONModel();
-            oModel.setProperty('/Payslip', payslipList.slice(-3));
+            oModel.setProperty('/Payslip', payslipList.reverse().slice(0, 3));
             console.log(payslipList);
             this.getView().setModel(oModel, 'pay');
             this.getView().bindElement("/Payslip");
         },
 
-        _CreateYearlyPayModel() {
-           // get array of years create yearPay for each year and add to array
-           // add a object to year pay .loan
-            // yearPay.loan.push({ "Year": "2022", "Salary" : 100000 ,"Bonus" : 23000 }) 
-
+        _CreateYearlyPayModel(payslipList) { 
             let yearPay = {
                 "loan": 
                 [
-                    { "Year": "2022", "Salary" : 100000 ,"Bonus" : 23000  }, 
-                    { "Year": "2021", "Salary" : 80000, "Bonus" : 20000   }, 
-                    { "Year": "2020", "Salary" : 60000, "Bonus" : 15000   }, 
-                    { "Year": "2019", "Salary" : 50000, "Bonus" : 10000   },    
+                    { "Year": "2022", "Salary" : 100000 , "Bonus" : 23000   }, 
+                    { "Year": "2021", "Salary" : 80000,   "Bonus" : 20000   }, 
+                    { "Year": "2020", "Salary" : 60000,   "Bonus" : 15000   }, 
+                    { "Year": "2019", "Salary" : 50000,   "Bonus" : 10000   },    
                 ]
             }
-            
+            this._calcYearlyPay(payslipList)
+
+            // yearPay.loan.push({
+            //     "Year": "2022",
+            //     "Salary": 100000,
+            //     "Bonus": 23000
+            // })
 
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/yearPay', yearPay);
@@ -217,10 +222,53 @@ sap.ui.define([
         /* begin: Manipulation Odata                                   */
         /* =========================================================== */
 
-        _AlterPayslip() {
-            //TODO: calculate salary from pay slip data
+        _AlterPayslip(payslipList) {
+            payslipList.forEach(x => {
+                x.PerformanceAmount = parseFloat(x.PerformanceAmount) + parseFloat(x.LeaveAmount) + parseFloat(x.SicknessAmount) - parseFloat(x.SocialSecurityAmount) - parseFloat(x.TaxOnRemunerationAmount)
+                x.PerformanceAmount = parseFloat(x.PerformanceAmount).toFixed(2);
+            });
+            return payslipList;
         },
 
+        _calcYearlyPay(payslipList) {
+            
+            payslipList = this._AlterPayslip(payslipList)
+            for (const result of payslipList) {
+                const year = new Date(result.SlipDate).getFullYear();
+                if (year in sums) {
+                  sums[year] += parseFloat(result.PerformanceAmount);
+                } else {
+                  sums[year] = parseFloat(result.PerformanceAmount);
+                }
+              }
+            console.log(sums); 
+        },
+
+        _paySorted(payslipList) {
+            payslipList.sort((a, b) => {
+                // Extract the year and month from the "SlipDate" field of each element
+                const yearA = new Date(a.SlipDate).getFullYear();
+                const yearB = new Date(b.SlipDate).getFullYear();
+                const monthA = new Date(a.SlipDate).getMonth();
+                const monthB = new Date(b.SlipDate).getMonth();
+
+                // Sort the elements first by year, then by month
+                if (yearA < yearB) {
+                    return -1;
+                } else if (yearA > yearB) {
+                    return 1;
+                } else {
+                    if (monthA < monthB) {
+                        return -1;
+                    } else if (monthA > monthB) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+            return payslipList;
+        },
 
         _setGender(oData) {
 
