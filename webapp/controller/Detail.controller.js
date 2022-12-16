@@ -39,8 +39,6 @@ sap.ui.define([
 
             this._formFragments = {};
 
-            //this._showFormFragment("Display");
-
         },
 
         /* =========================================================== */
@@ -112,11 +110,6 @@ sap.ui.define([
 
             if (typeof sPersNr === 'string' && sPersNr.length > 0) {
                 this._initData(sPersNr)
-
-                // this._formFragments = {};
-                // // Set the initial form to be the display one
-                // this._showFormFragment("Display");
-
             } else {
                 this.getRouter().navTo('list', {}, true);
             }
@@ -242,7 +235,7 @@ sap.ui.define([
         /* begin: fragment methods                                     */
         /* =========================================================== */
 
-        handleEditPress: function (PersNr) {
+        handleEditPress: function () {
             this.getModel("detailView").setProperty("/edit", true);
 		},
 
@@ -251,9 +244,42 @@ sap.ui.define([
 		},
 
 		handleSavePress : function () {
+            const persNr  = this.getModel('json').getProperty('/Personnel').Pers_nr;
+            // var sGender = this.getView().byId("GenderComboBox").getSelectedKey();
+            // var modGender = "";
+            
+
+            // switch (sGender) {
+            //     case "male":
+            //         // set gender to 1
+            //         modGender = "1";
+            //         break;
+            //     case "female":
+            //         // set gender to 2
+            //         modGender = "2";
+            //         break;
+            // }
+
             const oEmployee = {
-                
+                PersNr : persNr,
+                Street : this.getView().byId("street").getValue(),
+                City : this.getView().byId("city").getValue(),
+                PostalCode : this.getView().byId("postal").getValue(),
+                CountryCode : "BE",
+                //Region : this.getView().byId("region").getValue(),
+                //Iban : this.getView().byId("iban").getValue(),
+                LastName : this.getView().byId("lastname").getValue(),
+                FirstName : this.getView().byId("firstname").getValue(),
+                //Gender : this.getModel('json').getProperty('/Personnel').Gender,
+                Mail : this.getView().byId("mail").getValue(),
+                PhoneNr : this.getView().byId("phone").getValue(),
             }
+
+            this.getModel().update(`/PersonnelInfoSet('${persNr}')`, oEmployee,
+            {
+                succes: function (oFeedback) { console.log(oFeedback);},
+                error: function (oError) { console.error(oError);}
+            });
 
             this.getModel("detailView").setProperty("/edit", false);
 		},

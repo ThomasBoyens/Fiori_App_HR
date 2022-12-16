@@ -31,7 +31,7 @@
 					</f:FormElement>
 					<f:FormElement label="ZIP Code/City">
 						<f:fields>
-							<Text text="{json>/Personnel/to_info/PostalCode} {json>/Personnel/to_info/City}" />
+							<Text text="{json>/Personnel/to_info/Postal_code} {json>/Personnel/to_info/City}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Country">
@@ -50,7 +50,7 @@
 				<f:formElements>
 					<f:FormElement label="Full name">
 						<f:fields>
-							<Text text="{json>/Personnel/First_name} {json>/Personnel/to_info/Second_Name} {json>/Personnel/Last_name}" />
+							<Text text="{json>/Personnel/First_name} {json>/Personnel/Last_name}" />
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Date of birth">
