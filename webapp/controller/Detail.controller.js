@@ -245,27 +245,15 @@ sap.ui.define([
 
 		handleSavePress : function () {
             const persNr  = this.getModel('json').getProperty('/Personnel').Pers_nr;
-            // var sGender = this.getView().byId("GenderComboBox").getSelectedKey();
-            // var modGender = "";
-            
-
-            // switch (sGender) {
-            //     case "male":
-            //         // set gender to 1
-            //         modGender = "1";
-            //         break;
-            //     case "female":
-            //         // set gender to 2
-            //         modGender = "2";
-            //         break;
-            // }
+            var countryCode = this.getView().byId("CountryComboBox").getSelectedKey();
+            console.log(countryCode);
 
             const oEmployee = {
                 PersNr : persNr,
                 Street : this.getView().byId("street").getValue(),
                 City : this.getView().byId("city").getValue(),
                 PostalCode : this.getView().byId("postal").getValue(),
-                CountryCode : "BE",
+                CountryCode : countryCode,
                 //Region : this.getView().byId("region").getValue(),
                 //Iban : this.getView().byId("iban").getValue(),
                 LastName : this.getView().byId("lastname").getValue(),
