@@ -37,17 +37,17 @@
 							<Input id="city" value="{json>/Personnel/to_info/City}" />
 						</f:fields>
 					</f:FormElement>
-					<f:FormElement label="Country">
-						<ComboBox id="ComboBox" selectedKey="{json>/Personnel/to_info/Country}" items="{/CountrySet}">
-                            <items>
-                                <core:Item key="{CountryCode}" text="{Description}" />
-                            </items>
-                        </ComboBox>
-					</f:FormElement>
 					<f:FormElement label="State/Province">
 						<f:fields>
 							<Input id="region" value="{json>/Personnel/to_info/Region}" />
 						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Country">
+						<ComboBox id="CountryComboBox" selectedKey="{json>/Personnel/to_info/Country_code}" items="{/ZSD_002_COUNTRY}">
+                            <items>
+                                <core:Item key="{Country_code}" text="{Country_name}" />
+                            </items>
+                        </ComboBox>
 					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>

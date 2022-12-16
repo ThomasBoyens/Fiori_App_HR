@@ -34,14 +34,14 @@
 							<Text text="{json>/Personnel/to_info/Postal_code} {json>/Personnel/to_info/City}" />
 						</f:fields>
 					</f:FormElement>
-					<f:FormElement label="Country">
-						<f:fields>
-							<Text text="{json>/Personnel/to_info/Country}" />
-						</f:fields>
-					</f:FormElement>
 					<f:FormElement label="State/Province">
 						<f:fields>
 							<Text text="{json>/Personnel/to_info/Region}" />
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Country">
+						<f:fields>
+							<Text text="{json>/Personnel/to_info/Country}" />
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
