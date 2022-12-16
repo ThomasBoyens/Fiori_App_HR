@@ -38,9 +38,9 @@
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="Country">
-						<ComboBox id="ComboBox" selectedKey="{json>/Personnel/to_info/Country}" items="{/CountrySet}">
+						<ComboBox id="CountryComboBox" selectedKey="{json>/Personnel/to_info/Country}" items="{/CountrySet}">
                             <items>
-                                <core:Item key="{CountryCode}" text="{Description}" />
+                                <core:Item key="{Code}" text="{Country}" />
                             </items>
                         </ComboBox>
 					</f:FormElement>
