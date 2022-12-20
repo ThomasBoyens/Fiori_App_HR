@@ -143,7 +143,7 @@
                         <layout:FixFlex id='chartFixFlex' minFlexSize="250">
                             <layout:flexContent>
                                 <viz:Popover id="idPopOver"></viz:Popover>
-                                <viz:VizFrame id="idVizFrame"  height='100%' width="75%" vizType='stacked_bar' 
+                                <viz:VizFrame id="idVizFrame"  height='100%' width="80%" vizType='stacked_bar' 
                                 vizProperties='{
                                     "title": {
                                         "text" : "salary &amp; bonus", 

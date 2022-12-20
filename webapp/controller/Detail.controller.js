@@ -160,7 +160,6 @@ sap.ui.define([
 
             //change gender before creating
             this._setGender(oData);
-
             //create model for the personnel
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/Personnel', oData)
@@ -189,32 +188,27 @@ sap.ui.define([
             this.getView().bindElement("/Payslip");
         },
 
-        _CreateYearlyPayModel(payslipList) { 
+        _CreateYearlyPayModel(payslipList) {
             let yearPay = {
-                "loan": 
-                [
-                    { "Year": "2022", "Salary" : 100000 , "Bonus" : 23000   }, 
-                    { "Year": "2021", "Salary" : 80000,   "Bonus" : 20000   }, 
-                    { "Year": "2020", "Salary" : 60000,   "Bonus" : 15000   }, 
-                    { "Year": "2019", "Salary" : 50000,   "Bonus" : 10000   },    
-                ]
+                "loan": []
             }
-            this._calcYearlyPay(payslipList)
 
-            // yearPay.loan.push({
-            //     "Year": "2022",
-            //     "Salary": 100000,
-            //     "Bonus": 23000
-            // })
+            let yearAmount = this._calcYearlyPay(payslipList)
+            console.log(yearAmount)
+            for (let i = 0; i < yearAmount.length; i++) {
+
+                yearPay.loan.push({
+                    "Year": yearAmount[i].year,
+                    "Salary": yearAmount[i].total,
+                    "Bonus": 500
+                });
+            }
 
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/yearPay', yearPay);
-            console.log(yearPay);
+            //console.log(yearPay);
             this.getView().setModel(oModel, 'yrPay');
             this.getView().bindElement("/yearPay");
-
-            // var oVizFrame = this.getView().byId("idVizFrame");
-            // oVizFrame.setModel(yearPay);
 
         },
 
@@ -227,21 +221,28 @@ sap.ui.define([
                 x.PerformanceAmount = parseFloat(x.PerformanceAmount) + parseFloat(x.LeaveAmount) + parseFloat(x.SicknessAmount) - parseFloat(x.SocialSecurityAmount) - parseFloat(x.TaxOnRemunerationAmount)
                 x.PerformanceAmount = parseFloat(x.PerformanceAmount).toFixed(2);
             });
+
             return payslipList;
         },
 
         _calcYearlyPay(payslipList) {
-            
-            payslipList = this._AlterPayslip(payslipList)
-            for (const result of payslipList) {
-                const year = new Date(result.SlipDate).getFullYear();
-                if (year in sums) {
-                  sums[year] += parseFloat(result.PerformanceAmount);
-                } else {
-                  sums[year] = parseFloat(result.PerformanceAmount);
+
+            const oTotalPay = {};
+
+            for (const pay of payslipList) {
+                const year = pay.SlipDate.getFullYear();
+                
+                if (!oTotalPay[year]) {
+                    oTotalPay[year] = 0;
                 }
-              }
-            console.log(sums); 
+                oTotalPay[year] += parseFloat(pay.PerformanceAmount);
+            }
+
+            return Object.entries(oTotalPay).map(([year, total]) => ({
+                year, 
+                total
+            }));;
+
         },
 
         _paySorted(payslipList) {
