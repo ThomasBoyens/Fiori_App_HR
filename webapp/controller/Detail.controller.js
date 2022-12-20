@@ -231,6 +231,21 @@ sap.ui.define([
             }
         },
 
+        onJobSelection: function (oEvent) {
+            // const sKey = oEvent.getParameter("selectedItem").getKey();
+            // this.getModel("detailView").setProperty("/selectedJob", sKey);
+
+            console.log(this.getModel("func").getProperty("/Functions"))
+            console.log(oEvent.getSource().getProperty("text"))
+
+            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
+
+            this.getRouter().navTo("job", {
+                persNr: "00001258",
+                position: oEvent.getSource().getProperty("text")
+            });
+        },
+
         /* =========================================================== */
         /* begin: fragment methods                                     */
         /* =========================================================== */
