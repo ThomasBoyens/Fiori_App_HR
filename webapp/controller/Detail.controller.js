@@ -3,8 +3,9 @@ sap.ui.define([
     'sap/ui/core/Fragment',
     "sap/ui/model/json/JSONModel",
     "../model/formatter",
+    "sap/ui/Device",
     "sap/m/library"
-], function (BaseController, Fragment, JSONModel, formatter, mobileLibrary) {
+], function (BaseController, Fragment, JSONModel, Device, formatter, mobileLibrary) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -231,19 +232,26 @@ sap.ui.define([
             }
         },
 
-        onJobSelection: function (oEvent) {
-            // const sKey = oEvent.getParameter("selectedItem").getKey();
-            // this.getModel("detailView").setProperty("/selectedJob", sKey);
+        onSelectionChange: function (oEvent) {
+            var oList = oEvent.getSource(),
+                bSelected = oEvent.getParameter("selected");
+                console.log(oList);
 
-            console.log(this.getModel("func").getProperty("/Functions"))
-            console.log(oEvent.getSource().getProperty("text"))
+            // skip navigation when deselecting an item in multi selection mode
+            if (!(oList.getMode() === "MultiSelect" && !bSelected)) {
+                // get the list item, either from the listItem parameter or from the event's source itself (will depend on the device-dependent mode).
+                this._showJobDetail(oEvent.getParameter("listItem") || oEvent.getSource());
+            }
+        },
 
+        _showJobDetail: function (oItem) {
+            // set the layout property of FCL control to show two columns
             this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
+            console.log(oItem.getModel("/Functions)")) 
 
-            this.getRouter().navTo("job", {
-                persNr: "00001258",
-                position: oEvent.getSource().getProperty("text")
-            });
+            // this.getRouter().navTo("job", {
+            //     positionNr : oItem.getBindingContext().getProperty("func>Plans")
+            // });
         },
 
         /* =========================================================== */

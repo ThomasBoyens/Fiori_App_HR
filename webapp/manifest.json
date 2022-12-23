@@ -126,7 +126,7 @@
                     ]
                 },
                 {
-                    "pattern": "ZSD_002_C_PERSONNEL/{persNr}/{position}",
+                    "pattern": "ZSD_002_C_FUNCTION_DESCRIPTION/{positionNr}",
                     "name": "job",
                     "target": [
                         "list",

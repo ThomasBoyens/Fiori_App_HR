@@ -10,24 +10,31 @@
     xmlns:l="sap.ui.layout"
     xmlns:grid="sap.ui.layout.cssgrid"
     controllerName="edu.be.ap.hr.zsd002hr.controller.Detail">
-    <ObjectPageLayout id="ObjectPageLayout" showFooter="true" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
+    <ObjectPageLayout id="ObjectPageLayout" showFooter="true" showTitleInHeaderContent="true"
+        showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress"
+        upperCaseAnchorBar="false">
         <headerTitle>
             <ObjectPageDynamicHeaderTitle>
                 <actions>
-                    <m:ToggleButton press=".toggleFullScreen" icon="sap-icon://expand" type="Transparent" />
-                    <m:Button press=".onCloseDetailPress" icon="sap-icon://decline" type="Transparent" />
+                    <m:ToggleButton press=".toggleFullScreen" icon="sap-icon://expand"
+                        type="Transparent" />
+                    <m:Button press=".onCloseDetailPress" icon="sap-icon://decline"
+                        type="Transparent" />
                 </actions>
 
                 <expandedHeading>
                     <m:HBox>
-                        <m:Title text="{json>/Personnel/First_name} {json>/Personnel/Last_name}" wrapping="true" />
+                        <m:Title text="{json>/Personnel/First_name} {json>/Personnel/Last_name}"
+                            wrapping="true" />
                     </m:HBox>
                 </expandedHeading>
 
                 <snappedHeading>
                     <m:FlexBox fitContainer="true" alignItems="Center">
-                        <m:Avatar initials="{json>/Personnel/to_info/Initials}" displaySize="S" class="sapUiTinyMarginEnd" />
-                        <m:Title text="{json>/Personnel/First_name} {json>/Personnel/Last_name}" wrapping="true" />
+                        <m:Avatar initials="{json>/Personnel/to_info/Initials}" displaySize="S"
+                            class="sapUiTinyMarginEnd" />
+                        <m:Title text="{json>/Personnel/First_name} {json>/Personnel/Last_name}"
+                            wrapping="true" />
                     </m:FlexBox>
                 </snappedHeading>
 
@@ -63,34 +70,46 @@
         </headerContent>
 
         <sections>
-            <ObjectPageSection titleUppercase="false" id="persInfoSection" title="Personal information">
+            <ObjectPageSection titleUppercase="false" id="persInfoSection"
+                title="Personal information">
                 <subSections>
                     <ObjectPageSubSection id="perInfoSectionSubSect">
-                        <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Display" type="XML" />
-                        <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Change" type="XML" />
+                        <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Display"
+                            type="XML" />
+                        <core:Fragment fragmentName="edu.be.ap.hr.zsd002hr.view.fragment.Change"
+                            type="XML" />
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
             <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
                 <subSections>
                     <ObjectPageSubSection id="careerSectionSS1">
-                        <m:List items="{path: 'func>/Functions/'}">
-                            <m:CustomListItem>
-                                <m:HBox>
-                                    <!-- lijn -->
-                                    <core:Icon size="2rem" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
-                                    <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-                                        <m:Link text="{func>Plstx}" key="{func>Plans}" press=".onJobSelection" />
-                                            <m:Label text="From: {  
-                                                path: 'func>Begda',  
-                                                type: 'sap.ui.model.type.Date',
-                                                formatOptions: {  
-                                                  pattern: 'dd/MM/yyyy'  
-                                                }
-                                              }" />
-                                    </m:VBox>
-                                </m:HBox>
-                            </m:CustomListItem>
+                        <m:List
+                            id="list"
+                            width="auto"
+                            class="sapFDynamicPageAlignContent"
+                            items="{path: 'func>/Functions/'}"
+                            busyIndicatorDelay="{listView>/delay}"
+                            noDataText="{listView>/noDataText}"
+                            mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}"
+                            growing="true"
+                            growingScrollToLoad="true"
+                            updateFinished=".onUpdateFinished"
+                            selectionChange=".onSelectionChange"
+                        >
+
+                        <m:items>
+                            <m:ObjectListItem id="_IDGenObjectListItem1"
+                                title="{func>Plstx}"
+                                type="Navigation"
+                                press=".onSelectionChange">
+        
+                            <m:ObjectAttribute id="_IDGenObjectAttribute1"  
+                                text="{func>Plans}" />
+        
+                            </m:ObjectListItem>                    
+                        </m:items>
+
                         </m:List>
                     </ObjectPageSubSection>
                 </subSections>
@@ -145,7 +164,8 @@
                         </l:HorizontalLayout>
                     </ObjectPageSubSection>
                     <ObjectPageSubSection id="paySectionSS2" title="salary &amp; bonus">
-                        <mc:BulletMicroChart size="L" scale="M" targetValue="100" forecastValue="110" class="sapUiSmallMargin" press="press">
+                        <mc:BulletMicroChart size="L" scale="M" targetValue="100"
+                            forecastValue="110" class="sapUiSmallMargin" press="press">
                             <mc:actual>
                                 <mc:BulletMicroChartData value="120" color="Good" />
                             </mc:actual>
@@ -160,31 +180,44 @@
                 </subSections>
             </ObjectPageSection>
 
-            <!-- <ObjectPageSection titleUppercase="false" id="employmentSection" title="Employment">
+            <!-- <ObjectPageSection titleUppercase="false" id="employmentSection"
+            title="Employment">
                 <subSections>
-                    <ObjectPageSubSection id="employmentSectionSS1" title="Job information" titleUppercase="false">
-                        <blocks />
+                    <ObjectPageSubSection
+            id="employmentSectionSS1" title="Job information" titleUppercase="false">
+                        <blocks
+            />
                     </ObjectPageSubSection>
 
-                    <ObjectPageSubSection id="employmentSectionSS2" title="Employee Details" importance="Medium" titleUppercase="false">
+                    <ObjectPageSubSection
+            id="employmentSectionSS2" title="Employee Details" importance="Medium"
+            titleUppercase="false">
                         <blocks />
-                        <moreBlocks />
+                        <moreBlocks
+            />
                     </ObjectPageSubSection>
 
-                    <ObjectPageSubSection id="employmentSectionSS3" title="Job Relationship" importance="Low" titleUppercase="false">
+                    <ObjectPageSubSection
+            id="employmentSectionSS3" title="Job Relationship" importance="Low"
+            titleUppercase="false">
                         <blocks />
                     </ObjectPageSubSection>
-                </subSections>
+            </subSections>
             </ObjectPageSection> -->
         </sections>
 
         <footer>
             <m:Bar>
                 <m:contentRight>
-                    <m:Button id="edit" text="Edit" press="handleEditPress" visible="{= !${detailView>/edit} }" />
-                    <!-- <m:Button id="edit" text="Edit" press="handleEditPress({json>/Personnel/PersNr})" visible="{= !${detailView>/edit} }"/> -->
-                    <m:Button id="save" text="Save" type="Emphasized" press="handleSavePress" visible="{detailView>/edit}" />
-                    <m:Button id="cancel" text="Cancel" press="handleCancelPress" visible="{detailView>/edit}" />
+                    <m:Button id="edit" text="Edit" press="handleEditPress"
+                        visible="{= !${detailView>/edit} }" />
+                    <!-- <m:Button id="edit" text="Edit"
+                    press="handleEditPress({json>/Personnel/PersNr})" visible="{=
+                    !${detailView>/edit} }"/> -->
+                    <m:Button id="save" text="Save" type="Emphasized" press="handleSavePress"
+                        visible="{detailView>/edit}" />
+                    <m:Button id="cancel" text="Cancel" press="handleCancelPress"
+                        visible="{detailView>/edit}" />
                 </m:contentRight>
             </m:Bar>
         </footer>
