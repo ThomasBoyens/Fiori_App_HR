@@ -150,10 +150,8 @@ sap.ui.define([
         /* =========================================================== */
 
         _CreatePersonellModel(oData) {
-
             //change gender before creating
             this._setGender(oData);
-            //create model for the personnel
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/Personnel', oData)
             this.getView().setModel(oModel, 'json');
@@ -162,8 +160,6 @@ sap.ui.define([
         },
 
         _CreateFunctionModel(functionList) {
-
-            // set model for all the functions of person
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/Functions', functionList.reverse());
             this.getView().setModel(oModel, 'func');
@@ -176,7 +172,6 @@ sap.ui.define([
             payslipList = this._paySorted(payslipList)
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/Payslip', payslipList.reverse().slice(0, 3));
-            console.log(payslipList);
             this.getView().setModel(oModel, 'pay');
             this.getView().bindElement("/Payslip");
         },
@@ -186,17 +181,16 @@ sap.ui.define([
                 "loan": []
             }
 
-            let yearAmount = this._calcYearlyPay(payslipList)
-            console.log(yearAmount)
-            for (let i = 0; i < yearAmount.length; i++) {
+            let yearlyPayout = this._calcYearlyPay(payslipList);
+            for (let i = 0; i < yearlyPayout.length; i++) {
 
                 yearPay.loan.push({
-                    "Year": yearAmount[i].year,
-                    "Salary": yearAmount[i].total,
+                    "Year": yearlyPayout[i].year,
+                    "Salary": yearlyPayout[i].total,
                     "Bonus": 500
                 });
             }
-
+    
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/yearPay', yearPay);
             //console.log(yearPay);
@@ -224,17 +218,28 @@ sap.ui.define([
 
             for (const pay of payslipList) {
                 const year = pay.SlipDate.getFullYear();
-                
+
                 if (!oTotalPay[year]) {
+                
                     oTotalPay[year] = 0;
+                } 
+                if (Object.keys(oTotalPay).length > 4) {
+                    break;
                 }
+                   
                 oTotalPay[year] += parseFloat(pay.PerformanceAmount);
             }
-
-            return Object.entries(oTotalPay).map(([year, total]) => ({
+          
+            const yearSalary = Object.entries(oTotalPay).map(([year, total]) => ({
                 year, 
                 total
             }));;
+
+            if (yearSalary.length > 4) {
+                yearSalary.pop()
+            }
+         
+            return yearSalary;
 
         },
 
