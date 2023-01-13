@@ -74,10 +74,9 @@
             <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
                 <subSections>
                     <ObjectPageSubSection id="careerSectionSS1">
-                        <m:List items="{path: 'func>/Functions/'}">
+                        <!-- <m:List items="{path: 'func>/Functions/'}">
                             <m:CustomListItem>
                                 <m:HBox>
-                                    <!-- lijn -->
                                     <core:Icon size="2rem" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
                                     <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
                                         <m:Link text="{func>Plstx}" key="{func>Plans}" press=".onJobSelection" />
@@ -91,7 +90,37 @@
                                     </m:VBox>
                                 </m:HBox>
                             </m:CustomListItem>
-                        </m:List>
+                        </m:List> -->
+                        <m:Table id="lineItemsList" 
+                        width="auto" 
+                        items="{path: 'func>/Functions/'}" 
+                        updateFinished=".onListUpdateFinished" 
+                        noDataText="{i18n>detailLineItemTableNoDataText}" 
+                        busyIndicatorDelay="{detailView>/lineItemTableDelay}"
+                        selectionChange=".onJobSelection">
+                            <m:columns>
+                                <m:Column id="_IDGenColumn1">
+                                    <m:Text id="_IDGenText1" text="{i18n>detailLineItemTableIDColumn}"/>
+                                </m:Column>
+                                <m:Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+                                    <m:Text id="_IDGenText2" text="{i18n>detailLineItemTableUnitNumberColumn}"/>
+                                </m:Column>
+                            </m:columns>
+                            <m:items>
+                                <m:ColumnListItem id="_IDGenColumnListItem1" type="Navigation" press=".onJobSelection">
+                                    <m:cells>
+                                        <m:ObjectIdentifier id="_IDGenObjectIdentifier1" title="{func>Plstx}" text="From: {  
+                                            path: 'func>Begda',  
+                                            type: 'sap.ui.model.type.Date',
+                                            formatOptions: {  
+                                              pattern: 'dd/MM/yyyy'  
+                                            }
+                                          }"/>
+                                        <m:ObjectNumber id="_IDGenObjectNumber2" />
+                                    </m:cells>
+                                </m:ColumnListItem>
+                            </m:items>
+                        </m:Table>
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>

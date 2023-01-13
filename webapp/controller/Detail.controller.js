@@ -232,17 +232,12 @@ sap.ui.define([
         },
 
         onJobSelection: function (oEvent) {
-            // const sKey = oEvent.getParameter("selectedItem").getKey();
-            // this.getModel("detailView").setProperty("/selectedJob", sKey);
-
-            console.log(this.getModel("func").getProperty("/Functions"))
-            console.log(oEvent.getSource().getProperty("text"))
+            var oList = oEvent.getSource()
 
             this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
 
             this.getRouter().navTo("job", {
-                persNr: "00001258",
-                position: oEvent.getSource().getProperty("text")
+                position: oList.getBindingContext('func').getObject('Plans')
             });
         },
 
@@ -252,40 +247,40 @@ sap.ui.define([
 
         handleEditPress: function () {
             this.getModel("detailView").setProperty("/edit", true);
-		},
+        },
 
-		handleCancelPress : function () {
+        handleCancelPress: function () {
             this.getModel("detailView").setProperty("/edit", false);
-		},
+        },
 
-		handleSavePress : function () {
-            const persNr  = this.getModel('json').getProperty('/Personnel').Pers_nr;
+        handleSavePress: function () {
+            const persNr = this.getModel('json').getProperty('/Personnel').Pers_nr;
             var countryCode = this.getView().byId("CountryComboBox").getSelectedKey();
             console.log(countryCode);
 
             const oEmployee = {
-                PersNr : persNr,
-                Street : this.getView().byId("street").getValue(),
-                City : this.getView().byId("city").getValue(),
-                PostalCode : this.getView().byId("postal").getValue(),
-                CountryCode : countryCode,
+                PersNr: persNr,
+                Street: this.getView().byId("street").getValue(),
+                City: this.getView().byId("city").getValue(),
+                PostalCode: this.getView().byId("postal").getValue(),
+                CountryCode: countryCode,
                 //Region : this.getView().byId("region").getValue(),
                 //Iban : this.getView().byId("iban").getValue(),
-                LastName : this.getView().byId("lastname").getValue(),
-                FirstName : this.getView().byId("firstname").getValue(),
+                LastName: this.getView().byId("lastname").getValue(),
+                FirstName: this.getView().byId("firstname").getValue(),
                 //Gender : this.getModel('json').getProperty('/Personnel').Gender,
-                Mail : this.getView().byId("mail").getValue(),
-                PhoneNr : this.getView().byId("phone").getValue(),
+                Mail: this.getView().byId("mail").getValue(),
+                PhoneNr: this.getView().byId("phone").getValue(),
             }
 
             this.getModel().update(`/PersonnelInfoSet('${persNr}')`, oEmployee,
-            {
-                succes: function (oFeedback) { console.log(oFeedback);},
-                error: function (oError) { console.error(oError);}
-            });
+                {
+                    succes: function (oFeedback) { console.log(oFeedback); },
+                    error: function (oError) { console.error(oError); }
+                });
 
             this.getModel("detailView").setProperty("/edit", false);
-		},
+        },
 
         _getFormFragment: function (sFragmentName) {
             var pFormFragment = this._formFragments[sFragmentName],
