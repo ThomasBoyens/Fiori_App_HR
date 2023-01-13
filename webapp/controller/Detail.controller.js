@@ -3,8 +3,9 @@ sap.ui.define([
     'sap/ui/core/Fragment',
     "sap/ui/model/json/JSONModel",
     "../model/formatter",
+    "sap/ui/Device",
     "sap/m/library"
-], function (BaseController, Fragment, JSONModel, formatter, mobileLibrary) {
+], function (BaseController, Fragment, JSONModel, Device, formatter, mobileLibrary) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -237,7 +238,7 @@ sap.ui.define([
             this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
 
             this.getRouter().navTo("job", {
-                position: oList.getBindingContext('func').getObject('Plans')
+                position: oList.getBindingContext('func').getObject('Plans')   
             });
         },
 

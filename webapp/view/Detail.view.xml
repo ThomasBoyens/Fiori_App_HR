@@ -74,30 +74,13 @@
             <ObjectPageSection titleUppercase="false" id="careerSection" title="Career">
                 <subSections>
                     <ObjectPageSubSection id="careerSectionSS1">
-                        <!-- <m:List items="{path: 'func>/Functions/'}">
-                            <m:CustomListItem>
-                                <m:HBox>
-                                    <core:Icon size="2rem" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
-                                    <m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-                                        <m:Link text="{func>Plstx}" key="{func>Plans}" press=".onJobSelection" />
-                                            <m:Label text="From: {  
-                                                path: 'func>Begda',  
-                                                type: 'sap.ui.model.type.Date',
-                                                formatOptions: {  
-                                                  pattern: 'dd/MM/yyyy'  
-                                                }
-                                              }" />
-                                    </m:VBox>
-                                </m:HBox>
-                            </m:CustomListItem>
-                        </m:List> -->
                         <m:Table id="lineItemsList" 
                         width="auto" 
                         items="{path: 'func>/Functions/'}" 
                         updateFinished=".onListUpdateFinished" 
                         noDataText="{i18n>detailLineItemTableNoDataText}" 
                         busyIndicatorDelay="{detailView>/lineItemTableDelay}"
-                        selectionChange=".onJobSelection">
+                        selectionChange=".onSelectionChange">
                             <m:columns>
                                 <m:Column id="_IDGenColumn1">
                                     <m:Text id="_IDGenText1" text="{i18n>detailLineItemTableIDColumn}"/>
