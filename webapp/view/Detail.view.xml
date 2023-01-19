@@ -171,30 +171,12 @@
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
-
-            <!-- <ObjectPageSection titleUppercase="false" id="employmentSection" title="Employment">
-                <subSections>
-                    <ObjectPageSubSection id="employmentSectionSS1" title="Job information" titleUppercase="false">
-                        <blocks />
-                    </ObjectPageSubSection>
-
-                    <ObjectPageSubSection id="employmentSectionSS2" title="Employee Details" importance="Medium" titleUppercase="false">
-                        <blocks />
-                        <moreBlocks />
-                    </ObjectPageSubSection>
-
-                    <ObjectPageSubSection id="employmentSectionSS3" title="Job Relationship" importance="Low" titleUppercase="false">
-                        <blocks />
-                    </ObjectPageSubSection>
-                </subSections>
-            </ObjectPageSection> -->
         </sections>
 
         <footer>
             <m:Bar>
                 <m:contentRight>
                     <m:Button id="edit" text="Edit" press="handleEditPress" visible="{= !${detailView>/edit} }" />
-                    <!-- <m:Button id="edit" text="Edit" press="handleEditPress({json>/Personnel/PersNr})" visible="{= !${detailView>/edit} }"/> -->
                     <m:Button id="save" text="Save" type="Emphasized" press="handleSavePress" visible="{detailView>/edit}" />
                     <m:Button id="cancel" text="Cancel" press="handleCancelPress" visible="{detailView>/edit}" />
                 </m:contentRight>
