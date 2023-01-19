@@ -3,8 +3,9 @@ sap.ui.define([
     'sap/ui/core/Fragment',
     "sap/ui/model/json/JSONModel",
     "../model/formatter",
+    "sap/ui/Device",
     "sap/m/library"
-], function (BaseController, Fragment, JSONModel, formatter, mobileLibrary) {
+], function (BaseController, Fragment, JSONModel, Device, formatter, mobileLibrary) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -115,11 +116,7 @@ sap.ui.define([
             }
         },
 
-        /* =========================================================== */
-        /* begin: Get Data                                             */
-        /* =========================================================== */
-
-
+        // method to get data from backend and create models
         _initData(persNr) {
             this.getModel().read(`/ZSD_002_C_PERSONNEL('${persNr}')`, {
                 urlParameters: '$expand=to_info/to_functions,to_info/to_pay',
@@ -143,12 +140,7 @@ sap.ui.define([
             });
         },
 
-
-
-        /* =========================================================== */
-        /* begin: Creating Models                                      */
-        /* =========================================================== */
-
+        // method to create model for the personnelinfo
         _CreatePersonellModel(oData) {
             //change gender before creating
             this._setGender(oData);
@@ -159,6 +151,7 @@ sap.ui.define([
 
         },
 
+        // method to create model for the function
         _CreateFunctionModel(functionList) {
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/Functions', functionList.reverse());
@@ -166,6 +159,7 @@ sap.ui.define([
             this.getView().bindElement("/Functions");
         },
 
+        // method to create model for the payslips
         _CreatePayslipModel(payslipList) {
 
             payslipList = this._AlterPayslip(payslipList)
@@ -285,6 +279,86 @@ sap.ui.define([
             return oData;
         },
 
+        /* =========================================================== */
+        /* begin: fragment methods                                     */
+        /* =========================================================== */
+
+        handleEditPress: function () {
+            this.getModel("detailView").setProperty("/edit", true);
+        },
+
+        handleCancelPress: function () {
+            this.getModel("detailView").setProperty("/edit", false);
+        },
+
+        handleSavePress: function () {
+            const persNr = this.getModel('json').getProperty('/Personnel').Pers_nr;
+            var countryCode = this.getView().byId("CountryComboBox").getSelectedKey();
+            console.log(countryCode);
+
+            const oEmployee = {
+                PersNr: persNr,
+                Street: this.getView().byId("street").getValue(),
+                City: this.getView().byId("city").getValue(),
+                PostalCode: this.getView().byId("postal").getValue(),
+                CountryCode: countryCode,
+                //Region : this.getView().byId("region").getValue(),
+                //Iban : this.getView().byId("iban").getValue(),
+                LastName: this.getView().byId("lastname").getValue(),
+                FirstName: this.getView().byId("firstname").getValue(),
+                //Gender : this.getModel('json').getProperty('/Personnel').Gender,
+                Mail: this.getView().byId("mail").getValue(),
+                PhoneNr: this.getView().byId("phone").getValue(),
+            }
+
+            this.getModel().update(`/PersonnelInfoSet('${persNr}')`, oEmployee,
+                {
+                    succes: function (oFeedback) { console.log(oFeedback); },
+                    error: function (oError) { console.error(oError); }
+                });
+
+            this.getModel("detailView").setProperty("/edit", false);
+        },
+
+        _getFormFragment: function (sFragmentName) {
+            var pFormFragment = this._formFragments[sFragmentName],
+                oView = this.getView();
+
+            if (!pFormFragment) {
+                pFormFragment = Fragment.load({
+                    id: oView.getId(),
+                    name: "edu.be.ap.hr.zsd002hr.view.fragment." + sFragmentName
+                });
+                this._formFragments[sFragmentName] = pFormFragment;
+            }
+
+            return pFormFragment;
+        },
+
+        _showFormFragment: function (sFragmentName) {
+            var detailFrag = this.getView().byId("perInfoSectionSubSect");
+            //detailFrag.removeAllBlocks();
+            this._getFormFragment(sFragmentName).then(function (oVBox) {
+                detailFrag.addBlock(oVBox);
+            });
+        },
+
+        /* =========================================================== */
+        /* begin: event handlers                                    */
+        /* =========================================================== */
+
+        // method to handle the press of the job function
+        onJobSelection: function (oEvent) {
+            var oList = oEvent.getSource()
+
+            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
+
+            this.getRouter().navTo("job", {
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr,
+                position: oList.getBindingContext('func').getObject('Plans')   
+            });
+        },
+
         /**
          * Set the full screen mode to false and navigate to list page
          */
@@ -309,71 +383,6 @@ sap.ui.define([
                 // reset to previous layout
                 this.getModel("appView").setProperty("/layout", this.getModel("appView").getProperty("/previousLayout"));
             }
-        },
-
-        /* =========================================================== */
-        /* begin: fragment methods                                     */
-        /* =========================================================== */
-
-        handleEditPress: function () {
-            this.getModel("detailView").setProperty("/edit", true);
-		},
-
-		handleCancelPress : function () {
-            this.getModel("detailView").setProperty("/edit", false);
-		},
-
-		handleSavePress : function () {
-            const persNr  = this.getModel('json').getProperty('/Personnel').Pers_nr;
-            var countryCode = this.getView().byId("CountryComboBox").getSelectedKey();
-            console.log(countryCode);
-
-            const oEmployee = {
-                PersNr : persNr,
-                Street : this.getView().byId("street").getValue(),
-                City : this.getView().byId("city").getValue(),
-                PostalCode : this.getView().byId("postal").getValue(),
-                CountryCode : countryCode,
-                //Region : this.getView().byId("region").getValue(),
-                //Iban : this.getView().byId("iban").getValue(),
-                LastName : this.getView().byId("lastname").getValue(),
-                FirstName : this.getView().byId("firstname").getValue(),
-                //Gender : this.getModel('json').getProperty('/Personnel').Gender,
-                Mail : this.getView().byId("mail").getValue(),
-                PhoneNr : this.getView().byId("phone").getValue(),
-            }
-
-            this.getModel().update(`/PersonnelInfoSet('${persNr}')`, oEmployee,
-            {
-                succes: function (oFeedback) { console.log(oFeedback);},
-                error: function (oError) { console.error(oError);}
-            });
-
-            this.getModel("detailView").setProperty("/edit", false);
-		},
-
-        _getFormFragment: function (sFragmentName) {
-            var pFormFragment = this._formFragments[sFragmentName],
-                oView = this.getView();
-
-            if (!pFormFragment) {
-                pFormFragment = Fragment.load({
-                    id: oView.getId(),
-                    name: "edu.be.ap.hr.zsd002hr.view.fragment." + sFragmentName
-                });
-                this._formFragments[sFragmentName] = pFormFragment;
-            }
-
-            return pFormFragment;
-        },
-
-        _showFormFragment: function (sFragmentName) {
-            var detailFrag = this.getView().byId("perInfoSectionSubSect");
-
-            //detailFrag.destroyBlocks();
-            this._getFormFragment(sFragmentName).then(function (oVBox) {
-                detailFrag.addBlock(oVBox);
-            });
         }
     });
 
