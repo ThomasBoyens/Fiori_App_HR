@@ -25,6 +25,12 @@
                     </m:HBox>
                 </expandedHeading>
 
+                <snappedHeading>
+                    <m:HBox>
+                        <m:Title text="{json>/Position/Name}" wrapping="true" />
+                    </m:HBox>
+                </snappedHeading>
+
                 <expandedContent>
                     <m:Title text="{json>/Position/ObjectId}" />
                 </expandedContent>

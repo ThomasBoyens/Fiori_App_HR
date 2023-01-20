@@ -1,0 +1,65 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:sf="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns="sap.uxap"
+    xmlns:layout="sap.ui.layout"
+    xmlns:m="sap.m"
+    xmlns:mc="sap.suite.ui.microchart"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    controllerName="edu.be.ap.hr.zsd002hr.controller.PayDetail"
+>
+    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" showEditHeaderButton="true" editHeaderButtonPress="handleEditBtnPress" upperCaseAnchorBar="false">
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle>
+                <actions>
+                    <m:ToggleButton press=".toggleFullScreen" icon="sap-icon://expand" type="Transparent" />
+                    <m:Button press=".onCloseDetailPress" icon="sap-icon://decline" type="Transparent" />
+                </actions>
+
+                <expandedHeading>
+                    <m:Title text="{i18n>payslipsTitle}" wrapping="true" />
+                </expandedHeading>
+
+                <snappedHeading>
+                    <m:Title text="{i18n>payslipsTitle}" wrapping="true" />
+                </snappedHeading>
+
+                <expandedContent />
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+
+        <sections>
+            <ObjectPageSection titleUppercase="false" id="payslipsSection">
+                <subSections>
+                    <ObjectPageSubSection id="payslipsSectionSS1">
+                        <m:Table id="lineItemsList" width="auto" items="{path: 'json>/Payslip/'}" updateFinished=".onListUpdateFinished" noDataText="{i18n>payslipsLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" selectionChange=".onSelectionChange">
+                            <m:columns>
+                                <m:Column id="_IDGenColumn1">
+                                </m:Column>
+                            </m:columns>
+                            <m:items>
+                                <m:ColumnListItem id="_IDGenColumnListItem1">
+                                    <m:cells>
+                                        <m:ObjectIdentifier
+                                            id="_IDGenObjectIdentifier1"
+                                            title="Date:  { 
+                                            path: 'json>SlipDate',
+                                            type: 'sap.ui.model.type.DateTime',
+                                            formatOptions: { style: 'Short',
+                                              pattern: 'dd/MM/yy' 
+                                            }  
+                                          }"
+                                          text="{json>PerformanceAmount} {json>Currency}"/>
+                                    </m:cells>
+                                </m:ColumnListItem>
+                            </m:items>
+                        </m:Table>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+    </ObjectPageLayout>
+</mvc:View>
