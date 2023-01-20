@@ -18,7 +18,7 @@
             <ObjectPageDynamicHeaderTitle>
                 <actions>
                     <m:ToggleButton press=".toggleFullScreen" icon="sap-icon://expand" type="Transparent" />
-                    <m:Button press=".onCloseDetailPress" icon="sap-icon://decline" type="Transparent" />
+                    <m:Button press=".onCloseDetailPress($event, 'this')" icon="sap-icon://decline" type="Transparent" />
                 </actions>
 
                 <expandedHeading>
@@ -86,10 +86,6 @@
                         selectionChange=".onSelectionChange">
                             <m:columns>
                                 <m:Column id="_IDGenColumn1">
-                                    <m:Text id="_IDGenText1" text="{i18n>detailLineItemTableIDColumn}"/>
-                                </m:Column>
-                                <m:Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
-                                    <m:Text id="_IDGenText2" text="{i18n>detailLineItemTableUnitNumberColumn}"/>
                                 </m:Column>
                             </m:columns>
                             <m:items>
@@ -113,6 +109,9 @@
             <ObjectPageSection titleUppercase="false" id="paySection" title="Compensation">
                 <subSections>
                     <ObjectPageSubSection id="paySectionSS1" title="payments">
+                        <actions>
+							<m:Button icon="sap-icon://detail-view" type="Transparent" press=".onPressPay" tooltip="All payslips"/>
+						</actions>
                         <l:HorizontalLayout class="sapUiContentPadding">
                             <sf:Card class="sapUiMediumMargin" width="200px" visible="{= ${pay>/Payslip/0/Currency} !== undefined}">
                                 <sf:header>

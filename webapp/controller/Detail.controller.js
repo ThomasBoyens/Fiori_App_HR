@@ -359,6 +359,18 @@ sap.ui.define([
             });
         },
 
+        // method to handle the press of the payslip detail
+        onPressPay: function () {
+            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
+
+            this.getRouter().navTo("pay", { 
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr,
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr
+
+            });
+        },
+
+
         /**
          * Set the full screen mode to false and navigate to list page
          */
@@ -366,7 +378,8 @@ sap.ui.define([
             this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
             // No item should be selected on list after detail page is closed
             //this.getOwnerComponent().oListSelector.clearListListSelection();
-            this.getRouter().navTo("list");
+            this.getRouter().navTo("list", {
+            }, true);
         },
 
         /**

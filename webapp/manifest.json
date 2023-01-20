@@ -133,6 +133,15 @@
                         "object",
                         "job"
                     ]
+                },
+                {
+                    "pattern": "ZSD_002_C_PERSONNEL/{persNr}/payslips/{persNr}",
+                    "name": "pay",
+                    "target": [
+                        "list",
+                        "object",
+                        "pay"
+                    ]
                 }
             ],
             "targets": {
@@ -150,6 +159,12 @@
                 "job": {
                     "viewName": "JobDetail",
                     "viewId": "jobDetail",
+                    "viewLevel": 1,
+                    "controlAggregation": "endColumnPages"
+                },
+                "pay": {
+                    "viewName": "PayDetail",
+                    "viewId": "payDetail",
                     "viewLevel": 1,
                     "controlAggregation": "endColumnPages"
                 },

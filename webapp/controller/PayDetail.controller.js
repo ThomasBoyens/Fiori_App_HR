@@ -1,15 +1,16 @@
 sap.ui.define([
     "./BaseController",
     "sap/ui/model/json/JSONModel",
+    "./Detail.controller",
     "../model/formatter",
     "sap/m/library"
-], function (BaseController, JSONModel, formatter, mobileLibrary) {
+], function (BaseController, JSONModel, DetailController, formatter, mobileLibrary) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
     var URLHelper = mobileLibrary.URLHelper;
 
-    return BaseController.extend("edu.be.ap.hr.zsd002hr.controller.JobDetail", {
+    return DetailController.extend("edu.be.ap.hr.zsd002hr.controller.PayDetail", {
 
         formatter: formatter,
 
@@ -28,9 +29,9 @@ sap.ui.define([
                 edit: false
             });
 
-            this.getRouter().getRoute("job").attachPatternMatched(this._onObjectMatched, this);
+            this.getRouter().getRoute("pay").attachPatternMatched(this._onObjectMatched, this);
 
-            this.setModel(oViewModel, "jobDetailView");
+            this.setModel(oViewModel, "payDetailView");
 
             // this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
             const oModel = new sap.ui.model.json.JSONModel();
@@ -39,22 +40,24 @@ sap.ui.define([
         },
 
         _onObjectMatched: function (oEvent) {
-            const sPositionNr = oEvent.getParameter("arguments").position;
-            this.sPersNr = oEvent.getParameter("arguments").persNr;
+            const sPersNr = oEvent.getParameter("arguments").persNr;
             this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
             
-            if (typeof sPositionNr === 'string' && sPositionNr.length > 0) {
-                this._initData(sPositionNr)
+            if (typeof sPersNr === 'string' && sPersNr.length > 0) {
+                this._initData(sPersNr)
             } else {
                 this.getRouter().navTo('list', {}, true);
             }
         },
 
-        _initData(positionNr) {
-            this.getModel().read(`/FunctionDescriptionSet('${positionNr}')`, {
+        _initData(persNr) {
+            this.getModel().read(`/ZSD_002_C_PERSONNEL('${persNr}')`, {
+                urlParameters: '$expand=to_info/to_pay',
                 success: function (oData) {
-                    // set position data in the json model
-                    this.getModel('json').setProperty('/Position', oData)
+                    // get data + create model for the payslips
+                    this._CreatePayslipModel(oData.to_info.to_pay.results);
+                    
+                    console.log(oData.to_info.to_pay.results)
 
                 }.bind(this),
                 error: function (oError) {
@@ -63,13 +66,21 @@ sap.ui.define([
             });
         },
 
+        // method to create model for the payslips
+        _CreatePayslipModel(payslipList) {
+
+            payslipList = this._AlterPayslip(payslipList)
+            payslipList = this._paySorted(payslipList)
+            this.getModel('json').setProperty('/Payslip', payslipList.reverse())
+        },
+
         /**
          * Set the full screen mode to false and navigate to list page
          */
         onCloseDetailPress: function () {
             this.getModel("appView").setProperty("/actionButtonsInfo/endColumn/fullScreen", false);
-            this.getOwnerComponent().getRouter().navTo("object", {
-                persNr: this.sPersNr
+            this.getRouter().navTo("object", {
+                persNr: this.getModel('json').getProperty('/Payslip/0/Pers_nr')
             }, true);
         },
 
