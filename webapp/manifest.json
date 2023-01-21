@@ -124,6 +124,24 @@
                         "list",
                         "object"
                     ]
+                },
+                {
+                    "pattern": "ZSD_002_C_PERSONNEL/{persNr}/{position}",
+                    "name": "job",
+                    "target": [
+                        "list",
+                        "object",
+                        "job"
+                    ]
+                },
+                {
+                    "pattern": "ZSD_002_C_PERSONNEL/{persNr}/payslips/{persNr}",
+                    "name": "pay",
+                    "target": [
+                        "list",
+                        "object",
+                        "pay"
+                    ]
                 }
             ],
             "targets": {
@@ -137,6 +155,18 @@
                     "viewId": "detail",
                     "viewLevel": 1,
                     "controlAggregation": "midColumnPages"
+                },
+                "job": {
+                    "viewName": "JobDetail",
+                    "viewId": "jobDetail",
+                    "viewLevel": 1,
+                    "controlAggregation": "endColumnPages"
+                },
+                "pay": {
+                    "viewName": "PayDetail",
+                    "viewId": "payDetail",
+                    "viewLevel": 1,
+                    "controlAggregation": "endColumnPages"
                 },
                 "detailObjectNotFound": {
                     "viewName": "DetailObjectNotFound",

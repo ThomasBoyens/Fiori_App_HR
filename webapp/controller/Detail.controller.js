@@ -3,8 +3,9 @@ sap.ui.define([
     'sap/ui/core/Fragment',
     "sap/ui/model/json/JSONModel",
     "../model/formatter",
+    "sap/ui/Device",
     "sap/m/library"
-], function (BaseController, Fragment, JSONModel, formatter, mobileLibrary) {
+], function (BaseController, Fragment, JSONModel, Device, formatter, mobileLibrary) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -115,11 +116,7 @@ sap.ui.define([
             }
         },
 
-        /* =========================================================== */
-        /* begin: Get Data                                             */
-        /* =========================================================== */
-
-
+        // method to get data from backend and create models
         _initData(persNr) {
             this.getModel().read(`/ZSD_002_C_PERSONNEL('${persNr}')`, {
                 urlParameters: '$expand=to_info/to_functions,to_info/to_pay',
@@ -143,12 +140,7 @@ sap.ui.define([
             });
         },
 
-
-
-        /* =========================================================== */
-        /* begin: Creating Models                                      */
-        /* =========================================================== */
-
+        // method to create model for the personnelinfo
         _CreatePersonellModel(oData) {
             //change gender before creating
             this._setGender(oData);
@@ -159,6 +151,7 @@ sap.ui.define([
 
         },
 
+        // method to create model for the function
         _CreateFunctionModel(functionList) {
             const oModel = new sap.ui.model.json.JSONModel();
             oModel.setProperty('/Functions', functionList.reverse());
@@ -166,6 +159,7 @@ sap.ui.define([
             this.getView().bindElement("/Functions");
         },
 
+        // method to create model for the payslips
         _CreatePayslipModel(payslipList) {
 
             payslipList = this._AlterPayslip(payslipList)
@@ -283,39 +277,13 @@ sap.ui.define([
             return oData;
         },
 
-        /**
-         * Set the full screen mode to false and navigate to list page
-         */
-        onCloseDetailPress: function () {
-            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
-            // No item should be selected on list after detail page is closed
-            //this.getOwnerComponent().oListSelector.clearListListSelection();
-            this.getRouter().navTo("list");
-        },
-
-        /**
-         * Toggle between full and non full screen mode.
-         */
-        toggleFullScreen: function () {
-            var bFullScreen = this.getModel("appView").getProperty("/actionButtonsInfo/midColumn/fullScreen");
-            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", !bFullScreen);
-            if (!bFullScreen) {
-                // store current layout and go full screen
-                this.getModel("appView").setProperty("/previousLayout", this.getModel("appView").getProperty("/layout"));
-                this.getModel("appView").setProperty("/layout", "MidColumnFullScreen");
-            } else {
-                // reset to previous layout
-                this.getModel("appView").setProperty("/layout", this.getModel("appView").getProperty("/previousLayout"));
-            }
-        },
-
         /* =========================================================== */
         /* begin: fragment methods                                     */
         /* =========================================================== */
         
         handleEditPress: function () {
             this.getModel("detailView").setProperty("/edit", true);
-		},
+        },
 
 		handleCancelPress : function () {
 
@@ -327,34 +295,34 @@ sap.ui.define([
            //history.go(0);
 		},
 
-		handleSavePress : function () {
-            const persNr  = this.getModel('json').getProperty('/Personnel').Pers_nr;
+        handleSavePress: function () {
+            const persNr = this.getModel('json').getProperty('/Personnel').Pers_nr;
             var countryCode = this.getView().byId("CountryComboBox").getSelectedKey();
             console.log(countryCode);
 
             const oEmployee = {
-                PersNr : persNr,
-                Street : this.getView().byId("street").getValue(),
-                City : this.getView().byId("city").getValue(),
-                PostalCode : this.getView().byId("postal").getValue(),
-                CountryCode : countryCode,
+                PersNr: persNr,
+                Street: this.getView().byId("street").getValue(),
+                City: this.getView().byId("city").getValue(),
+                PostalCode: this.getView().byId("postal").getValue(),
+                CountryCode: countryCode,
                 //Region : this.getView().byId("region").getValue(),
                 //Iban : this.getView().byId("iban").getValue(),
-                LastName : this.getView().byId("lastname").getValue(),
-                FirstName : this.getView().byId("firstname").getValue(),
+                LastName: this.getView().byId("lastname").getValue(),
+                FirstName: this.getView().byId("firstname").getValue(),
                 //Gender : this.getModel('json').getProperty('/Personnel').Gender,
-                Mail : this.getView().byId("mail").getValue(),
-                PhoneNr : this.getView().byId("phone").getValue(),
+                Mail: this.getView().byId("mail").getValue(),
+                PhoneNr: this.getView().byId("phone").getValue(),
             }
 
             this.getModel().update(`/PersonnelInfoSet('${persNr}')`, oEmployee,
-            {
-                succes: function (oFeedback) { console.log(oFeedback);},
-                error: function (oError) { console.error(oError);}
-            });
+                {
+                    succes: function (oFeedback) { console.log(oFeedback); },
+                    error: function (oError) { console.error(oError); }
+                });
 
             this.getModel("detailView").setProperty("/edit", false);
-		},
+        },
 
         _getFormFragment: function (sFragmentName) {
             var pFormFragment = this._formFragments[sFragmentName],
@@ -373,11 +341,65 @@ sap.ui.define([
 
         _showFormFragment: function (sFragmentName) {
             var detailFrag = this.getView().byId("perInfoSectionSubSect");
-
-            //detailFrag.destroyBlocks();
+            //detailFrag.removeAllBlocks();
             this._getFormFragment(sFragmentName).then(function (oVBox) {
                 detailFrag.addBlock(oVBox);
             });
+        },
+
+        /* =========================================================== */
+        /* begin: event handlers                                    */
+        /* =========================================================== */
+
+        // method to handle the press of the job function
+        onJobSelection: function (oEvent) {
+            var oList = oEvent.getSource()
+
+            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
+
+            this.getRouter().navTo("job", {
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr,
+                position: oList.getBindingContext('func').getObject('Plans')   
+            });
+        },
+
+        // method to handle the press of the payslip detail
+        onPressPay: function () {
+            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
+
+            this.getRouter().navTo("pay", { 
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr,
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr
+
+            });
+        },
+
+
+        /**
+         * Set the full screen mode to false and navigate to list page
+         */
+        onCloseDetailPress: function () {
+            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
+            // No item should be selected on list after detail page is closed
+            //this.getOwnerComponent().oListSelector.clearListListSelection();
+            this.getRouter().navTo("list", {
+            }, true);
+        },
+
+        /**
+         * Toggle between full and non full screen mode.
+         */
+        toggleFullScreen: function () {
+            var bFullScreen = this.getModel("appView").getProperty("/actionButtonsInfo/midColumn/fullScreen");
+            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", !bFullScreen);
+            if (!bFullScreen) {
+                // store current layout and go full screen
+                this.getModel("appView").setProperty("/previousLayout", this.getModel("appView").getProperty("/layout"));
+                this.getModel("appView").setProperty("/layout", "MidColumnFullScreen");
+            } else {
+                // reset to previous layout
+                this.getModel("appView").setProperty("/layout", this.getModel("appView").getProperty("/previousLayout"));
+            }
         }
     });
 
