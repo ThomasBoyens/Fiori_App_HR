@@ -181,7 +181,7 @@ sap.ui.define([
                 yearPay.loan.push({
                     "Year": yearlyPayout[i].year,
                     "Salary": yearlyPayout[i].total,
-                    "Bonus": 500
+                    "Bonus": 500 // standard bonus because there is no data available
                 });
             }
     
@@ -239,21 +239,19 @@ sap.ui.define([
 
         _paySorted(payslipList) {
             payslipList.sort((a, b) => {
-                // Extract the year and month from the "SlipDate" field of each element
-                const yearA = new Date(a.SlipDate).getFullYear();
-                const yearB = new Date(b.SlipDate).getFullYear();
-                const monthA = new Date(a.SlipDate).getMonth();
-                const monthB = new Date(b.SlipDate).getMonth();
+                const currYear = new Date(a.SlipDate).getFullYear();
+                const nextYear = new Date(b.SlipDate).getFullYear();
+                const currMonth = new Date(a.SlipDate).getMonth();
+                const nextMonth = new Date(b.SlipDate).getMonth();
 
-                // Sort the elements first by year, then by month
-                if (yearA < yearB) {
+                if (currYear < nextYear) {
                     return -1;
-                } else if (yearA > yearB) {
+                } else if (currYear > nextYear) {
                     return 1;
                 } else {
-                    if (monthA < monthB) {
+                    if (currMonth < nextMonth) {
                         return -1;
-                    } else if (monthA > monthB) {
+                    } else if (currMonth > nextMonth) {
                         return 1;
                     } else {
                         return 0;
@@ -282,14 +280,20 @@ sap.ui.define([
         /* =========================================================== */
         /* begin: fragment methods                                     */
         /* =========================================================== */
-
+        
         handleEditPress: function () {
             this.getModel("detailView").setProperty("/edit", true);
         },
 
-        handleCancelPress: function () {
+		handleCancelPress : function () {
+
+            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
+            this.getOwnerComponent().oListSelector.clearMasterListSelection();
             this.getModel("detailView").setProperty("/edit", false);
-        },
+            this.getRouter().navTo("list");
+         
+           //history.go(0);
+		},
 
         handleSavePress: function () {
             const persNr = this.getModel('json').getProperty('/Personnel').Pers_nr;
