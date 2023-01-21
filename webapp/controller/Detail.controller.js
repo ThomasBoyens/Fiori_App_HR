@@ -47,21 +47,6 @@ sap.ui.define([
         /* =========================================================== */
 
         /**
-         * Event handler when the share by E-Mail button has been clicked
-         * @public
-         */
-        onSendEmailPress: function () {
-            var oViewModel = this.getModel("detailView");
-
-            URLHelper.triggerEmail(
-                null,
-                oViewModel.getProperty("/shareSendEmailSubject"),
-                oViewModel.getProperty("/shareSendEmailMessage")
-            );
-        },
-
-
-        /**
          * Updates the item count within the line item table's header
          * @param {object} oEvent an event containing the total number of items in the list
          * @private
@@ -91,6 +76,57 @@ sap.ui.define([
         onNavBack: function () {
             // eslint-disable-next-line sap-no-history-manipulation
             history.go(-1);
+        },
+
+        // method to handle the press of the job function
+        onJobSelection: function (oEvent) {
+            var oList = oEvent.getSource()
+
+            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
+
+            this.getRouter().navTo("job", {
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr,
+                position: oList.getBindingContext('func').getObject('Plans')   
+            });
+        },
+
+        // method to handle the press of the payslip detail
+        onPressPay: function () {
+            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
+
+            this.getRouter().navTo("pay", { 
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr,
+                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr
+
+            });
+        },
+
+
+        /**
+         * Set the full screen mode to false and navigate to list page
+         */
+        onCloseDetailPress: function () {
+            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
+            // No item should be selected on list after detail page is closed
+            //this.getOwnerComponent().oListSelector.clearListListSelection();
+            this.getRouter().navTo("list", {
+            }, true);
+        },
+
+        /**
+         * Toggle between full and non full screen mode.
+         */
+        toggleFullScreen: function () {
+            var bFullScreen = this.getModel("appView").getProperty("/actionButtonsInfo/midColumn/fullScreen");
+            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", !bFullScreen);
+            if (!bFullScreen) {
+                // store current layout and go full screen
+                this.getModel("appView").setProperty("/previousLayout", this.getModel("appView").getProperty("/layout"));
+                this.getModel("appView").setProperty("/layout", "MidColumnFullScreen");
+            } else {
+                // reset to previous layout
+                this.getModel("appView").setProperty("/layout", this.getModel("appView").getProperty("/previousLayout"));
+            }
         },
 
         /* =========================================================== */
@@ -291,14 +327,11 @@ sap.ui.define([
             this.getOwnerComponent().oListSelector.clearMasterListSelection();
             this.getModel("detailView").setProperty("/edit", false);
             this.getRouter().navTo("list");
-         
-           //history.go(0);
 		},
 
         handleSavePress: function () {
             const persNr = this.getModel('json').getProperty('/Personnel').Pers_nr;
             var countryCode = this.getView().byId("CountryComboBox").getSelectedKey();
-            console.log(countryCode);
 
             const oEmployee = {
                 PersNr: persNr,
@@ -306,11 +339,8 @@ sap.ui.define([
                 City: this.getView().byId("city").getValue(),
                 PostalCode: this.getView().byId("postal").getValue(),
                 CountryCode: countryCode,
-                //Region : this.getView().byId("region").getValue(),
-                //Iban : this.getView().byId("iban").getValue(),
                 LastName: this.getView().byId("lastname").getValue(),
                 FirstName: this.getView().byId("firstname").getValue(),
-                //Gender : this.getModel('json').getProperty('/Personnel').Gender,
                 Mail: this.getView().byId("mail").getValue(),
                 PhoneNr: this.getView().byId("phone").getValue(),
             }
@@ -346,61 +376,6 @@ sap.ui.define([
                 detailFrag.addBlock(oVBox);
             });
         },
-
-        /* =========================================================== */
-        /* begin: event handlers                                    */
-        /* =========================================================== */
-
-        // method to handle the press of the job function
-        onJobSelection: function (oEvent) {
-            var oList = oEvent.getSource()
-
-            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
-
-            this.getRouter().navTo("job", {
-                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr,
-                position: oList.getBindingContext('func').getObject('Plans')   
-            });
-        },
-
-        // method to handle the press of the payslip detail
-        onPressPay: function () {
-            this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
-
-            this.getRouter().navTo("pay", { 
-                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr,
-                persNr: this.getModel('json').getProperty('/Personnel').Pers_nr
-
-            });
-        },
-
-
-        /**
-         * Set the full screen mode to false and navigate to list page
-         */
-        onCloseDetailPress: function () {
-            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
-            // No item should be selected on list after detail page is closed
-            //this.getOwnerComponent().oListSelector.clearListListSelection();
-            this.getRouter().navTo("list", {
-            }, true);
-        },
-
-        /**
-         * Toggle between full and non full screen mode.
-         */
-        toggleFullScreen: function () {
-            var bFullScreen = this.getModel("appView").getProperty("/actionButtonsInfo/midColumn/fullScreen");
-            this.getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", !bFullScreen);
-            if (!bFullScreen) {
-                // store current layout and go full screen
-                this.getModel("appView").setProperty("/previousLayout", this.getModel("appView").getProperty("/layout"));
-                this.getModel("appView").setProperty("/layout", "MidColumnFullScreen");
-            } else {
-                // reset to previous layout
-                this.getModel("appView").setProperty("/layout", this.getModel("appView").getProperty("/previousLayout"));
-            }
-        }
     });
 
 });
