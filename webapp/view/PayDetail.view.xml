@@ -52,7 +52,14 @@
                                               pattern: 'dd/MM/yy' 
                                             }  
                                           }"
-                                          text="{json>PerformanceAmount} {json>Currency}"/>
+                                          text="{
+                                            parts:[{path: 'json>PerformanceAmount'},
+                                                   {path: 'json>Currency'}],
+                                            type: 'sap.ui.model.type.Currency',
+                                            formatOptions: {
+                                              showMeasure: true
+                                            } 
+                                           }"/>
                                     </m:cells>
                                 </m:ColumnListItem>
                             </m:items>

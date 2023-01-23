@@ -123,7 +123,14 @@
                                           pattern: 'dd/MM/yy' 
                                         }  
                                       }"
-                                        subtitle="{pay>/Payslip/0/PerformanceAmount} {pay>/Payslip/0/Currency}"
+                                      subtitle="{
+                                        parts:[{path: 'pay>/Payslip/0/PerformanceAmount'},
+                                               {path: 'pay>/Payslip/0/Currency'}],
+                                        type: 'sap.ui.model.type.Currency',
+                                        formatOptions: {
+                                          showMeasure: true
+                                        } 
+                                       }"
                                         iconSrc="sap-icon://payment-approval" />
                                 </sf:header>
                             </sf:Card>
@@ -137,7 +144,14 @@
                                           pattern: 'dd/MM/yy' 
                                         }  
                                       }"
-                                        subtitle="{pay>/Payslip/1/PerformanceAmount} {pay>/Payslip/1/Currency}"
+                                        subtitle="{
+                                        parts:[{path: 'pay>/Payslip/1/PerformanceAmount'},
+                                               {path: 'pay>/Payslip/1/Currency'}],
+                                        type: 'sap.ui.model.type.Currency',
+                                        formatOptions: {
+                                          showMeasure: true
+                                        } 
+                                       }"
                                         iconSrc="sap-icon://payment-approval" />
                                 </sf:header>
                             </sf:Card>
@@ -151,7 +165,14 @@
                                           pattern: 'dd/MM/yy' 
                                         }  
                                       }"
-                                        subtitle="{pay>/Payslip/2/PerformanceAmount} {pay>/Payslip/2/Currency}"
+                                      subtitle="{
+                                        parts:[{path: 'pay>/Payslip/2/PerformanceAmount'},
+                                               {path: 'pay>/Payslip/2/Currency'}],
+                                        type: 'sap.ui.model.type.Currency',
+                                        formatOptions: {
+                                          showMeasure: true
+                                        } 
+                                       }"
                                         iconSrc="sap-icon://payment-approval" />
                                 </sf:header>
                             </sf:Card>
