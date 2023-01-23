@@ -164,7 +164,7 @@
                                 <viz:VizFrame id="idVizFrame"  height='100%' width="80%" vizType='stacked_bar' 
                                 vizProperties='{
                                     "title": {
-                                        "text" : "salary &amp; bonus", 
+                                        "text" : "Salary &amp; Bonus", 
                                         "visible" : true
                                     },
                                     "dataLabel":
