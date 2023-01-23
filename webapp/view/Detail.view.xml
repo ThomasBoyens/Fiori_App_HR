@@ -108,9 +108,9 @@
             </ObjectPageSection>
             <ObjectPageSection titleUppercase="false" id="paySection" title="Compensation">
                 <subSections>
-                    <ObjectPageSubSection id="paySectionSS1" title="payments">
+                    <ObjectPageSubSection id="paySectionSS1" title="Payments">
                         <actions>
-							<m:Button icon="sap-icon://detail-view" type="Transparent" press=".onPressPay" tooltip="All payslips"/>
+							<m:Button icon="sap-icon://detail-view" type="Transparent" press=".onPressPay" tooltip="All payslips" visible="{= ${pay>/Payslip/0/} !== undefined}"/>
 						</actions>
                         <l:HorizontalLayout class="sapUiContentPadding">
                             <sf:Card class="sapUiMediumMargin" width="200px" visible="{= ${pay>/Payslip/0/Currency} !== undefined}">
@@ -157,7 +157,7 @@
                             </sf:Card>
                         </l:HorizontalLayout>
                     </ObjectPageSubSection>
-                    <ObjectPageSubSection id="paySectionSS2" title="salary &amp; bonus">
+                    <ObjectPageSubSection id="paySectionSS2" title="Salary &amp; Bonus">
                         <layout:FixFlex id='chartFixFlex' minFlexSize="250">
                             <layout:flexContent>
                                 <viz:Popover id="idPopOver"></viz:Popover>
